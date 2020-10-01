@@ -1,0 +1,27 @@
+.form__submit__button {
+  width: 300px;
+  height: 50px;
+  border: none;
+  /* border-radius: 10px; */
+  background-color: #4caf50;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s linear;
+}
+.form__submit__button:hover {
+  opacity: 0.8;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.3);
+}
+.form__submit__button:focus {
+  outline: none;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+button:focus {
+  outline: none;
+}

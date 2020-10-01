@@ -1,25 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import Header from "./misc/Header/Header";
+import Profile from "./pages/Profile/Profile";
+import CreatePruhid from "./pages/CreatePruhid/CreatePruhid";
+import Workers from "./pages/Workers/Workers";
+import Products from "./pages/Products/Products";
+import Prices from "./pages/Prices/Prices";
+import Equipment from "./pages/Equipment/Equipment";
+import Praja from "./pages/Praja/Praja";
+import PakMaterials from "./pages/PakMaterials/PakMaterials";
+import Sklad1 from "./pages/Sklad1/Sklad1";
 
-function App() {
+function App(props) {
+  const h = useHistory();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        {/* {
+      props.location.pathname!=='/login' ? <Header/>:''
+     } */}
+        {/* {<Route path="/login" /> ? <Header /> ===null} */}
+        <Header />
+        <Switch>
+          <Route path="/" component={Home} exact />
+          <Route path="/login" component={Login} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/create-pruhid" component={CreatePruhid} />
+          <Route path="/workers" component={Workers} />
+          <Route path="/products" component={Products} />
+          <Route path="/prices" component={Prices} />
+          <Route path="/equipment" component={Equipment} />
+          <Route path="/praja" component={Praja} />
+          <Route path="/pak_materials" component={PakMaterials} />
+          <Route path="/sklad_1" component={Sklad1} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
