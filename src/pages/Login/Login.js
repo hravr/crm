@@ -3,17 +3,18 @@ import { withFormik } from "formik";
 import { connect } from "react-redux";
 import s from "./Login.module.css";
 import { loginAction } from "../../store/actions/profileActions";
+import Button from "../../misc/Button/Button";
 
-const Login = (
+const Login = ({
   values,
   touched,
   errors,
   handleChange,
   handleBlur,
-  handleSubmit
-) => {
+  handleSubmit,
+}) => {
   return (
-    <form className={s.main__container}>
+    <div className={s.main__container}>
       <div className={s.header__title}>Логін</div>
       <div className={s.login}>
         <div className={s.login__container}>
@@ -25,6 +26,7 @@ const Login = (
             value={values.email}
             name="email"
             onBlur={handleBlur}
+            у
           />
           <label className={s.label}>пароь</label>
           <input
@@ -37,13 +39,11 @@ const Login = (
             onBlur={handleBlur}
           />
           <div className={s.btn}>
-            <button className={s.form__submit__button} onSubmit={handleSubmit}>
-              Login
-            </button>
+            <Button title="Увійти" onClick={handleSubmit} />
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 const formikHOC = withFormik({
@@ -52,9 +52,12 @@ const formikHOC = withFormik({
     password: "",
   }),
   handleSubmit: async (values, { props: { login, history } }) => {
+    console.log("pezda");
     const isSuccess = await login(values);
     if (isSuccess) {
       history.push("/prices");
+    } else {
+      alert("error===");
     }
   },
 })(Login);

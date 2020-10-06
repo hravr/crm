@@ -19,14 +19,9 @@ import PakMaterials from "./pages/PakMaterials/PakMaterials";
 import Sklad1 from "./pages/Sklad1/Sklad1";
 
 function App(props) {
-  const h = useHistory();
   return (
     <Router>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        {/* {
-      props.location.pathname!=='/login' ? <Header/>:''
-     } */}
-        {/* {<Route path="/login" /> ? <Header /> ===null} */}
         <Header />
         <Switch>
           <Route path="/" component={Home} exact />

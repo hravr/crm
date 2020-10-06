@@ -2,6 +2,7 @@ import React from "react";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./Workers.module.css";
+import Barcode from "react-barcode";
 
 const Workers = (props) => {
   return (
@@ -13,6 +14,9 @@ const Workers = (props) => {
       <div className={s.filter__container}>
         <div className={s.search__container}>
           <Input label="Пошук працівника" />
+        </div>
+        <div className={s.barcode}>
+          <Barcode value="hey" />,
         </div>
         <div className={s.create__worker}>
           <Button title="Створити працівника" />

@@ -43,9 +43,6 @@
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
-.form__submit__button:focus {
-  outline: none;
-}
 .label {
   margin: 10px 40px;
   font-size: 20px;

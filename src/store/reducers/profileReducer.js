@@ -1,31 +1,20 @@
-import { SET_PROFILE } from "../actions/actionTypes";
+import { LOGOUT, SET_PROFILE } from "../actions/actionTypes";
 
-const initialstate = { email: "", password: "", token: "" };
+const initialState = { email: "", password: "", token: "" };
 
-export default (state = initialstate, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case SET_PROFILE:
       return {
         ...state,
         token: action.token,
+        // email: action.profile.email,
+        // password: action.profile.password,
       };
+    case LOGOUT: {
+      return { initialState };
+    }
     default:
       return state;
   }
 };
-// export default (state = initialState, action) => {
-//   switch (action.type) {
-//     case SET_PROFILE:
-//       return {
-//         ...state,
-//         email: action.profile.email,
-//         password: action.profile.password,
-//       };
-//     // case LOGOUT:
-//     //   return {
-//     //     initialState,
-//     //   };
-//     default:
-//       return state;
-//   }
-// };

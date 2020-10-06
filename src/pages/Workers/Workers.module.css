@@ -55,3 +55,7 @@ tr:nth-child(even) {
   align-items: center;
   margin-bottom: 10px;
 }
+.barcode {
+  /* text-align: center; */
+  /* height: 50px; */
+}

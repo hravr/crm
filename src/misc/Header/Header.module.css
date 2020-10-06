@@ -72,3 +72,7 @@ body {
 a {
   cursor: pointer;
 }
+.logout {
+  display: flex;
+  justify-content: flex-end;
+}

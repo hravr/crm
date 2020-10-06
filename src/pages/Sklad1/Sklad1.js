@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./Sklad1.module.css";
 import classnames from "classnames";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
+import { getSklad1Action } from "../../store/actions/skladActions.js";
+import { connect } from "react-redux";
 
-const Sklad1 = (props) => {
+const Sklad1 = ({ getSklad1 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      await getSklad1();
+    })();
+  }, []);
   return (
     <Tabs>
       <div className={s.main}>
@@ -42,10 +50,23 @@ const Sklad1 = (props) => {
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>Назва</th>
+                <th className={s.name__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>ID швеї</th>
-                <th className={s.status__table}>ID сортувальниці</th>
+                <th className={s.status__table}>Майстер </th>
+                <th className={s.status__table}>Вязальниця</th>
+                <th className={s.status__table}>Обладнання</th>
+                <th className={s.status__table}>Артикул</th>
+                <th className={s.status__table}>Клас</th>
+                <th className={s.status__table}>Розмір</th>
+                <th className={s.status__table}>Маюнок</th>
+                <th className={s.status__table}>Колір</th>
+                <th className={s.status__table}>Асортимент</th>
+                <th className={s.status__table}>Тип</th>
+                <th className={s.status__table}>Гатунок 1</th>
+                <th className={s.status__table}>Гатунок 2 </th>
+                <th className={s.status__table}>Гатунок 3</th>
+                <th className={s.status__table}>Гатунок разом</th>
+                <th className={s.status__table}> ID юзера</th>
               </tr>
               <tr>
                 <td>Alfreds Futterkiste</td>
@@ -157,10 +178,23 @@ const Sklad1 = (props) => {
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>Назва</th>
+                <th className={s.name__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>ID швеї</th>
-                <th className={s.status__table}>ID сортувальниці</th>
+                <th className={s.status__table}>Майстер </th>
+                <th className={s.status__table}>Вязальниця</th>
+                <th className={s.status__table}>Обладнання</th>
+                <th className={s.status__table}>Артикул</th>
+                <th className={s.status__table}>Клас</th>
+                <th className={s.status__table}>Розмір</th>
+                <th className={s.status__table}>Маюнок</th>
+                <th className={s.status__table}>Колір</th>
+                <th className={s.status__table}>Асортимент</th>
+                <th className={s.status__table}>Тип</th>
+                <th className={s.status__table}>Гатунок 1</th>
+                <th className={s.status__table}>Гатунок 2 </th>
+                <th className={s.status__table}>Гатунок 3</th>
+                <th className={s.status__table}>Гатунок разом</th>
+                <th className={s.status__table}> ID юзера</th>
               </tr>
               <tr>
                 <td>Alfreds Futterkiste</td>
@@ -205,5 +239,14 @@ const Sklad1 = (props) => {
     </Tabs>
   );
 };
+const mapStateToProps = (state) => {
+  return { sklad1: state.sklad1 };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getSklad1: () => dispatch(getSklad1Action()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Sklad1);
 
-export default Sklad1;
+// export default Sklad1;
