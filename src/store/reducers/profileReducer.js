@@ -8,8 +8,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
-        // email: action.profile.email,
-        // password: action.profile.password,
       };
     case LOGOUT: {
       return { initialState };

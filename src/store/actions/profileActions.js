@@ -1,4 +1,3 @@
-import { getToken } from "../../utils/utils";
 import { loginRequest } from "../api/api";
 import { LOGOUT, SET_PROFILE } from "./actionTypes";
 

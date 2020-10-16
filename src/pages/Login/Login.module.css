@@ -72,6 +72,7 @@ input:focus,
 button:focus {
   outline: none;
 }
+
 @media (max-width: 550px) {
   .main__container {
     width: 100%;

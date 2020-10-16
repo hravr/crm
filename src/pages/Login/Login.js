@@ -55,7 +55,7 @@ const formikHOC = withFormik({
     console.log("pezda");
     const isSuccess = await login(values);
     if (isSuccess) {
-      history.push("/prices");
+      history.push("/sklad_1");
     } else {
       alert("error===");
     }

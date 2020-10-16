@@ -2,15 +2,26 @@ import {
   ADD_SKLAD1,
   DELETE_SKLAD1,
   SET_FILTERED_SKLAD1,
-  SET_SEARCH_VALUE,
   SET_SKLAD1,
 } from "../actions/actionTypes";
 
 const initialState = {
-  // sklad1: [],
-  // filtered: [],
-  // searchValue: "",
-  vyazalId: "",
+  filtered: [],
+  sklad1: [
+    {
+      vyazalId: "",
+      createdAt: "",
+      masterId: "",
+      machineId: "",
+      date_prixod: "",
+      date_rozsxodu: "",
+      mishok: "",
+      changesID: "",
+      deletedAt: "",
+      updatedAt: "",
+      _id: "",
+    },
+  ],
 };
 
 export default (state = initialState, action) => {
@@ -23,12 +34,7 @@ export default (state = initialState, action) => {
     case SET_FILTERED_SKLAD1:
       return {
         ...state,
-        filtered: action.sklad1,
-      };
-    case SET_SEARCH_VALUE:
-      return {
-        ...state,
-        searchValue: action.searchValue,
+        filtered: action.filtered,
       };
     case ADD_SKLAD1:
       return {

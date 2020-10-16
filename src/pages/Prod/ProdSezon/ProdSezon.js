@@ -1,29 +1,51 @@
-import React from "react";
-import Button from "../../misc/Button/Button";
-import Input from "../../misc/Input/Input";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import Button from "../../../misc/Button/Button";
+import Input from "../../../misc/Input/Input";
+import ReactToExcel from "react-html-table-to-excel";
 
-import s from "./Products.module.css";
+// import {
+//   deleteProdAction,
+//   filterProdAction,
+//   getProdAction,
+// } from "../../store/actions/prodActions";
 
-const Products = (props) => {
+import s from "../Prod.module.css";
+
+const ProdSezon = ({ getProd }) => {
+  //   useState(() => {
+  //     (async () => {
+  //       await getProd();
+  //     })();
+  //   }, []);
   return (
     <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Продукти</span>
+        <span className={s.title}>Сезон</span>
         <hr></hr>
       </div>
       <div className={s.filter__container}>
         <div className={s.search__container}>
-          <Input label="Пошук продукту" />
+          <Input label="Пошук сезону" />
         </div>
-        <div className={s.date__filter}>
+        {/* <div className={s.date__filter}>
           <Input type="date" label="Фільтрувати за датою" />
+        </div> */}
+        <div className={s.create__worker}>
+          <Button title="Пошук" />
         </div>
         <div className={s.create__worker}>
-          <Button title="Створити продукт" />
+        <ReactToExcel
+            table="table-to-xls"
+            filename="Sezon"
+            sheet="sheet 1"
+            buttonText="EXPORT"
+            className="exel"
+          />
         </div>
       </div>
       <div className={s.table}>
-        <table>
+        <table id="table-to-xls">
           <tr>
             <th>Тип</th>
             <th>Колір</th>
@@ -88,4 +110,18 @@ const Products = (props) => {
   );
 };
 
-export default Products;
+// const mapStateToProps = (state) => {
+//   return {
+//     prod: state.prod.prod,
+//     filteredProd: state.prod.filtered,
+//   };
+// };
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getProd: (searchValue) => dispatch(getProdAction(searchValue)),
+//     filterProd: (data) => dispatch(filterProdAction(data)),
+//     deleteProd: (id) => dispatch(deleteProdAction(id)),
+//   };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(Products);
+export default ProdSezon;

@@ -1,0 +1,13 @@
+.title__container {
+  text-align: center;
+  padding-top: 20px;
+  border-bottom: black;
+}
+.title {
+  font-size: 36px;
+  font-weight: bold;
+}
+.edit__container {
+  display: flex;
+  justify-content: space-around;
+}

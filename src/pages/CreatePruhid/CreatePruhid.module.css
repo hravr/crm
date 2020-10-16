@@ -16,8 +16,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  margin-left: 260px;
-  width: 1000px;
+  /* width: 1000px; */
 }
 .main__container {
   display: flex;

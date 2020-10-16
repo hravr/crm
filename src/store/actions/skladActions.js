@@ -9,38 +9,39 @@ import {
 import {
   SET_SKLAD1,
   SET_FILTERED_SKLAD1,
-  SET_SEARCH_VALUE,
   ADD_SKLAD1,
-  DELETE_SKLAD1
+  DELETE_SKLAD1,
 } from "./actionTypes";
 
 export const getSklad1Action = () => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await fetchSklad1(token);
-    if (responce.status === 200) {
-      dispatch({ type: SET_SKLAD1, sklad1: responce.data });
+    const response = await fetchSklad1(token);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD1, sklad1: response.data });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };
 
-export const filterSklad1Action = (sortType) => {
+export const filterSklad1Action = ({ sort, from, to, search }) => {
   return async (dispatch) => {
-    const responce = await fetchFilteredSklad1(sortType);
-    if (responce?.data?.sklad1) {
+    const token = getToken()
+    const response = await fetchFilteredSklad1(sort, from, to, search, token);
+    if (response?.data?.history) {
       dispatch({
         type: SET_FILTERED_SKLAD1,
-        sklad1: responce.data.sklad1,
+        filtered: response.data.history,
       });
     } else {
       dispatch({
-        type: SET_SEARCH_VALUE,
-        sklad1: [],
+        type: SET_FILTERED_SKLAD1,
+        filtered: [],
       });
     }
   };
 };
+
 export const createSklad1Action = (sklad1) => {
   return async (dispatch) => {
     const token = getToken();
@@ -71,35 +72,3 @@ export const deleteSklad1Action = (id) => {
     return responce.status === 200;
   };
 };
-// export const deleteSklad1Action = (id) => {
-//   return async (dispatch) => {
-//     const token = getAdminToken();
-//     dispatch({ type: SET_LOADING, isLoading: true });
-//     const response = await deleteNews(id, token);
-//     dispatch({ type: SET_LOADING, isLoading: false });
-//     if (response.status === 200) {
-//       dispatch({
-//         type: DELETE_NEWS,
-//         id,
-//       });
-//     }
-//     return response.status === 200;
-//   };
-// };
-
-// export const editSklad1Action = (news, id, imageFormData) => {
-//   return async (dispatch) => {
-//     const token = getAdminToken();
-//     dispatch({ type: SET_LOADING, isLoading: true });
-//     const response = await patchNews(news, id, token);
-//     if (response.status === 200) {
-//       const imageResponse = await uploadImageToNews(
-//         imageFormData,
-//         response.data,
-//         token
-//       );
-//     }
-//     dispatch({ type: SET_LOADING, isLoading: false });
-//     return response.status === 200;
-//   };
-// };
