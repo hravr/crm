@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./Workers.module.css";
-import Barcode from "react-barcode";
 import {
   deleteWorkerAction,
   getWorkersAction,
@@ -85,7 +84,6 @@ const Workers = ({
                     <td>{filetred.status}</td>
                     <td>{filetred.operationId}</td>
                     <td>
-                      Germany
                       <div className={s.table__btn}>
                         <button className={s.del}>Редагувати</button>
                         <button onClick={() => deleteWorkers(filtered._id)}>

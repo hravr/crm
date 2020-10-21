@@ -16,31 +16,20 @@ const Header = ({ history: h }) => {
             <button className={s.dropbtn}>Довідник</button>
             <div className={s.dropdown_content}>
               <Link to="/workers">Працівники</Link>
-              <Link to="/products">Продукція</Link>
-              <Link to="/prices">Розцінки</Link>
+              <Link to="/productcia">Продукція</Link>
+
               <Link to="/equipment">Обладннення</Link>
               <Link to="/praja">Пряжа</Link>
               <Link to="/pak_materials">Пакувальні матеріали</Link>
+              <Link to="/operations">Операції</Link>
             </div>
           </div>
+
           <div className={s.dropdown}>
             <button className={s.dropbtn}>Склади</button>
             <div className={s.dropdown_content}>
               <Link to="/create-pruhid">Створити прихід</Link>
               <Link to="/sklad_1">Склад 1</Link>
-            </div>
-          </div>
-          <div className={s.dropdown}>
-            <button className={s.dropbtn}>Продукція</button>
-            <div className={s.dropdown_content}>
-              <Link to="/prod_type">Тип</Link>
-              <Link to="/prod_size">Розмір</Link>
-              <Link to="/prod_sezon">Сезон</Link>
-              <Link to="/prod_image">Малюнок</Link>
-              <Link to="/prod_color">Колір</Link>
-              <Link to="/prod_class">Клас</Link>
-              <Link to="/prod_asortument">Асортимент</Link>
-              <Link to="prod_article">Артикул</Link>
             </div>
           </div>
           <div className={s.dropdown}>
@@ -51,6 +40,12 @@ const Header = ({ history: h }) => {
               <Link to="/zp-sklad3">Склад 3</Link>
               <Link to="/zp-sklad4">Склад 4</Link>
             </div>
+          </div>
+          <div className={s.dropdown}>
+            <Link to="/prices">Розцінки</Link>
+          </div>
+          <div className={s.dropdown}>
+            <Link to="/zvitu">Звіти</Link>
           </div>
           <div className={s.logout}>
             <LogoutComponent />

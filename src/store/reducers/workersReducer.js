@@ -6,8 +6,8 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-  workers: "",
-  filtered: [],
+  workers: [],
+  // filtered: [],
 };
 
 export default (state = initialState, action) => {

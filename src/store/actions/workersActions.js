@@ -28,6 +28,7 @@ export const searchWorkersAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSearchWorkers(search, token);
+    console.log(response.data, "!!!!!!!!!!!!!!!!!!!!!!!!!");
     if (response?.data?.history) {
       dispatch({
         type: SET_FILTERED_WORKERS,

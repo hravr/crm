@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./Praja.module.css";
 import classnames from "classnames";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { connect } from "react-redux";
+import { getPrajaSurovunaAction } from "../../store/actions/Praja/surovunaActions";
+import { getPrajaTypeAction } from "../../store/actions/Praja/typeActions";
+import { getPrajaTovtshinaAction } from "../../store/actions/Praja/tovtshinaActions";
+import { getPrajaVendorAction } from "../../store/actions/Praja/vendorActions";
+import { getPrajaRozhidAction } from "../../store/actions/Praja/rozhidActions";
+import { getPrajaColorAction } from "../../store/actions/Praja/colorActions";
 
-const Praja = (props) => {
+const Praja = ({
+  fetchPrajaSurovuna,
+  prajaSurovuna,
+  fetchPrajaType,
+  prajaType,
+  prajaTovtshina,
+  fetchPrajaTovtshina,
+  fetchPrajaVendor,
+  prajaVendor,
+  fetchPrajaRozhid,
+  prajaRozhid,
+  fetchPrajaColor,
+  prajaColor,
+}) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [dataForFilter, setDataForFilter] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      await fetchPrajaSurovuna();
+      await fetchPrajaType();
+      await fetchPrajaTovtshina();
+      await fetchPrajaVendor();
+      await fetchPrajaRozhid();
+      await fetchPrajaColor();
+    })();
+  }, []);
+
   return (
     <Tabs>
       <div className={s.main}>
-        <div className={s.title__container}>
-          <span className={s.title}>Пряжа</span>
-          <hr></hr>
-        </div>
         <TabList className={s.tabs}>
           {[
             "Назва сировини",
@@ -35,310 +64,296 @@ const Praja = (props) => {
           ))}
         </TabList>
         <TabPanel>
+          <div className={s.title__container}>
+            <span className={s.title}>Назва сировини</span>
+            <hr></hr>
+          </div>
           <div className={s.filter__container}>
             <div className={s.search__container}>
-              <Input label="Пошук сировини" />
+              <Input
+                label="Пошук працівника"
+                onChange={({ target }) =>
+                  setDataForFilter({ ...dataForFilter, search: target.value })
+                }
+              />
+              <Button
+                title="Пошук"
+                // onClick={async () => {
+                //   await filterProdArticle(dataForFilter);
+                // }}
+              />
             </div>
             <div className={s.create__worker}>
-              <Button title="Створити сировину" />
+              <Button title="Створити" />
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.name__table}>Назва</th>
-                <th className={s.status__table}>ID</th>
+                <th className={s.name__table}>ID</th>
+                <th className={s.name__table}></th>
               </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>
-                  Germany
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Berglunds snabbkop</td>
-                <td>
-                  Sweden
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Island Trading</td>
-                <td>
-                  UK
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
+              {prajaSurovuna &&
+                prajaSurovuna.map((prajaSurovuna) => {
+                  return (
+                    <tr>
+                      <td>{prajaSurovuna.name || "err"}</td>
+                      <td>{prajaSurovuna._id || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button className={s.del}>Редагувати</button>
+                          <button>Видалити</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </table>
           </div>
         </TabPanel>
         <TabPanel>
+          <div className={s.title__container}>
+            <span className={s.title}>Тип</span>
+            <hr></hr>
+          </div>
           <div className={s.filter__container}>
             <div className={s.search__container}>
-              <Input label="Пошук типу пряжі" />
+              <Input
+                label="Пошук працівника"
+                onChange={({ target }) =>
+                  setDataForFilter({ ...dataForFilter, search: target.value })
+                }
+              />
+              <Button
+                title="Пошук"
+                // onClick={async () => {
+                //   await filterProdArticle(dataForFilter);
+                // }}
+              />
             </div>
             <div className={s.create__worker}>
-              <Button title="Створити тип пряжі" />
+              <Button title="Створити" />
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.name__table}>Назва</th>
-                <th className={s.status__table}>ID</th>
+                <th className={s.name__table}>ID</th>
+                <th className={s.name__table}></th>
               </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>
-                  Germany
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Berglunds snabbkop</td>
-                <td>
-                  Sweden
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Island Trading</td>
-                <td>
-                  UK
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
+              {prajaType &&
+                prajaType.map((prajaType) => {
+                  return (
+                    <tr>
+                      <td>{prajaType.name || "err"}</td>
+                      <td>{prajaType._id || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button className={s.del}>Редагувати</button>
+                          <button>Видалити</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </table>
           </div>
         </TabPanel>
         <TabPanel>
+          <div className={s.title__container}>
+            <span className={s.title}>Товщина пряжі</span>
+            <hr></hr>
+          </div>
           <div className={s.filter__container}>
             <div className={s.search__container}>
-              <Input label="Пошук товщини пряжі" />
+              <Input
+                label="Пошук працівника"
+                onChange={({ target }) =>
+                  setDataForFilter({ ...dataForFilter, search: target.value })
+                }
+              />
+              <Button
+                title="Пошук"
+                // onClick={async () => {
+                //   await filterProdArticle(dataForFilter);
+                // }}
+              />
             </div>
             <div className={s.create__worker}>
-              <Button title="Створити товщину пряжі" />
+              <Button title="Створити" />
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.name__table}>Назва</th>
-                <th className={s.status__table}>ID</th>
+                <th className={s.name__table}>ID</th>
+                <th className={s.name__table}></th>
               </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>
-                  Germany
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Berglunds snabbkop</td>
-                <td>
-                  Sweden
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Island Trading</td>
-                <td>
-                  UK
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
+              {prajaTovtshina &&
+                prajaTovtshina.map((prajaTovtshina) => {
+                  return (
+                    <tr>
+                      <td>{prajaTovtshina.name || "err"}</td>
+                      <td>{prajaTovtshina._id || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button className={s.del}>Редагувати</button>
+                          <button>Видалити</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </table>
           </div>
         </TabPanel>
         <TabPanel>
+          <div className={s.title__container}>
+            <span className={s.title}>Постачальники</span>
+            <hr></hr>
+          </div>
           <div className={s.filter__container}>
             <div className={s.search__container}>
-              <Input label="Пошук постачальника" />
-            </div>
-            {/* <div className={s.date__filter}>
-              <Input type="date" label="Фільтрувати за датою" />
-            </div> */}
-            <div className={s.create__worker}>
-              <Button title="Створити постачальника" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th>ID</th>
-                <th>Країна</th>
-                <th>Місто</th>
-                <th>Назва</th>
-              </tr>
-              <tr>
-                <td>Jill</td>
-                <td>Smith</td>
-                <td>50</td>
-
-                <td>
-                  50
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Eve</td>
-                <td>Jackson</td>
-                <td>94</td>
-
-                <td>
-                  94
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Adam</td>
-                <td>Johnson</td>
-                <td>67</td>
-                <td>
-                  67
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input label="Пошук ділянки розходу" />
-            </div>
-            {/* <div className={s.date__filter}>
-              <Input type="date" label="Фільтрувати за датою" />
-            </div> */}
-            <div className={s.create__worker}>
-              <Button title="Створити ділянку розходу" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th>Назва</th>
-                <th>ID</th>
-              </tr>
-              <tr>
-                <td>Jill</td>
-                <td>
-                  50
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Eve</td>
-                <td>
-                  94
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Adam</td>
-                <td>
-                  67
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input label="Пошук каталожного кольору" />
+              <Input
+                label="Пошук працівника"
+                onChange={({ target }) =>
+                  setDataForFilter({ ...dataForFilter, search: target.value })
+                }
+              />
+              <Button
+                title="Пошук"
+                // onClick={async () => {
+                //   await filterProdArticle(dataForFilter);
+                // }}
+              />
             </div>
             <div className={s.create__worker}>
-              <Button title="Створити католожний колір" />
+              <Button title="Створити" />
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.name__table}>Назва</th>
-                <th className={s.status__table}>ID</th>
-                <th className={s.status__table}>ID постачальника</th>
+                <th className={s.name__table}>ID</th>
+                <th className={s.name__table}></th>
               </tr>
+              {prajaVendor &&
+                prajaVendor.map((prajaVendor) => {
+                  return (
+                    <tr>
+                      <td>{prajaVendor.name || "err"}</td>
+                      <td>{prajaVendor._id || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button className={s.del}>Редагувати</button>
+                          <button>Видалити</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </table>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div className={s.title__container}>
+            <span className={s.title}>Розхід</span>
+            <hr></hr>
+          </div>
+          <div className={s.filter__container}>
+            <div className={s.search__container}>
+              <Input
+                label="Пошук працівника"
+                onChange={({ target }) =>
+                  setDataForFilter({ ...dataForFilter, search: target.value })
+                }
+              />
+              <Button
+                title="Пошук"
+                // onClick={async () => {
+                //   await filterProdArticle(dataForFilter);
+                // }}
+              />
+            </div>
+            <div className={s.create__worker}>
+              <Button title="Створити" />
+            </div>
+          </div>
+          <div className={s.table}>
+            <table>
               <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Alfreds Futterkiste</td>
-                <td>
-                  Germany
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
+                <th className={s.name__table}>Назва</th>
+                <th className={s.name__table}>ID</th>
+                <th className={s.name__table}></th>
               </tr>
+              {prajaRozhid &&
+                prajaRozhid.map((prajaRozhid) => {
+                  return (
+                    <tr>
+                      <td>{prajaRozhid.name || "err"}</td>
+                      <td>{prajaRozhid._id || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button className={s.del}>Редагувати</button>
+                          <button>Видалити</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </table>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div className={s.title__container}>
+            <span className={s.title}>Колір</span>
+            <hr></hr>
+          </div>
+          <div className={s.filter__container}>
+            <div className={s.search__container}>
+              <Input
+                label="Пошук працівника"
+                onChange={({ target }) =>
+                  setDataForFilter({ ...dataForFilter, search: target.value })
+                }
+              />
+              <Button
+                title="Пошук"
+                // onClick={async () => {
+                //   await filterProdArticle(dataForFilter);
+                // }}
+              />
+            </div>
+            <div className={s.create__worker}>
+              <Button title="Створити" />
+            </div>
+          </div>
+          <div className={s.table}>
+            <table>
               <tr>
-                <td>Berglunds snabbkop</td>
-                <td>Berglunds snabbkop</td>
-                <td>
-                  Sweden
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
+                <th className={s.name__table}>Назва</th>
+                <th className={s.name__table}>ID</th>
+                <th className={s.name__table}></th>
               </tr>
-              <tr>
-                <td>Island Trading</td>
-                <td>Island Trading</td>
-                <td>
-                  UK
-                  <div className={s.table__btn}>
-                    <button className={s.del}>Редагувати</button>
-                    <button>Видалити</button>
-                  </div>
-                </td>
-              </tr>
+              {prajaColor &&
+                prajaColor.map((prajaColor) => {
+                  return (
+                    <tr>
+                      <td>{prajaColor.name || "err"}</td>
+                      <td>{prajaColor._id || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button className={s.del}>Редагувати</button>
+                          <button>Видалити</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </table>
           </div>
         </TabPanel>
@@ -347,4 +362,24 @@ const Praja = (props) => {
   );
 };
 
-export default Praja;
+const mapStateToProps = (state) => {
+  return {
+    prajaSurovuna: state.prajaSurovuna.prajaSurovuna,
+    prajaType: state.prajaType.prajaType,
+    prajaTovtshina: state.prajaTovtshina.prajaTovtshina,
+    prajaVendor: state.prajaVendor.prajaVendor,
+    prajaRozhid: state.prajaRozhid.prajaRozhid,
+    prajaColor: state.prajaColor.prajaColor,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchPrajaSurovuna: (search) => dispatch(getPrajaSurovunaAction(search)),
+    fetchPrajaType: (search) => dispatch(getPrajaTypeAction(search)),
+    fetchPrajaTovtshina: (search) => dispatch(getPrajaTovtshinaAction(search)),
+    fetchPrajaVendor: (search) => dispatch(getPrajaVendorAction(search)),
+    fetchPrajaRozhid: (search) => dispatch(getPrajaRozhidAction(search)),
+    fetchPrajaColor: (search) => dispatch(getPrajaColorAction(search)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Praja);

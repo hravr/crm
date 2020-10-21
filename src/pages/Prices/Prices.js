@@ -1,9 +1,17 @@
-import React from "react";
+import { connect } from "react-redux";
+import React, { useEffect } from "react";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./Prices.module.css";
+import { getRoztsinkaAction } from "../../store/actions/roztsinkaActions";
 
-const Prices = (props) => {
+const Prices = ({ fetchRoztsinka, roztsinka }) => {
+  useEffect(() => {
+    (async () => {
+      await fetchRoztsinka();
+    })();
+  }, []);
+
   return (
     <div className={s.main}>
       <div className={s.title__container}>
@@ -29,7 +37,7 @@ const Prices = (props) => {
             <th>Завершення</th>
             <th>Ціна</th>
             <th>Назва</th>
-            <th>ID п=операції</th>
+            <th>ID операції</th>
             <th>Тип</th>
             <th>Колір</th>
             <th>Асортимент</th>
@@ -40,83 +48,51 @@ const Prices = (props) => {
             <th>Артикул</th>
             <th>Гатунок</th>
             <th>Обладнання ID</th>
+            <th></th>
           </tr>
-          <tr>
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>
-              50
-              <div className={s.table__btn}>
-                <button className={s.del}>Редагувати</button>
-                <button>Видалити</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>94</td>
-            <td>94</td>
-            <td>94</td>
-            <td>94</td>
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>
-              94
-              <div className={s.table__btn}>
-                <button className={s.del}>Редагувати</button>
-                <button>Видалити</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Adam</td>
-            <td>Johnson</td>
-            <td>67</td>
-            <td>67</td>
-            <td>67</td>
-            <td>67</td>
-            <td>67</td>
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>50</td>
-            <td>
-              67
-              <div className={s.table__btn}>
-                <button className={s.del}>Редагувати</button>
-                <button>Видалити</button>
-              </div>
-            </td>
-          </tr>
+          {roztsinka &&
+            roztsinka.map((roztsinka) => {
+              return (
+                <tr>
+                  <td>{roztsinka._id}</td>
+                  <td>{roztsinka.createdAt}</td>
+                  <td>{roztsinka.deletedAt || "err==="}</td>
+                  <td>{roztsinka.price}</td>
+                  <td>{roztsinka.name}</td>
+                  <td>{roztsinka.operationId}</td>
+                  <td>{roztsinka.typeId || "err==="}</td>
+                  <td>{roztsinka.colorId || "err==="}</td>
+                  <td>{roztsinka.asortument || "err==="}</td>
+                  <td>{roztsinka.classId || "err==="}</td>
+                  <td>{roztsinka.seasonId || "err==="}</td>
+                  <td>{roztsinka.imageId || "err==="}</td>
+                  <td>{roztsinka.sizeId || "err==="}</td>
+                  <td>{roztsinka.articleId || "err==="}</td>
+                  <td>{roztsinka.gatunokId || "err==="}</td>
+                  <td>{roztsinka.machineId || "err==="}</td>
+
+                  <div className={s.table__btn}>
+                    <button className={s.del}>Редагувати</button>
+                    <button>Видалити</button>
+                  </div>
+                </tr>
+              );
+            })}
         </table>
       </div>
     </div>
   );
 };
 
-export default Prices;
+const mapStateToProps = (state) => {
+  return {
+    roztsinka: state.roztsinka.roztsinka,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchRoztsinka: (search) => dispatch(getRoztsinkaAction(search)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prices);
