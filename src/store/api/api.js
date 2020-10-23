@@ -885,6 +885,13 @@ export const deletePrajaVendor = (id, token) => {
   });
 };
 
+export const fetchMachine = (token) => {
+  return _axios.get("/machine", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchMachineModel = (token) => {
   return _axios.get("/machines_model", {
     headers: {
@@ -1081,7 +1088,7 @@ export const fetchFilteredRoztsinka = (search, token) => {
   });
 };
 
-export const createRoztsinka= (roztsinka, token) => {
+export const createRoztsinka = (roztsinka, token) => {
   return _axios.post("/roztsinka", roztsinka, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1104,7 +1111,6 @@ export const deleteRoztsinka = (id, token) => {
     },
   });
 };
-
 
 export const fetchMaterialVendor = (token) => {
   return _axios.get("/materials_vendor", {

@@ -90,17 +90,17 @@ const CreateWorker = ({
               name="status"
               onChange={statusSelect}
             />
-          </div>
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Операція</span>
+            <div className={s.select__container}>
+              <div className={s.span}>
+                <span>Операція</span>
+              </div>
+              <Select
+                options={operationsOptions}
+                value={values.operationId.label}
+                name="operationId"
+                onChange={operationSelect}
+              />
             </div>
-            <Select
-              options={operationsOptions}
-              value={values.operationId.label}
-              name="operationId"
-              onChange={operationSelect}
-            />
           </div>
         </div>
       </div>
@@ -119,8 +119,6 @@ const formikHOC = withFormik({
     status: {},
   }),
   handleSubmit: async (values, { props: { createWorker }, resetForm }) => {
-    console.log(values.status);
-    console.log(values.operationId);
     const workerToSubmit = {
       status: values.status,
       operationId: values.operationId,

@@ -14,6 +14,8 @@ import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortAction
 import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
 import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
 import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
+import { getMachineAction } from "../../store/actions/Machine/machineActions";
+import { getOperationsAction } from "../../store/actions/operationsAction";
 
 const CreatePrices = ({
   values,
@@ -36,6 +38,10 @@ const CreatePrices = ({
   classId,
   fetchProdColor,
   colorId,
+  fetchMachine,
+  machineId,
+  getOperations,
+  operations,
 }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
@@ -45,6 +51,7 @@ const CreatePrices = ({
   const [imageOptions, setImageOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
+  const [operationsOptions, setOperationsOptions] = useState([]);
 
   const asortumentSelect = (asortument) => {
     setValues({ ...values, asortument: asortument.value });
@@ -72,6 +79,19 @@ const CreatePrices = ({
   const articleSelect = (articleId) => {
     setValues({ ...values, articleId: articleId.value });
   };
+
+  const operationSelect = (operations) => {
+    console.log("her");
+    setValues({ ...values, operationId: operations.value });
+  };
+
+  useEffect(() => {
+    setOperationsOptions(
+      operations.map((opt) => {
+        return { label: opt.name, value: opt._id };
+      })
+    );
+  }, [operations]);
 
   useEffect(() => {
     setAsortumenOptions(
@@ -144,6 +164,7 @@ const CreatePrices = ({
 
   useEffect(() => {
     (async () => {
+      await getOperations();
       await fetchProdAsortument();
       await fetchProdSezon();
       await fetchProdSize();
@@ -152,6 +173,7 @@ const CreatePrices = ({
       await fetchProdImage();
       await fetchProdClass();
       await fetchProdColor();
+      await fetchMachine();
     })();
   }, []);
 
@@ -215,6 +237,17 @@ const CreatePrices = ({
               value={values.gatynok}
               name="gatynok"
               onChange={handleChange}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Операція</span>
+            </div>
+            <Select
+              options={operationsOptions}
+              value={values.operationId.label}
+              name="operationId"
+              onChange={operationSelect}
             />
           </div>
         </div>
@@ -325,6 +358,7 @@ const formikHOC = withFormik({
     imageId: {},
     classId: {},
     colorId: {},
+    operationId: {},
     startDate: "",
     endDate: "",
     price: "",
@@ -346,6 +380,7 @@ const formikHOC = withFormik({
       price: values.price,
       name: values.name,
       gatynok: values.gatynok,
+      operationId: values.operationId,
     };
     console.log("pezda");
     const isSuccess = await createPrices(pricesToSubmit);
@@ -368,6 +403,7 @@ const mapStateToProps = (state) => {
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
+    machineId: state.machine.machine,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -381,6 +417,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchProdClass: () => dispatch(getProdClassAction()),
     fetchProdColor: () => dispatch(getProdColorAction()),
     fetchProdImage: () => dispatch(getProdImageAction()),
+    fetchMachine: () => dispatch(getMachineAction()),
+    getOperations: () => dispatch(getOperationsAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

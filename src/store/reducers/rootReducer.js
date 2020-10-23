@@ -30,6 +30,7 @@ import zvituReducer from "./Zvitu/zvituReducer";
 import zvituRozxidReducer from "./Zvitu/zvituRozxidReducer";
 import typeMReducer from "./Material/typeMReducer";
 import vendorMReducer from "./Material/vendorMReducer";
+import machineReducer from "./Machine/machineReducer";
 
 export default combineReducers({
   profile: profilleReducer,
@@ -49,6 +50,7 @@ export default combineReducers({
   prajaVendor: vendorReducer,
   prajaRozhid: rozhidReducer,
   prajaColor: colorReducer,
+  machine: machineReducer,
   machineModel: modelReducer,
   machineDuymu: duymuReducer,
   machineGolku: golkuReducer,
