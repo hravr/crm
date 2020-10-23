@@ -47,7 +47,7 @@ export const createProdImageAction = (prodImage) => {
     const token = getToken();
     const response = await createProdImage(prodImage, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_IMAGE, token });
+      dispatch({ type: ADD_PROD_IMAGE, token, prodImage: response.data });
       return true;
     }
   };

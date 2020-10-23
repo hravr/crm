@@ -46,7 +46,7 @@ export const createProdTypeAction = (prodType) => {
     const token = getToken();
     const response = await createProdType(prodType, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_TYPE, token });
+      dispatch({ type: ADD_PROD_TYPE, token, prodType: response.data });
       return true;
     }
   };

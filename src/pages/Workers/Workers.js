@@ -8,6 +8,7 @@ import {
   searchWorkersAction,
 } from "../../store/actions/workersActions";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Workers = ({
   getWorkers,
@@ -46,8 +47,10 @@ const Workers = ({
           />
         </div>
 
-        <div className={s.create__worker}>
-          <Button title="Створити працівника" />
+        <div>
+          <Link to="create-worker" className={s.create__worker}>
+            <Button title="Створити працівника" />
+          </Link>
         </div>
       </div>
       <div className={s.table}>

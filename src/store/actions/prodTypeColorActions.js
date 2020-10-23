@@ -46,7 +46,7 @@ export const createProdColorAction = (prodColor) => {
     const token = getToken();
     const response = await createProdColor(prodColor, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_COLOR, token });
+      dispatch({ type: ADD_PROD_COLOR, token, prodColor: response.data });
       return true;
     }
   };

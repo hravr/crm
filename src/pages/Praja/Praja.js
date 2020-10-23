@@ -5,26 +5,28 @@ import s from "./Praja.module.css";
 import classnames from "classnames";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { connect } from "react-redux";
-import { getPrajaSurovunaAction } from "../../store/actions/Praja/surovunaActions";
-import { getPrajaTypeAction } from "../../store/actions/Praja/typeActions";
-import { getPrajaTovtshinaAction } from "../../store/actions/Praja/tovtshinaActions";
-import { getPrajaVendorAction } from "../../store/actions/Praja/vendorActions";
-import { getPrajaRozhidAction } from "../../store/actions/Praja/rozhidActions";
-import { getPrajaColorAction } from "../../store/actions/Praja/colorActions";
+import {
+  createPrajaSurovunaAction,
+  deletePrajaSurovunaAction,
+  filterPrajaSurovunaAction,
+  getPrajaSurovunaAction,
+} from "../../store/actions/Praja/surovunaActions";
+import { withFormik } from "formik";
+import PrajaType from "../../misc/PrajaItems/PrajaType";
+import PrajaTovtshina from "../../misc/PrajaItems/PrajaTovtshina";
+import PrajaVendor from "../../misc/PrajaItems/PrajaVendor";
+import PrajaRozhid from "../../misc/PrajaItems/PrajaRozhid";
+import PrajaColor from "../../misc/PrajaItems/PrajaColor";
 
 const Praja = ({
+  handleChange,
+  handleSubmit,
+  values,
   fetchPrajaSurovuna,
   prajaSurovuna,
-  fetchPrajaType,
-  prajaType,
-  prajaTovtshina,
-  fetchPrajaTovtshina,
-  fetchPrajaVendor,
-  prajaVendor,
-  fetchPrajaRozhid,
-  prajaRozhid,
-  fetchPrajaColor,
-  prajaColor,
+  filterPrajaSurovuna,
+  filteredPrajaSurovuna,
+  deletePrajaSurovuna,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState({});
@@ -32,11 +34,6 @@ const Praja = ({
   useEffect(() => {
     (async () => {
       await fetchPrajaSurovuna();
-      await fetchPrajaType();
-      await fetchPrajaTovtshina();
-      await fetchPrajaVendor();
-      await fetchPrajaRozhid();
-      await fetchPrajaColor();
     })();
   }, []);
 
@@ -71,315 +68,128 @@ const Praja = ({
           <div className={s.filter__container}>
             <div className={s.search__container}>
               <Input
-                label="Пошук працівника"
+                label="Пошук"
                 onChange={({ target }) =>
                   setDataForFilter({ ...dataForFilter, search: target.value })
                 }
               />
               <Button
                 title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
+                onClick={async () => {
+                  await filterPrajaSurovuna(dataForFilter);
+                }}
               />
             </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Input
+                  label="Створити"
+                  value={values.name}
+                  name="name"
+                  onChange={handleChange}
+                />
+                <Button title="Створити" onClick={handleSubmit} />
+              </div>
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
                 <th className={s.name__table}></th>
               </tr>
-              {prajaSurovuna &&
-                prajaSurovuna.map((prajaSurovuna) => {
-                  return (
-                    <tr>
-                      <td>{prajaSurovuna.name || "err"}</td>
-                      <td>{prajaSurovuna._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {!filteredPrajaSurovuna.length
+                ? prajaSurovuna &&
+                  prajaSurovuna.map((prajaSurovuna) => {
+                    return (
+                      <tr>
+                        <td>{prajaSurovuna.name || "err"}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button className={s.del}>Редагувати</button>
+                            <button
+                              onClick={() =>
+                                deletePrajaSurovuna(prajaSurovuna._id)
+                              }
+                            >
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : filteredPrajaSurovuna.length &&
+                  filteredPrajaSurovuna.map((filter) => {
+                    return (
+                      <tr>
+                        <td>{filter.name || "err"}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button className={s.del}>Редагувати</button>
+                            <button
+                              onClick={() => deletePrajaSurovuna(filter._id)}
+                            >
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </table>
           </div>
         </TabPanel>
         <TabPanel>
-          <div className={s.title__container}>
-            <span className={s.title}>Тип</span>
-            <hr></hr>
-          </div>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input
-                label="Пошук працівника"
-                onChange={({ target }) =>
-                  setDataForFilter({ ...dataForFilter, search: target.value })
-                }
-              />
-              <Button
-                title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
-              />
-            </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
-                <th className={s.name__table}></th>
-              </tr>
-              {prajaType &&
-                prajaType.map((prajaType) => {
-                  return (
-                    <tr>
-                      <td>{prajaType.name || "err"}</td>
-                      <td>{prajaType._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </table>
-          </div>
+          <PrajaType />
         </TabPanel>
         <TabPanel>
-          <div className={s.title__container}>
-            <span className={s.title}>Товщина пряжі</span>
-            <hr></hr>
-          </div>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input
-                label="Пошук працівника"
-                onChange={({ target }) =>
-                  setDataForFilter({ ...dataForFilter, search: target.value })
-                }
-              />
-              <Button
-                title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
-              />
-            </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
-                <th className={s.name__table}></th>
-              </tr>
-              {prajaTovtshina &&
-                prajaTovtshina.map((prajaTovtshina) => {
-                  return (
-                    <tr>
-                      <td>{prajaTovtshina.name || "err"}</td>
-                      <td>{prajaTovtshina._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </table>
-          </div>
+          <PrajaTovtshina />
         </TabPanel>
         <TabPanel>
-          <div className={s.title__container}>
-            <span className={s.title}>Постачальники</span>
-            <hr></hr>
-          </div>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input
-                label="Пошук працівника"
-                onChange={({ target }) =>
-                  setDataForFilter({ ...dataForFilter, search: target.value })
-                }
-              />
-              <Button
-                title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
-              />
-            </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
-                <th className={s.name__table}></th>
-              </tr>
-              {prajaVendor &&
-                prajaVendor.map((prajaVendor) => {
-                  return (
-                    <tr>
-                      <td>{prajaVendor.name || "err"}</td>
-                      <td>{prajaVendor._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </table>
-          </div>
+          <PrajaVendor />
         </TabPanel>
         <TabPanel>
-          <div className={s.title__container}>
-            <span className={s.title}>Розхід</span>
-            <hr></hr>
-          </div>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input
-                label="Пошук працівника"
-                onChange={({ target }) =>
-                  setDataForFilter({ ...dataForFilter, search: target.value })
-                }
-              />
-              <Button
-                title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
-              />
-            </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
-                <th className={s.name__table}></th>
-              </tr>
-              {prajaRozhid &&
-                prajaRozhid.map((prajaRozhid) => {
-                  return (
-                    <tr>
-                      <td>{prajaRozhid.name || "err"}</td>
-                      <td>{prajaRozhid._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </table>
-          </div>
+          <PrajaRozhid />
         </TabPanel>
         <TabPanel>
-          <div className={s.title__container}>
-            <span className={s.title}>Колір</span>
-            <hr></hr>
-          </div>
-          <div className={s.filter__container}>
-            <div className={s.search__container}>
-              <Input
-                label="Пошук працівника"
-                onChange={({ target }) =>
-                  setDataForFilter({ ...dataForFilter, search: target.value })
-                }
-              />
-              <Button
-                title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
-              />
-            </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
-            </div>
-          </div>
-          <div className={s.table}>
-            <table>
-              <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
-                <th className={s.name__table}></th>
-              </tr>
-              {prajaColor &&
-                prajaColor.map((prajaColor) => {
-                  return (
-                    <tr>
-                      <td>{prajaColor.name || "err"}</td>
-                      <td>{prajaColor._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </table>
-          </div>
+          <PrajaColor />
         </TabPanel>
       </div>
     </Tabs>
   );
 };
 
+const formikHOC = withFormik({
+  mapPropsToValues: () => ({
+    name: "",
+  }),
+  handleSubmit: async (
+    values,
+    { props: { createPrajaSurovuna }, resetForm }
+  ) => {
+    const isSuccess = await createPrajaSurovuna(values);
+    if (isSuccess) {
+      alert("Створено");
+    } else {
+      alert("error===");
+    }
+    resetForm({ name: "" });
+  },
+})(Praja);
+
 const mapStateToProps = (state) => {
   return {
     prajaSurovuna: state.prajaSurovuna.prajaSurovuna,
-    prajaType: state.prajaType.prajaType,
-    prajaTovtshina: state.prajaTovtshina.prajaTovtshina,
-    prajaVendor: state.prajaVendor.prajaVendor,
-    prajaRozhid: state.prajaRozhid.prajaRozhid,
-    prajaColor: state.prajaColor.prajaColor,
+    filteredPrajaSurovuna: state.prajaSurovuna.filtered,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchPrajaSurovuna: (search) => dispatch(getPrajaSurovunaAction(search)),
-    fetchPrajaType: (search) => dispatch(getPrajaTypeAction(search)),
-    fetchPrajaTovtshina: (search) => dispatch(getPrajaTovtshinaAction(search)),
-    fetchPrajaVendor: (search) => dispatch(getPrajaVendorAction(search)),
-    fetchPrajaRozhid: (search) => dispatch(getPrajaRozhidAction(search)),
-    fetchPrajaColor: (search) => dispatch(getPrajaColorAction(search)),
+    filterPrajaSurovuna: (data) => dispatch(filterPrajaSurovunaAction(data)),
+    createPrajaSurovuna: (data) => dispatch(createPrajaSurovunaAction(data)),
+    deletePrajaSurovuna: (data) => dispatch(deletePrajaSurovunaAction(data)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Praja);
+export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

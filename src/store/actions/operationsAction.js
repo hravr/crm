@@ -47,7 +47,7 @@ export const createOperationsAction = (operations) => {
     const token = getToken();
     const response = await createOperations(operations, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_OPERATIONS, token });
+      dispatch({ type: ADD_OPERATIONS, token, operations: response.data });
       return true;
     }
   };

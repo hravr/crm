@@ -28,11 +28,11 @@ export const searchWorkersAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSearchWorkers(search, token);
-    console.log(response.data, "!!!!!!!!!!!!!!!!!!!!!!!!!");
-    if (response?.data?.history) {
+
+    if (response?.data) {
       dispatch({
         type: SET_FILTERED_WORKERS,
-        filtered: response.data.history,
+        filtered: response.data,
       });
     } else {
       dispatch({
@@ -48,7 +48,7 @@ export const createWorkerAction = (workers) => {
     const token = getToken();
     const response = await createWorker(workers, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_WORKER, token });
+      dispatch({ type: ADD_WORKER, token, workers: response.data });
       return true;
     }
   };

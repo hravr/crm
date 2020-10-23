@@ -1,4 +1,9 @@
-import { SET_MATERIALS_ROZHID } from "../../actions/actionTypes";
+import {
+  ADD_MATERIALS_ROZHID,
+  DELETE_MATERIALS_ROZHID,
+  SET_FILTER_MATERIALS_ROZHID,
+  SET_MATERIALS_ROZHID,
+} from "../../actions/actionTypes";
 
 const initialState = {
   materialRozhid: "",
@@ -11,6 +16,23 @@ export default (state = initialState, action) => {
       return {
         ...state,
         materialRozhid: action.materialRozhid,
+      };
+    case SET_FILTER_MATERIALS_ROZHID:
+      return {
+        ...state,
+        filtered: action.filtered,
+      };
+    case ADD_MATERIALS_ROZHID:
+      return {
+        ...state,
+        materialRozhid: [...state.materialRozhid, action.materialRozhid],
+      };
+    case DELETE_MATERIALS_ROZHID:
+      return {
+        ...state,
+        materialRozhid: state.materialRozhid.filter(
+          (materialRozhid) => materialRozhid._id !== action._id
+        ),
       };
     default:
       return state;

@@ -67,46 +67,15 @@ const Operations = ({
         <table>
           <tr>
             <th className={s.name__table}>Ім'я</th>
-            <th className={s.status__table}>ID </th>
+            {/* <th className={s.status__table}>ID </th> */}
             <th></th>
           </tr>
-          {!filteredOperations.length
-            ? operations &&
-              operations.map((operations) => {
-                return (
-                  <tr>
-                    <td>{operations.name}</td>
-                    <td>{operations._id}</td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button>Видалити</button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            : filteredOperations.length &&
-              filteredOperations.map((filtered) => {
-                return (
-                  <tr>
-                    <td>{filtered.name}</td>
-                    <td>{filtered._id}</td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button>Видалити</button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-          {/* {filteredOperations.length &&
+          {filteredOperations.length &&
             filteredOperations?.map((filtered) => {
               return (
                 <tr key={operations._id}>
                   <td>{filtered?.name}</td>
-                  <td>{filtered._id}</td>
+                  {/* <td>{filtered._id}</td> */}
                   <td>
                     <div className={s.table__btn}>
                       <button className={s.del}>Редагувати</button>
@@ -117,7 +86,7 @@ const Operations = ({
                   </td>
                 </tr>
               );
-            })} */}
+            })}
         </table>
       </div>
     </div>

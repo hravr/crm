@@ -28,6 +28,8 @@ import workersReducer from "./workersReducer";
 import zpSklad1Reducer from "./zpSklad1Reducer";
 import zvituReducer from "./Zvitu/zvituReducer";
 import zvituRozxidReducer from "./Zvitu/zvituRozxidReducer";
+import typeMReducer from "./Material/typeMReducer";
+import vendorMReducer from "./Material/vendorMReducer";
 
 export default combineReducers({
   profile: profilleReducer,
@@ -55,8 +57,8 @@ export default combineReducers({
   materialRozhid: dilankaRozhoduReducer,
   materialParams: paramsReducer,
   materialParamsValue: paramsValueReducer,
-  materialType: typeReducer,
-  materialVendor: vendorReducer,
+  materialType: typeMReducer,
+  materialVendor: vendorMReducer,
   operations: operationsReducer,
   zvitu: zvituReducer,
   zvituRozxid: zvituRozxidReducer,

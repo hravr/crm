@@ -47,7 +47,7 @@ export const createProdArticleAction = (prodArticle) => {
     const token = getToken();
     const response = await createProdArticle(prodArticle, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_ARTICLE, token });
+      dispatch({ type: ADD_PROD_ARTICLE, token, prodArticle: response.data });
       return true;
     }
   };

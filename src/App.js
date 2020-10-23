@@ -23,6 +23,8 @@ import ZpSklad1 from "./pages/ZpSklad/ZpSklad1/ZpSklad1";
 import Productcia from "./pages/Productcia/Productcia";
 import Operations from "./pages/Operations/Operations";
 import Zvitu from "./pages/Zvitu/Zvitu";
+import CreateWorker from "./pages/CreateWorker/CreateWorker";
+import CreatePrices from "./pages/CreatePrices/CreatePrices";
 
 function App(props) {
   // const Route = ({
@@ -61,6 +63,8 @@ function App(props) {
           <Route path="/productcia" component={Productcia} />
           <Route path="/operations" component={Operations} />
           <Route path="/zvitu" component={Zvitu} />
+          <Route path="/create-worker" component={CreateWorker} />
+          <Route path="/create-prices" component={CreatePrices} />
         </Switch>
       </div>
     </Router>

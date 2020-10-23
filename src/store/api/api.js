@@ -628,6 +628,43 @@ export const fetchPrajaColor = (token) => {
     },
   });
 };
+
+export const fetchSearchPrajaColor = (search, token) => {
+  let baseUrl = "/priaga_color?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createPrajaColor = (prajaColor, token) => {
+  return _axios.post("/priaga_color", prajaColor, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPrajaColor = (prajaColor, id, token) => {
+  return _axios.patch(`/priaga_color/${id}`, prajaColor, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePrajaColor = (id, token) => {
+  return _axios.delete(`/priaga_color/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchPrajaRozhid = (token) => {
   return _axios.get("/priaga_dilanka_rozxody", {
     headers: {
@@ -635,6 +672,43 @@ export const fetchPrajaRozhid = (token) => {
     },
   });
 };
+
+export const fetchSearchPrajaRozhid = (search, token) => {
+  let baseUrl = "/priaga_dilanka_rozxody?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createPrajaRozhid = (prajaRozhid, token) => {
+  return _axios.post("/priaga_dilanka_rozxody", prajaRozhid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPrajaRozhid = (prajaRozhid, id, token) => {
+  return _axios.patch(`/priaga_dilanka_rozxody/${id}`, prajaRozhid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePrajaRozhid = (id, token) => {
+  return _axios.delete(`/priaga_dilanka_rozxody/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchPrajaSurovuna = (token) => {
   return _axios.get("/priaga_surovuna", {
     headers: {
@@ -642,6 +716,43 @@ export const fetchPrajaSurovuna = (token) => {
     },
   });
 };
+
+export const fetchSearchPrajaSurovuna = (search, token) => {
+  let baseUrl = "/priaga_surovuna?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createPrajaSurovuna = (prajaSurovuna, token) => {
+  return _axios.post("/priaga_surovuna", prajaSurovuna, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPrajaSurovuna = (prajaSurovuna, id, token) => {
+  return _axios.patch(`/priaga_surovuna/${id}`, prajaSurovuna, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePrajaSurovuna = (id, token) => {
+  return _axios.delete(`/priaga_surovuna/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchPrajaTovtshina = (token) => {
   return _axios.get("/priaga_tovtshina", {
     headers: {
@@ -649,6 +760,43 @@ export const fetchPrajaTovtshina = (token) => {
     },
   });
 };
+
+export const fetchSearchPrajaTovtshina = (search, token) => {
+  let baseUrl = "/priaga_tovtshina?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createPrajaTovtshina = (prajaTovtshina, token) => {
+  return _axios.post("/priaga_tovtshina", prajaTovtshina, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPrajaTovtshina = (prajaTovtshina, id, token) => {
+  return _axios.patch(`/priaga_tovtshina/${id}`, prajaTovtshina, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePrajaTovtshina = (id, token) => {
+  return _axios.delete(`/priaga_tovtshina/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchPrajaType = (token) => {
   return _axios.get("/priaga_type", {
     headers: {
@@ -656,8 +804,81 @@ export const fetchPrajaType = (token) => {
     },
   });
 };
+
+export const fetchSearchPrajaType = (search, token) => {
+  let baseUrl = "/priaga_type?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createPrajaType = (prajaType, token) => {
+  return _axios.post("/priaga_type", prajaType, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPrajaType = (prajaType, id, token) => {
+  return _axios.patch(`/priaga_type/${id}`, prajaType, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePrajaType = (id, token) => {
+  return _axios.delete(`/priaga_type/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchPrajaVendor = (token) => {
   return _axios.get("/priaga_vendor", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSearchPrajaVendor = (search, token) => {
+  let baseUrl = "/priaga_vendor?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createPrajaVendor = (prajaVendor, token) => {
+  return _axios.post("/priaga_vendor", prajaVendor, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPrajaVendor = (prajaVendor, id, token) => {
+  return _axios.patch(`/priaga_vendor/${id}`, prajaVendor, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePrajaVendor = (id, token) => {
+  return _axios.delete(`/priaga_vendor/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -671,6 +892,43 @@ export const fetchMachineModel = (token) => {
     },
   });
 };
+
+export const fetchSearchMachineModel = (search, token) => {
+  let baseUrl = "/machines_model?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMachineModel = (machineModel, token) => {
+  return _axios.post("/machines_model", machineModel, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMachineModel = (machineModel, id, token) => {
+  return _axios.patch(`/machines_model/${id}`, machineModel, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMachineModel = (id, token) => {
+  return _axios.delete(`/machines_model/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMachineGolku = (token) => {
   return _axios.get("/machines_golku", {
     headers: {
@@ -678,6 +936,43 @@ export const fetchMachineGolku = (token) => {
     },
   });
 };
+
+export const fetchSearchMachineGolku = (search, token) => {
+  let baseUrl = "/machines_golku?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMachineGolku = (machineGolku, token) => {
+  return _axios.post("/machines_golku", machineGolku, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMachineGolku = (machineGolku, id, token) => {
+  return _axios.patch(`/machines_golku/${id}`, machineGolku, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMachineGolku = (id, token) => {
+  return _axios.delete(`/machines_golku/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMachineDuymu = (token) => {
   return _axios.get("/machines_duymu", {
     headers: {
@@ -685,6 +980,43 @@ export const fetchMachineDuymu = (token) => {
     },
   });
 };
+
+export const fetchSearchMachineDuymu = (search, token) => {
+  let baseUrl = "/machines_duymu?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMachineDuymu = (machineDuymu, token) => {
+  return _axios.post("/machines_duymu", machineDuymu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMachineDuymu = (machineDuymu, id, token) => {
+  return _axios.patch(`/machines_duymu/${id}`, machineDuymu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMachineDuymu = (id, token) => {
+  return _axios.delete(`/machines_duymu/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMachineVyazalni = (token) => {
   return _axios.get("/machines_vyazalni", {
     headers: {
@@ -692,6 +1024,43 @@ export const fetchMachineVyazalni = (token) => {
     },
   });
 };
+
+export const fetchSearchMachineVyazalni = (search, token) => {
+  let baseUrl = "/machines_vyazalni?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMachineVyazalni = (machineVyazalni, token) => {
+  return _axios.post("/machines_vyazalni", machineVyazalni, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMachineVyazalni = (machineVyazalni, id, token) => {
+  return _axios.patch(`/machines_vyazalni/${id}`, machineVyazalni, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMachineVyazalni = (id, token) => {
+  return _axios.delete(`/machines_vyazalni/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchRoztsinka = (token) => {
   return _axios.get("/roztsinka", {
     headers: {
@@ -699,6 +1068,44 @@ export const fetchRoztsinka = (token) => {
     },
   });
 };
+
+export const fetchFilteredRoztsinka = (search, token) => {
+  let baseUrl = "/roztsinka?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createRoztsinka= (roztsinka, token) => {
+  return _axios.post("/roztsinka", roztsinka, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchRoztsinka = (roztsinka, id, token) => {
+  return _axios.patch(`/roztsinka/${id}`, roztsinka, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteRoztsinka = (id, token) => {
+  return _axios.delete(`/roztsinka/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+
 export const fetchMaterialVendor = (token) => {
   return _axios.get("/materials_vendor", {
     headers: {
@@ -706,8 +1113,81 @@ export const fetchMaterialVendor = (token) => {
     },
   });
 };
+
+export const fetchSearchMaterialVendor = (search, token) => {
+  let baseUrl = "/materials_vendor?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMaterialVendor = (materialVendor, token) => {
+  return _axios.post("/materials_vendor", materialVendor, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterialVendor = (materialVendor, id, token) => {
+  return _axios.patch(`/materials_vendor/${id}`, materialVendor, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterialVendor = (id, token) => {
+  return _axios.delete(`/materials_vendor/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMaterialRozhid = (token) => {
   return _axios.get("/materials_dilanka_rozxody", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSearchMaterialRozhid = (search, token) => {
+  let baseUrl = "/materials_dilanka_rozxody?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMaterialRozhid = (materialRozhid, token) => {
+  return _axios.post("/materials_dilanka_rozxody", materialRozhid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterialRozhid = (materialRozhid, id, token) => {
+  return _axios.patch(`/materials_dilanka_rozxody/${id}`, materialRozhid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterialRozhid = (id, token) => {
+  return _axios.delete(`/materials_dilanka_rozxody/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -720,6 +1200,43 @@ export const fetchMaterialType = (token) => {
     },
   });
 };
+
+export const fetchSearchMaterialType = (search, token) => {
+  let baseUrl = "/materials_type?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMaterialType = (materialType, token) => {
+  return _axios.post("/materials_type", materialType, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterialType = (materialType, id, token) => {
+  return _axios.patch(`/materials_type/${id}`, materialType, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterialType = (id, token) => {
+  return _axios.delete(`/materials_type/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMaterialParams = (token) => {
   return _axios.get("/materials_params", {
     headers: {
@@ -727,6 +1244,43 @@ export const fetchMaterialParams = (token) => {
     },
   });
 };
+
+export const fetchSearchMaterialParams = (search, token) => {
+  let baseUrl = "/materials_params?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMaterialParams = (materialParams, token) => {
+  return _axios.post("/materials_params", materialParams, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterialParams = (materialParams, id, token) => {
+  return _axios.patch(`/materials_params/${id}`, materialParams, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterialParams = (id, token) => {
+  return _axios.delete(`/materials_params/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMaterialParamsValue = (token) => {
   return _axios.get("/materials_params_value", {
     headers: {
@@ -734,6 +1288,43 @@ export const fetchMaterialParamsValue = (token) => {
     },
   });
 };
+
+export const fetchSearchMaterialParamsValue = (search, token) => {
+  let baseUrl = "/materials_params_value?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMaterialParamsValue = (materialParamsValue, token) => {
+  return _axios.post("/materials_params_value", materialParamsValue, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterialParamsValue = (materialParamsValue, id, token) => {
+  return _axios.patch(`/materials_params_value/${id}`, materialParamsValue, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterialParamsValue = (id, token) => {
+  return _axios.delete(`/materials_params_value/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchOperations = (token) => {
   return _axios.get("/operations", {
     headers: {

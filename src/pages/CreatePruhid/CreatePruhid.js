@@ -4,7 +4,6 @@ import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./CreatePruhid.module.css";
 import { connect } from "react-redux";
-
 import { createSklad1Action } from "../../store/actions/skladActions";
 import { withFormik } from "formik";
 

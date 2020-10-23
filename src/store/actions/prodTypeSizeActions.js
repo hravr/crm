@@ -46,7 +46,7 @@ export const createProdSizeAction = (prodSize) => {
     const token = getToken();
     const response = await createProdSize(prodSize, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_SIZE, token });
+      dispatch({ type: ADD_PROD_SIZE, token, prodSize: response.data });
       return true;
     }
   };

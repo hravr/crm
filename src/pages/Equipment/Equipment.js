@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from "react";
-import Barcode from "react-barcode";
+import { withFormik } from "formik";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./Equipment.module.css";
 import classnames from "classnames";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { connect } from "react-redux";
-import { getMachineModelAction } from "../../store/actions/Machine/modelActions";
-import { getMachineDuymuAction } from "../../store/actions/Machine/duymuActions";
-import { getMachineGolkuAction } from "../../store/actions/Machine/golkuActions";
-import { getMachineVyazalniAction } from "../../store/actions/Machine/vyazalniActions";
+import {
+  createMachineModelAction,
+  deleteMachineModelAction,
+  filterMachineModelAction,
+  getMachineModelAction,
+} from "../../store/actions/Machine/modelActions";
+import MachineDuymu from "../../misc/EqItems/MachineDuymu";
+import MachineGolku from "../../misc/EqItems/MachineGolku";
+import MachineVyazalni from "../../misc/EqItems/MachineVyazalni";
 
 const Equipment = ({
+  handleChange,
+  handleSubmit,
+  values,
   fetchMachineModel,
   machineModel,
-  fetchMachineDuymu,
-  fetchMachineGolku,
-  fetchMachineVyazalni,
+  filteredMachineModel,
+  filterMachineModel,
+  deleteMachineModel,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState({});
@@ -24,9 +32,6 @@ const Equipment = ({
   useEffect(() => {
     (async () => {
       await fetchMachineModel();
-      await fetchMachineDuymu();
-      await fetchMachineGolku();
-      await fetchMachineVyazalni();
     })();
   }, []);
   return (
@@ -47,75 +52,129 @@ const Equipment = ({
         </TabList>
         <TabPanel>
           <div className={s.title__container}>
-            <span className={s.title}>Назва сировини</span>
+            <span className={s.title}>Моделі</span>
             <hr></hr>
           </div>
           <div className={s.filter__container}>
             <div className={s.search__container}>
               <Input
-                label="Пошук працівника"
+                label="Пошук"
                 onChange={({ target }) =>
                   setDataForFilter({ ...dataForFilter, search: target.value })
                 }
               />
               <Button
                 title="Пошук"
-                // onClick={async () => {
-                //   await filterProdArticle(dataForFilter);
-                // }}
+                onClick={async () => {
+                  await filterMachineModel(dataForFilter);
+                }}
               />
             </div>
-            <div className={s.create__worker}>
-              <Button title="Створити" />
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Input
+                  label="Створити"
+                  value={values.name}
+                  name="name"
+                  onChange={handleChange}
+                />
+                <Button title="Створити" onClick={handleSubmit} />
+              </div>
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}>ID</th>
                 <th className={s.name__table}></th>
               </tr>
-              {machineModel &&
-                machineModel.map((machineModel) => {
-                  return (
-                    <tr>
-                      <td>{machineModel.name || "err"}</td>
-                      <td>{machineModel._id || "err"}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button className={s.del}>Редагувати</button>
-                          <button>Видалити</button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {!filteredMachineModel.length
+                ? machineModel &&
+                  machineModel.map((machineModel) => {
+                    return (
+                      <tr>
+                        <td>{machineModel.name || "err"}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button className={s.del}>Редагувати</button>
+                            <button
+                              onClick={() =>
+                                deleteMachineModel(machineModel._id)
+                              }
+                            >
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : filteredMachineModel.length &&
+                  filteredMachineModel.map((filter) => {
+                    return (
+                      <tr>
+                        <td>{filter.name || "err"}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button className={s.del}>Редагувати</button>
+                            <button
+                              onClick={() => deleteMachineModel(filter._id)}
+                            >
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </table>
           </div>
         </TabPanel>
-        <TabPanel></TabPanel>
+        <TabPanel>
+          <MachineGolku />
+        </TabPanel>
+        <TabPanel>
+          <MachineDuymu />
+        </TabPanel>
+        <TabPanel>
+          <MachineVyazalni />
+        </TabPanel>
       </div>
     </Tabs>
   );
 };
 
+const formikHOC = withFormik({
+  mapPropsToValues: () => ({
+    name: "",
+  }),
+  handleSubmit: async (
+    values,
+    { props: { createMachineModel }, resetForm }
+  ) => {
+    const isSuccess = await createMachineModel(values);
+    if (isSuccess) {
+      alert("Створено");
+    } else {
+      alert("error===");
+    }
+    resetForm({ name: "" });
+  },
+})(Equipment);
+
 const mapStateToProps = (state) => {
   return {
     machineModel: state.machineModel.machineModel,
-    machineDuymu: state.machineDuymu.machineDuymu,
-    machineGolku: state.machineGolku.machineGolku,
-    machineVyazalni: state.machineVyazalni.machineVyazalni,
+    filteredMachineModel: state.machineModel.filtered,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchMachineModel: (search) => dispatch(getMachineModelAction(search)),
-    fetchMachineDuymu: (search) => dispatch(getMachineDuymuAction(search)),
-    fetchMachineGolku: (search) => dispatch(getMachineGolkuAction(search)),
-    fetchMachineVyazalni: (search) =>
-      dispatch(getMachineVyazalniAction(search)),
+    filterMachineModel: (data) => dispatch(filterMachineModelAction(data)),
+    createMachineModel: (data) => dispatch(createMachineModelAction(data)),
+    deleteMachineModel: (data) => dispatch(deleteMachineModelAction(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Equipment);
+export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

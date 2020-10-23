@@ -1,4 +1,4 @@
-import { SET_PRAJA_COLOR } from "../../actions/actionTypes";
+import { ADD_PRAJA_COLOR, DELETE_PRAJA_COLOR, SET_FILTER_PRAJA_COLOR, SET_PRAJA_COLOR } from "../../actions/actionTypes";
 
 const initialState = {
   prajaColor: "",
@@ -11,6 +11,23 @@ export default (state = initialState, action) => {
       return {
         ...state,
         prajaColor: action.prajaColor,
+      };
+    case SET_FILTER_PRAJA_COLOR:
+      return {
+        ...state,
+        filtered: action.filtered,
+      };
+    case ADD_PRAJA_COLOR:
+      return {
+        ...state,
+        prajaColor: [...state.prajaColor, action.prajaColor],
+      };
+    case DELETE_PRAJA_COLOR:
+      return {
+        ...state,
+        prajaColor: state.prajaColor.filter(
+          (prajaColor) => prajaColor._id !== action._id
+        ),
       };
     default:
       return state;

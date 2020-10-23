@@ -47,7 +47,11 @@ export const createProdAsortumentAction = (prodAsortument) => {
     const token = getToken();
     const response = await createProdAsortument(prodAsortument, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_ASORTUMENT, token });
+      dispatch({
+        type: ADD_PROD_ASORTUMENT,
+        token,
+        prodAsortument: response.data,
+      });
       return true;
     }
   };

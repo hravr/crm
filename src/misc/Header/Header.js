@@ -13,19 +13,6 @@ const Header = ({ history: h }) => {
       {pathname.startsWith("/login") ? null : (
         <div className={s.navbar}>
           <div className={s.dropdown}>
-            <button className={s.dropbtn}>Довідник</button>
-            <div className={s.dropdown_content}>
-              <Link to="/workers">Працівники</Link>
-              <Link to="/productcia">Продукція</Link>
-
-              <Link to="/equipment">Обладннення</Link>
-              <Link to="/praja">Пряжа</Link>
-              <Link to="/pak_materials">Пакувальні матеріали</Link>
-              <Link to="/operations">Операції</Link>
-            </div>
-          </div>
-
-          <div className={s.dropdown}>
             <button className={s.dropbtn}>Склади</button>
             <div className={s.dropdown_content}>
               <Link to="/create-pruhid">Створити прихід</Link>
@@ -42,10 +29,19 @@ const Header = ({ history: h }) => {
             </div>
           </div>
           <div className={s.dropdown}>
-            <Link to="/prices">Розцінки</Link>
+            <Link to="/zvitu">Звіти</Link>
           </div>
           <div className={s.dropdown}>
-            <Link to="/zvitu">Звіти</Link>
+            <button className={s.dropbtn}>Довідник</button>
+            <div className={s.dropdown_content}>
+              <Link to="/workers">Працівники</Link>
+              <Link to="/productcia">Продукція</Link>
+              <Link to="/prices">Розцінки</Link>
+              <Link to="/equipment">Обладннення</Link>
+              <Link to="/praja">Пряжа</Link>
+              <Link to="/pak_materials">Пакувальні матеріали</Link>
+              <Link to="/operations">Операції</Link>
+            </div>
           </div>
           <div className={s.logout}>
             <LogoutComponent />

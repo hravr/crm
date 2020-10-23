@@ -46,7 +46,7 @@ export const createProdClassAction = (prodClass) => {
     const token = getToken();
     const response = await createProdClass(prodClass, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_CLASS, token });
+      dispatch({ type: ADD_PROD_CLASS, token, prodClass: response.data });
       return true;
     }
   };

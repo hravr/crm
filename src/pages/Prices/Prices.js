@@ -3,7 +3,13 @@ import React, { useEffect } from "react";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./Prices.module.css";
-import { getRoztsinkaAction } from "../../store/actions/roztsinkaActions";
+import {
+  createRoztsinkaAction,
+  deleteRoztsinkaAction,
+  filterRoztsinkaAction,
+  getRoztsinkaAction,
+} from "../../store/actions/roztsinkaActions";
+import { Link } from "react-router-dom";
 
 const Prices = ({ fetchRoztsinka, roztsinka }) => {
   useEffect(() => {
@@ -22,21 +28,20 @@ const Prices = ({ fetchRoztsinka, roztsinka }) => {
         <div className={s.search__container}>
           <Input label="Пошук розцінки" />
         </div>
-        <div className={s.date__filter}>
-          <Input type="date" label="Фільтрувати за датою" />
-        </div>
         <div className={s.create__worker}>
-          <Button title="Створити розцінку" />
+          <Link to="create-prices" className={s.create__worker}>
+            <Button title="Створити розцінку" />
+          </Link>
         </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th>ID</th>
+            <th>Назва</th>
             <th>Початок</th>
             <th>Завершення</th>
             <th>Ціна</th>
-            <th>Назва</th>
+            {/* <th>ID</th> */}
             <th>ID операції</th>
             <th>Тип</th>
             <th>Колір</th>
@@ -54,11 +59,11 @@ const Prices = ({ fetchRoztsinka, roztsinka }) => {
             roztsinka.map((roztsinka) => {
               return (
                 <tr>
+                  <td>{roztsinka.name}</td>
                   <td>{roztsinka._id}</td>
                   <td>{roztsinka.createdAt}</td>
                   <td>{roztsinka.deletedAt || "err==="}</td>
                   <td>{roztsinka.price}</td>
-                  <td>{roztsinka.name}</td>
                   <td>{roztsinka.operationId}</td>
                   <td>{roztsinka.typeId || "err==="}</td>
                   <td>{roztsinka.colorId || "err==="}</td>
@@ -70,7 +75,6 @@ const Prices = ({ fetchRoztsinka, roztsinka }) => {
                   <td>{roztsinka.articleId || "err==="}</td>
                   <td>{roztsinka.gatunokId || "err==="}</td>
                   <td>{roztsinka.machineId || "err==="}</td>
-
                   <div className={s.table__btn}>
                     <button className={s.del}>Редагувати</button>
                     <button>Видалити</button>
@@ -87,11 +91,15 @@ const Prices = ({ fetchRoztsinka, roztsinka }) => {
 const mapStateToProps = (state) => {
   return {
     roztsinka: state.roztsinka.roztsinka,
+    filtereRoztsinka: state.roztsinka.filtered,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchRoztsinka: (search) => dispatch(getRoztsinkaAction(search)),
+    filterRoztsinka: (data) => dispatch(filterRoztsinkaAction(data)),
+    createRoztsinka: (data) => dispatch(createRoztsinkaAction(data)),
+    deleteRoztsinka: (data) => dispatch(deleteRoztsinkaAction(data)),
   };
 };
 

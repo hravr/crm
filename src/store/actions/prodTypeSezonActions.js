@@ -46,7 +46,7 @@ export const createProdSezonAction = (prodSezon) => {
     const token = getToken();
     const response = await createProdSezon(prodSezon, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_PROD_SEZON, token });
+      dispatch({ type: ADD_PROD_SEZON, token, prodSezon: response.data });
       return true;
     }
   };
