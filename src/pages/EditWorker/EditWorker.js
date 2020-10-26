@@ -2,25 +2,28 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import s from "./CreateWorker.module.css";
+import s from "./EditWorker.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
 import {
-  createWorkerAction,
-  getWorkersAction,
+  editWorkerAction,
+  getSingleWorkerAction,
 } from "../../store/actions/workersActions";
 import { getOperationsAction } from "../../store/actions/operationsAction";
+import { useParams } from "react-router-dom";
 
-const CreateWorker = ({
+const EditWorker = ({
   values,
   handleChange,
-  handleBlur,
   handleSubmit,
   getOperations,
   setValues,
   operations,
+  singleWorker,
+  getSingleWorker,
 }) => {
   const [operationsOptions, setOperationsOptions] = useState([]);
+  const { id } = useParams();
 
   const options = [
     { value: "worked", label: "Працює" },
@@ -32,7 +35,6 @@ const CreateWorker = ({
   };
 
   const operationSelect = (operations) => {
-    console.log("her");
     setValues({ ...values, operationId: operations.value });
   };
 
@@ -43,16 +45,33 @@ const CreateWorker = ({
       })
     );
   }, [operations]);
+
   useEffect(() => {
     (async () => {
+      await getSingleWorker(id);
       await getOperations();
     })();
   }, []);
 
+  useEffect(() => {
+    const { fName, sName, fatherName, operationId, status, _id } = singleWorker;
+    if (singleWorker._id) {
+      setValues({
+        ...values,
+        fName,
+        sName,
+        fatherName,
+        operationId: operationId[0],
+        status,
+        _id,
+      });
+    }
+  }, [singleWorker]);
+
   return (
     <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Створити працівника</span>
+        <span className={s.title}>Редагувати працівника</span>
         <hr></hr>
       </div>
       <div className={s.main__container}>
@@ -86,7 +105,7 @@ const CreateWorker = ({
             </div>
             <Select
               options={options}
-              value={values.status.label}
+              value={{ label: values.status, value: values.status }}
               name="status"
               onChange={statusSelect}
             />
@@ -96,7 +115,7 @@ const CreateWorker = ({
               </div>
               <Select
                 options={operationsOptions}
-                value={values.operationId.label}
+                value={{ label: values.operationId, value: values.operationId }}
                 name="operationId"
                 onChange={operationSelect}
               />
@@ -105,20 +124,27 @@ const CreateWorker = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Створити" onClick={handleSubmit} />
+        <Button title="Редагувати" onClick={handleSubmit} />
       </div>
     </div>
   );
 };
 const formikHOC = withFormik({
-  mapPropsToValues: () => ({
-    fName: "",
-    sName: "",
-    fatherName: "",
-    operationId: {},
-    status: {},
-  }),
-  handleSubmit: async (values, { props: { createWorker }, resetForm }) => {
+  mapPropsToValues: ({ singleWorker }) => {
+    console.log(singleWorker);
+    return {
+      fName: "",
+      sName: "",
+      fatherName: "",
+      operationId: "",
+      status: "",
+      _id: "",
+    };
+  },
+  handleSubmit: async (
+    values,
+    { props: { editWorker, singleWorker }, resetForm }
+  ) => {
     const workerToSubmit = {
       status: values.status,
       operationId: values.operationId,
@@ -127,7 +153,7 @@ const formikHOC = withFormik({
       sName: values.sName,
     };
     console.log("pezda");
-    const isSuccess = await createWorker(workerToSubmit);
+    const isSuccess = await editWorker(workerToSubmit, singleWorker._id);
     if (isSuccess) {
       alert("Success");
     } else {
@@ -135,15 +161,17 @@ const formikHOC = withFormik({
     }
     resetForm({ fatherName: "", fName: "", sName: "" });
   },
-})(CreateWorker);
+})(EditWorker);
 const mapStateToProps = (state) => {
   return {
+    singleWorker: state.workers.single,
     operations: state.operations.operations,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    createWorker: (workers) => dispatch(createWorkerAction(workers)),
+    getSingleWorker: (id) => dispatch(getSingleWorkerAction(id)),
+    editWorker: (workers, id) => dispatch(editWorkerAction(workers, id)),
     getOperations: () => dispatch(getOperationsAction()),
   };
 };

@@ -1,7 +1,7 @@
 import { SET_MACHINE } from "../../actions/actionTypes";
 
 const initialState = {
-  machine: "",
+  machines: [],
 };
 
 export default (state = initialState, action) => {
@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case SET_MACHINE:
       return {
         ...state,
-        machine: action.machine,
+        machines: action.machines,
       };
 
     default:

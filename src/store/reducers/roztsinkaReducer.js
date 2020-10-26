@@ -3,10 +3,12 @@ import {
   DELETE_ROZTSINKA,
   SET_FILTER_ROZTSINKA,
   SET_ROZTSINKA,
+  SET_SINGLE_ROZTSINKA,
 } from "../actions/actionTypes";
 
 const initialState = {
   roztsinka: "",
+  single: {},
   filtered: [],
 };
 
@@ -17,6 +19,8 @@ export default (state = initialState, action) => {
         ...state,
         roztsinka: action.roztsinka,
       };
+    case SET_SINGLE_ROZTSINKA:
+      return { ...state, single: action.singleRoztsinka };
     case SET_FILTER_ROZTSINKA:
       return {
         ...state,

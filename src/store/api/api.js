@@ -57,7 +57,6 @@ export const fetchWorkers = (token) => {
     },
   });
 };
-
 export const fetchWorker = (id, token) => {
   return _axios.get(`/workers/${id}`, {
     headers: {
@@ -86,7 +85,7 @@ export const createWorker = (workers, token) => {
   });
 };
 
-export const patchWorker = (workers, id, token) => {
+export const patchWorker = (workers, token, id) => {
   return _axios.patch(`/workers/${id}`, workers, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -283,6 +282,13 @@ export const fetchProdArticle = (token) => {
     },
   });
 };
+export const fetchSingleProdArticle = (id, token) => {
+  return _axios.get(`/prod_article/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const fetchFilteredProdArticle = (search, token) => {
   let baseUrl = "/prod_article?";
@@ -304,7 +310,7 @@ export const createProdArticle = (prod, token) => {
   });
 };
 
-export const patchProdArticle = (prod, id, token) => {
+export const patchProdArticle = (id, token, prod) => {
   return _axios.patch(`/prod_article/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -886,7 +892,7 @@ export const deletePrajaVendor = (id, token) => {
 };
 
 export const fetchMachine = (token) => {
-  return _axios.get("/machine", {
+  return _axios.get("/machines", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1070,6 +1076,13 @@ export const deleteMachineVyazalni = (id, token) => {
 
 export const fetchRoztsinka = (token) => {
   return _axios.get("/roztsinka", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSingleRoztsinka = (id, token) => {
+  return _axios.get(`/roztsinka/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import s from "./CreatePrices.module.css";
+import s from "./EditPrice.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
 import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import { createRoztsinkaAction } from "../../store/actions/roztsinkaActions";
+import {
+  createRoztsinkaAction,
+  editRoztsinkaAction,
+  getSingleRoztsinkaAction,
+} from "../../store/actions/roztsinkaActions";
 import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
 import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
 import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
@@ -16,8 +20,9 @@ import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
 import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
 import { getMachineAction } from "../../store/actions/Machine/machineActions";
 import { getOperationsAction } from "../../store/actions/operationsAction";
+import { useParams } from "react-router-dom";
 
-const CreatePrices = ({
+const EditPrice = ({
   values,
   handleChange,
   handleSubmit,
@@ -42,6 +47,8 @@ const CreatePrices = ({
   machineId,
   getOperations,
   operations,
+  getSingleRoztsinka,
+  singleRoztsinka,
 }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
@@ -52,6 +59,8 @@ const CreatePrices = ({
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
   const [operationsOptions, setOperationsOptions] = useState([]);
+
+  const { id } = useParams();
 
   const asortumentSelect = (asortument) => {
     setValues({ ...values, asortument: asortument.value });
@@ -135,7 +144,7 @@ const CreatePrices = ({
         })
     );
   }, [sizeId]);
-
+  console.log(singleRoztsinka);
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
@@ -164,18 +173,64 @@ const CreatePrices = ({
 
   useEffect(() => {
     (async () => {
-      await fetchMachine();
-      await getOperations();
-      await fetchProdAsortument();
-      await fetchProdSezon();
-      await fetchProdSize();
-      await fetchProdArticle();
-      await fetchProdType();
-      await fetchProdImage();
-      await fetchProdClass();
-      await fetchProdColor();
+      await getSingleRoztsinka(id);
     })();
   }, []);
+  useEffect(() => {
+    (async () => {
+      await getSingleRoztsinka(id);
+      await getOperations();
+      await fetchProdType();
+      await fetchProdArticle();
+      await fetchProdColor();
+      await fetchProdClass();
+      await fetchProdAsortument();
+      await fetchProdImage();
+      await fetchProdSezon();
+      await fetchProdSize();
+      await fetchMachine();
+    })();
+  }, []);
+
+  useEffect(() => {
+    const {
+      asortument,
+      articleId,
+      typeId,
+      sizeId,
+      seasonId,
+      imageId,
+      classId,
+      colorId,
+      operationId,
+      startDate,
+      endDate,
+      price,
+      name,
+      gatynok,
+      _id,
+    } = singleRoztsinka;
+    if (singleRoztsinka._id) {
+      setValues({
+        ...values,
+        asortument,
+        articleId,
+        typeId,
+        sizeId,
+        seasonId,
+        imageId,
+        classId,
+        colorId,
+        operationId: operationId[0],
+        startDate,
+        endDate,
+        price,
+        name,
+        gatynok,
+        _id,
+      });
+    }
+  }, [singleRoztsinka]);
 
   return (
     <div className={s.main}>
@@ -350,22 +405,26 @@ const CreatePrices = ({
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
-    asortument: {},
-    articleId: {},
-    typeId: {},
-    sizeId: {},
-    seasonId: {},
-    imageId: {},
-    classId: {},
-    colorId: {},
-    operationId: {},
+    asortument: "",
+    articleId: "",
+    typeId: "",
+    sizeId: "",
+    seasonId: "",
+    imageId: "",
+    classId: "",
+    colorId: "",
+    operationId: "",
     startDate: "",
     endDate: "",
     price: "",
     name: "",
     gatynok: "",
+    _id: "",
   }),
-  handleSubmit: async (values, { props: { createPrices }, resetForm }) => {
+  handleSubmit: async (
+    values,
+    { props: { editRoztsinka, singleRoztsinka }, resetForm }
+  ) => {
     const pricesToSubmit = {
       asortument: values.asortument,
       typeId: values.typeId,
@@ -383,7 +442,7 @@ const formikHOC = withFormik({
       operationId: values.operationId,
     };
     console.log("pezda");
-    const isSuccess = await createPrices(pricesToSubmit);
+    const isSuccess = await editRoztsinka(pricesToSubmit, singleRoztsinka._id);
     if (isSuccess) {
       alert("Success");
     } else {
@@ -391,9 +450,10 @@ const formikHOC = withFormik({
     }
     // resetForm({ fatherName: "", fName: "", sName: "" });
   },
-})(CreatePrices);
+})(EditPrice);
 const mapStateToProps = (state) => {
   return {
+    singleRoztsinka: state.roztsinka.single,
     operations: state.operations.operations,
     articleId: state.prod.prodArticle,
     typeId: state.prodType.prodType,
@@ -408,17 +468,20 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    getSingleRoztsinka: (id) => dispatch(getSingleRoztsinkaAction(id)),
+    getOperations: () => dispatch(getOperationsAction()),
     createPrices: (roztsinka) => dispatch(createRoztsinkaAction(roztsinka)),
     fetchProdType: () => dispatch(getProdTypeAction()),
     fetchProdArticle: () => dispatch(getProdArticleAction()),
-    fetchProdSize: () => dispatch(getProdSizeAction()),
-    fetchProdSezon: () => dispatch(getProdSezonAction()),
-    fetchProdAsortument: () => dispatch(getProdAsortumentAction()),
-    fetchProdClass: () => dispatch(getProdClassAction()),
     fetchProdColor: () => dispatch(getProdColorAction()),
+    fetchProdClass: () => dispatch(getProdClassAction()),
+    fetchProdAsortument: () => dispatch(getProdAsortumentAction()),
     fetchProdImage: () => dispatch(getProdImageAction()),
+    fetchProdSezon: () => dispatch(getProdSezonAction()),
+    fetchProdSize: () => dispatch(getProdSizeAction()),
     fetchMachine: () => dispatch(getMachineAction()),
-    getOperations: () => dispatch(getOperationsAction()),
+    editRoztsinka: (roztsinka, id) =>
+      dispatch(editRoztsinkaAction(roztsinka, id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

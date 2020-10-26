@@ -4,6 +4,7 @@ import {
   deleteProdArticle,
   fetchFilteredProdArticle,
   fetchProdArticle,
+  fetchSingleProdArticle,
   patchProdArticle,
 } from "../api/api";
 import {
@@ -11,6 +12,7 @@ import {
   SET_FILTERED_PROD_ARTICLE,
   ADD_PROD_ARTICLE,
   DELETE_PROD_ARTICLE,
+  SET_SINGLE_PROD_ARTICLE,
 } from "./actionTypes";
 
 export const getProdArticleAction = () => {
@@ -21,6 +23,16 @@ export const getProdArticleAction = () => {
       dispatch({ type: SET_PROD_ARTICLE, prodArticle: response.data });
     }
     return response.status === 200;
+  };
+};
+export const getSingleProdArticleAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleProdArticle(id, token);
+    dispatch({
+      type: SET_SINGLE_PROD_ARTICLE,
+      singleProdArticle: response.data,
+    });
   };
 };
 

@@ -50,7 +50,7 @@ export default combineReducers({
   prajaVendor: vendorReducer,
   prajaRozhid: rozhidReducer,
   prajaColor: colorReducer,
-  machine: machineReducer,
+  machines: machineReducer,
   machineModel: modelReducer,
   machineDuymu: duymuReducer,
   machineGolku: golkuReducer,

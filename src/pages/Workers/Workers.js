@@ -8,7 +8,7 @@ import {
   searchWorkersAction,
 } from "../../store/actions/workersActions";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Workers = ({
   getWorkers,
@@ -17,8 +17,11 @@ const Workers = ({
   filetred,
   searchWorkers,
   deleteWorkers,
+  _id,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const h = useHistory();
+
   useEffect(() => {
     (async () => {
       await getWorkers();
@@ -60,18 +63,23 @@ const Workers = ({
             <th className={s.status__table}>Статус</th>
             <th className={s.status__table}>ID операції</th>
           </tr>
-          {!filteredWorkers
+          {!filteredWorkers.length
             ? workers &&
-              workers?.map((workers) => {
+              workers?.map((worker) => {
                 return (
-                  <tr key={workers._id}>
-                    <td>{workers.fName + " " + workers.sName}</td>
-                    <td>{workers.status}</td>
+                  <tr key={worker._id}>
+                    <td>{worker?.fName + " " + worker?.sName}</td>
+                    <td>{worker?.status}</td>
                     <td>
-                      {workers.operationId}
+                      {worker?.operationId}
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button onClick={() => deleteWorkers(workers._id)}>
+                        <button
+                          className={s.del}
+                          onClick={() => h.push(`/edit-worker/${worker._id}`)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteWorkers(worker._id)}>
                           Видалити
                         </button>
                       </div>
@@ -88,7 +96,12 @@ const Workers = ({
                     <td>{filetred.operationId}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => h.push(`/edit-worker/${filetred._id}`)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteWorkers(filtered._id)}>
                           Видалити
                         </button>
@@ -111,7 +124,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getWorkers: (searchValue) => dispatch(getWorkersAction(searchValue)),
+    getWorkers: (searchValue, id) =>
+      dispatch(getWorkersAction(searchValue, id)),
     searchWorkers: (data) => dispatch(searchWorkersAction(data)),
     deleteWorkers: (id) => dispatch(deleteWorkerAction(id)),
   };

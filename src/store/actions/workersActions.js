@@ -5,18 +5,20 @@ import {
   createWorker,
   patchWorker,
   deleteWorker,
+  fetchWorker,
 } from "../api/api";
 import {
   ADD_WORKER,
   DELETE_WORKER,
   SET_FILTERED_WORKERS,
+  SET_SINGLE_WORKER,
   SET_WORKERS,
 } from "./actionTypes";
 
-export const getWorkersAction = () => {
+export const getWorkersAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchWorkers(token);
+    const response = await fetchWorkers(token, id);
     if (response.status === 200) {
       dispatch({ type: SET_WORKERS, workers: response.data });
     }
@@ -24,11 +26,18 @@ export const getWorkersAction = () => {
   };
 };
 
+export const getSingleWorkerAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchWorker(id, token);
+    dispatch({ type: SET_SINGLE_WORKER, singleWorker: response.data });
+  };
+};
+
 export const searchWorkersAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSearchWorkers(search, token);
-
     if (response?.data) {
       dispatch({
         type: SET_FILTERED_WORKERS,

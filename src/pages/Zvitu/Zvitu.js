@@ -4,11 +4,6 @@ import classnames from "classnames";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import {
-  deleteSklad1Action,
-  filterSklad1Action,
-  getSklad1Action,
-} from "../../store/actions/skladActions.js";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ReactToExcel from "react-html-table-to-excel";
@@ -30,6 +25,7 @@ const Zvitu = ({
   deleteZvitu,
   filteredZvitu,
   getZvituRozxid,
+  zvitu,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState([]);
@@ -132,49 +128,110 @@ const Zvitu = ({
                 <th className={s.status__table}> ID юзера</th>
                 <th className={s.status__table}> Операції</th>
               </tr>
-              {filteredZvitu.length &&
-                filteredZvitu.map((filtered) => {
-                  return (
-                    <tr key={filtered._id}>
-                      <td>{filtered.mishok._id || "errorF==="}</td>
-                      <td>{filtered.createdAt || "error==="}</td>
-                      <td>{filtered.masterId._id || "error==="}</td>
-                      <td>{filtered.vyazalId._id || "error==="}</td>
-                      <td>{filtered.machineId || "error==="}</td>
-                      <td>{filtered?.mishok?.articleId?.name || "error==="}</td>
-                      <td>{filtered?.mishok?.classId?.name || "error==="}</td>
-                      <td>{filtered?.mishok?.sizeId?.name || "error==="}</td>
-                      <td>{filtered?.mishok?.imageId?.name || "error==="}</td>
-                      <td>{filtered?.mishok?.colorId?.name || "error==="}</td>
-                      <td>
-                        {filtered?.mishok?.asortumentId?.name || "error==="}
-                      </td>
-                      <td>{filtered?.mishok?.typeId?.name || "error==="}</td>
-                      <td>{filtered.mishok.gatynok1 || "error==="}</td>
-                      <td>{filtered.mishok.gatynok2 || "error==="}</td>
-                      <td>{filtered.mishok.gatynok3 || "error==="}</td>
-                      <td>
-                        {filtered.mishok.gatynok1 +
-                          filtered.mishok.gatynok2 +
-                          filtered.mishok.gatynok3 || "error==="}
-                      </td>
-                      <td>{filtered?.changesId?.firstName || "error==="}</td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button
-                            className={s.del}
-                            onClick={() => h.push("/edit")}
-                          >
-                            Редагувати
-                          </button>
-                          <button onClick={() => deleteZvitu(filtered._id)}>
-                            Видалити
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {/* {!filteredZvitu.length
+                ? zvitu &&
+                  zvitu.map((zvitu) => {
+                    return (
+                      <tr key={zvitu._id}>
+                        <td>{zvitu.createdAt || "errorF==="}</td>
+                      </tr>
+                    );
+                  })
+                : filteredZvitu.length &&
+                  filteredZvitu.map((filter) => {
+                    return (
+                      <tr key={filter._id}>
+                        <td>{filter.createdAt || "errorF==="}</td>
+                      </tr>
+                    );
+                  })} */}
+              {/* {!filteredZvitu.length
+                ? zvitu &&
+                  zvitu.map((zvitu) => {
+                    return (
+                      <tr key={zvitu._id}>
+                        <td>{zvitu.mishok._id || "errorF==="}</td>
+                        <td>{zvitu.createdAt || "error==="}</td>
+                        <td>{zvitu.masterId._id || "error==="}</td>
+                        <td>{zvitu.vyazalId._id || "error==="}</td>
+                        <td>{zvitu.machineId || "error==="}</td>
+                        <td>{zvitu?.mishok?.articleId?.name || "error==="}</td>
+                        <td>{zvitu?.mishok?.classId?.name || "error==="}</td>
+                        <td>{zvitu?.mishok?.sizeId?.name || "error==="}</td>
+                        <td>{zvitu?.mishok?.imageId?.name || "error==="}</td>
+                        <td>{zvitu?.mishok?.colorId?.name || "error==="}</td>
+                        <td>
+                          {zvitu?.mishok?.asortumentId?.name || "error==="}
+                        </td>
+                        <td>{zvitu?.mishok?.typeId?.name || "error==="}</td>
+                        <td>{zvitu.mishok.gatynok1 || "error==="}</td>
+                        <td>{zvitu.mishok.gatynok2 || "error==="}</td>
+                        <td>{zvitu.mishok.gatynok3 || "error==="}</td>
+                        <td>
+                          {zvitu.mishok.gatynok1 +
+                            zvitu.mishok.gatynok2 +
+                            zvitu.mishok.gatynok3 || "error==="}
+                        </td>
+                        <td>{zvitu?.changesId?.firstName || "error==="}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button
+                              className={s.del}
+                              onClick={() => h.push("/edit")}
+                            >
+                              Редагувати
+                            </button>
+                            <button onClick={() => deleteZvitu(zvitu._id)}>
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : filteredZvitu.length &&
+                  filteredZvitu.map((filter) => {
+                    return (
+                      <tr key={zvitu._id}>
+                        <td>{filter.mishok._id || "errorF==="}</td>
+                        <td>{filter.createdAt || "error==="}</td>
+                        <td>{filter.masterId._id || "error==="}</td>
+                        <td>{filter.vyazalId._id || "error==="}</td>
+                        <td>{filter.machineId || "error==="}</td>
+                        <td>{filter?.mishok?.articleId?.name || "error==="}</td>
+                        <td>{filter?.mishok?.classId?.name || "error==="}</td>
+                        <td>{filter?.mishok?.sizeId?.name || "error==="}</td>
+                        <td>{filter?.mishok?.imageId?.name || "error==="}</td>
+                        <td>{filter?.mishok?.colorId?.name || "error==="}</td>
+                        <td>
+                          {filter?.mishok?.asortumentId?.name || "error==="}
+                        </td>
+                        <td>{filter?.mishok?.typeId?.name || "error==="}</td>
+                        <td>{filter.mishok.gatynok1 || "error==="}</td>
+                        <td>{filter.mishok.gatynok2 || "error==="}</td>
+                        <td>{filter.mishok.gatynok3 || "error==="}</td>
+                        <td>
+                          {filter.mishok.gatynok1 +
+                            filter.mishok.gatynok2 +
+                            filter.mishok.gatynok3 || "error==="}
+                        </td>
+                        <td>{filter?.changesId?.firstName || "error==="}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button
+                              className={s.del}
+                              onClick={() => h.push("/edit")}
+                            >
+                              Редагувати
+                            </button>
+                            <button onClick={() => deleteZvitu(filter._id)}>
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })} */}
             </table>
           </div>
         </TabPanel>

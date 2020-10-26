@@ -25,6 +25,8 @@ import Operations from "./pages/Operations/Operations";
 import Zvitu from "./pages/Zvitu/Zvitu";
 import CreateWorker from "./pages/CreateWorker/CreateWorker";
 import CreatePrices from "./pages/CreatePrices/CreatePrices";
+import EditWorker from "./pages/EditWorker/EditWorker";
+import EditPrice from "./pages/EditPrice/EditPrice";
 
 function App(props) {
   // const Route = ({
@@ -65,6 +67,8 @@ function App(props) {
           <Route path="/zvitu" component={Zvitu} />
           <Route path="/create-worker" component={CreateWorker} />
           <Route path="/create-prices" component={CreatePrices} />
+          <Route path="/edit-worker/:id" component={EditWorker} />
+          <Route path="/edit-price/:id" component={EditPrice} />
         </Switch>
       </div>
     </Router>

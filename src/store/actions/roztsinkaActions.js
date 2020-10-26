@@ -4,6 +4,7 @@ import {
   deleteRoztsinka,
   fetchFilteredRoztsinka,
   fetchRoztsinka,
+  fetchSingleRoztsinka,
   patchRoztsinka,
 } from "../api/api";
 import {
@@ -11,6 +12,7 @@ import {
   DELETE_ROZTSINKA,
   SET_FILTER_ROZTSINKA,
   SET_ROZTSINKA,
+  SET_SINGLE_ROZTSINKA,
 } from "./actionTypes";
 
 export const getRoztsinkaAction = () => {
@@ -20,6 +22,14 @@ export const getRoztsinkaAction = () => {
     if (response.status === 200) {
       dispatch({ type: SET_ROZTSINKA, roztsinka: response.data });
     }
+  };
+};
+
+export const getSingleRoztsinkaAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleRoztsinka(id, token);
+    dispatch({ type: SET_SINGLE_ROZTSINKA, singleRoztsinka: response.data });
   };
 };
 

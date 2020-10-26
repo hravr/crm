@@ -2,12 +2,14 @@ import {
   ADD_WORKER,
   DELETE_WORKER,
   SET_FILTERED_WORKERS,
+  SET_SINGLE_WORKER,
   SET_WORKERS,
 } from "../actions/actionTypes";
 
 const initialState = {
   workers: [],
-  // filtered: [],
+  single: {},
+  filtered: [],
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +19,8 @@ export default (state = initialState, action) => {
         ...state,
         workers: action.workers,
       };
+    case SET_SINGLE_WORKER:
+      return { ...state, single: action.singleWorker };
     case SET_FILTERED_WORKERS:
       return {
         ...state,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { withFormik } from "formik";
+import { setNestedObjectValues, withFormik } from "formik";
 import Input from "../../misc/Input/Input";
 import s from "./Productcia.module.css";
 import Button from "../../misc/Button/Button";
@@ -19,6 +19,10 @@ import ProdImg from "../../misc/Prod/ProdImg";
 import ProdSezon from "../../misc/Prod/ProdSezon";
 import ProdSize from "../../misc/Prod/ProdSize";
 import ProdType from "../../misc/Prod/ProdType";
+import _axios from "../../store/api/_axios";
+import { fetchSingleProdArticle, patchProdArticle } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
+import { useParams } from "react-router-dom";
 
 const Productcia = ({
   handleChange,
@@ -32,12 +36,36 @@ const Productcia = ({
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleArticle, setSingleArticle] = useState({});
+
+  const change = (e) => {
+    setSingleArticle({ ...singleArticle, name: e.target.value });
+  };
+
+  console.log(singleArticle);
+
+  const patchSingleProdArticle = (id) => {
+    const token = getToken();
+    patchProdArticle(singleArticle._id, token, singleArticle, id).then(
+      (res) => {
+        setSingleArticle(res.data);
+      }
+    );
+  };
+
+  const getSingleProdArticle = (id) => {
+    const token = getToken();
+    fetchSingleProdArticle(id, token).then((res) => {
+      setSingleArticle(res.data);
+    });
+  };
 
   useEffect(() => {
     (async () => {
       await fetchProdArticle();
     })();
   }, []);
+
   return (
     <Tabs>
       <div className={s.main}>
@@ -94,6 +122,20 @@ const Productcia = ({
                 <Button title="Створити" onClick={handleSubmit} />
               </div>
             </div>
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Input
+                  label="qwe"
+                  value={singleArticle.name}
+                  name="name"
+                  onChange={change}
+                />
+                <Button
+                  title="Створити"
+                  onClick={() => patchSingleProdArticle()}
+                />
+              </div>
+            </div>
           </div>
           <div className={s.table}>
             <table>
@@ -109,7 +151,12 @@ const Productcia = ({
                         <td>{prodArt?.name}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() => getSingleProdArticle(prodArt._id)}
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() => deleteProdArticle(prodArt._id)}
                             >
@@ -168,11 +215,12 @@ const Productcia = ({
 };
 
 const formikHOC = withFormik({
-  mapPropsToValues: () => ({
-    name: "",
-  }),
+  mapPropsToValues: () => {
+    return { name: "", _id: "" };
+  },
   handleSubmit: async (values, { props: { createProdArticle }, resetForm }) => {
     const isSuccess = await createProdArticle(values);
+
     if (isSuccess) {
       alert("Створено");
     } else {

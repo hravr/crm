@@ -7,7 +7,7 @@ export const getMachineAction = () => {
     const token = getToken();
     const response = await fetchMachine(token);
     if (response.status === 200) {
-      dispatch({ type: SET_MACHINE, machine: response.data });
+      dispatch({ type: SET_MACHINE, machines: response.data });
       return response.status === 200;
     }
   };
