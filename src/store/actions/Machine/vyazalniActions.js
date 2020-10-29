@@ -57,15 +57,6 @@ export const createMachineVyazalniAction = (machineVyazalni) => {
   };
 };
 
-export const editMachineVyazalniAction = (machineVyazalni, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMachineVyazalni(machineVyazalni, token, id);
-    dispatch({ type: ADD_MACHINE_VYAZALNI, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteMachineVyazalniAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

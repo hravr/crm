@@ -69,8 +69,8 @@ export const createRoztsinkaAction = (roztsinka) => {
 export const editRoztsinkaAction = (roztsinka, id) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await patchRoztsinka(roztsinka, token, id);
-    dispatch({ type: ADD_ROZTSINKA, token });
+    const response = await patchRoztsinka(id, token, roztsinka);
+    dispatch({ type: ADD_ROZTSINKA, token, roztsinka: response.data });
     return response.status === 200;
   };
 };

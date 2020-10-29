@@ -10,18 +10,52 @@ import {
   filterProdSezonAction,
   getProdSezonAction,
 } from "../../store/actions/prodTypeSezonActions";
+import { fetchSingleProdSezon, patchProdSezon } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const ProdSezon = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdSezon,
-  prodSezon,
+  productciaSezon,
   filteredProdSezon,
   filterProdSezon,
-  deleteProdSezon
+  deleteProdSezon,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleSezon, setSingleSezon] = useState({});
+  const [prodSezon, setProdSezon] = useState([]);
+
+  const change = (e) => {
+    setSingleSezon({ ...singleSezon, name: e.target.value });
+  };
+
+  const patchSingleProdSezon = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdSezon(singleSezon._id, token, singleSezon).then((res) => {
+      res.status === 200 &&
+        setProdSezon((prevState) =>
+          prevState.filter((sezon) =>
+            sezon._id === singleSezon._id
+              ? (sezon.name = singleSezon.name)
+              : sezon
+          )
+        );
+    });
+  };
+
+  const getSingleProdSezon = (id) => {
+    const token = getToken();
+    fetchSingleProdSezon(id, token).then((res) => {
+      setSingleSezon(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdSezon(productciaSezon);
+  }, [productciaSezon]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +95,23 @@ const ProdSezon = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleSezon.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleProdSezon()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredProdSezon.length
             ? prodSezon &&
@@ -76,8 +121,15 @@ const ProdSezon = ({
                     <td>{prodSezon.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button  onClick={() => deleteProdSezon(prodSezon._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdSezon(prodSezon._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdSezon(prodSezon._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -90,8 +142,15 @@ const ProdSezon = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button  onClick={() => deleteProdSezon(filter._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdSezon(filter._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdSezon(filter._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -120,7 +179,7 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodSezon: state.prodSezon.prodSezon,
+    productciaSezon: state.prodSezon.prodSezon,
     filteredProdSezon: state.prodSezon.filtered,
   };
 };

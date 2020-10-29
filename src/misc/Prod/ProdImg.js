@@ -10,19 +10,50 @@ import {
   filterProdImageAction,
   getProdImageAction,
 } from "../../store/actions/prodTypeImageActions";
-import { deleteProdImage } from "../../store/api/api";
+import { fetchSingleProdImage, patchProdImage } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const ProdImage = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdImage,
-  prodImage,
+  productciaImage,
   filterProdImage,
   filteredProdImage,
   deleteProdImage,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleImage, setSingleImage] = useState({});
+  const [prodImage, setProdImage] = useState([]);
+
+  const change = (e) => {
+    setSingleImage({ ...singleImage, name: e.target.value });
+  };
+
+  const patchSingleProdImage = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdImage(singleImage._id, token, singleImage).then((res) => {
+      res.status === 200 &&
+        setProdImage((prevState) =>
+          prevState.filter((img) =>
+            img._id === singleImage._id ? (img.name = singleImage.name) : img
+          )
+        );
+    });
+  };
+
+  const getSingleProdImage = (id) => {
+    const token = getToken();
+    fetchSingleProdImage(id, token).then((res) => {
+      setSingleImage(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdImage(productciaImage);
+  }, [productciaImage]);
 
   useEffect(() => {
     (async () => {
@@ -62,12 +93,23 @@ const ProdImage = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleImage.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleProdImage()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredProdImage.length
             ? prodImage &&
@@ -77,7 +119,12 @@ const ProdImage = ({
                     <td>{prodImage.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdImage(prodImage._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteProdImage(prodImage._id)}>
                           Видалити
                         </button>
@@ -93,7 +140,12 @@ const ProdImage = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdImage(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteProdImage(filter._id)}>
                           Видалити
                         </button>
@@ -125,7 +177,7 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodImage: state.prodImage.prodImage,
+    productciaImage: state.prodImage.prodImage,
     filteredProdImage: state.prodImage.filtered,
   };
 };

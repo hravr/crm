@@ -10,6 +10,11 @@ import {
   getMaterialParamsValueAction,
 } from "../../store/actions/Material/paramsValueActions";
 import { withFormik } from "formik";
+import { getToken } from "../../utils/utils";
+import {
+  fetchSingleMaterialParamsValue,
+  patchMaterialParamsValue,
+} from "../../store/api/api";
 
 const MaterialParamsValue = ({
   handleChange,
@@ -22,6 +27,48 @@ const MaterialParamsValue = ({
   deleteMaterialParamsValue,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [
+    singlePakMaterialParamsValue,
+    setSinglePakMaterialParamsValue,
+  ] = useState({});
+  const [paramsValue, setParamsValue] = useState([]);
+
+  const change = (e) => {
+    setSinglePakMaterialParamsValue({
+      ...singlePakMaterialParamsValue,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMaterialParamsValue = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMaterialParamsValue(
+      singlePakMaterialParamsValue._id,
+      token,
+      singlePakMaterialParamsValue
+    ).then((res) => {
+      res.status === 200 &&
+        setParamsValue((prevState) =>
+          prevState.filter((parVal) =>
+            parVal._id === singlePakMaterialParamsValue._id
+              ? (parVal.name = singlePakMaterialParamsValue.name)
+              : parVal
+          )
+        );
+    });
+  };
+
+  const getSingleParamsValue = (id) => {
+    const token = getToken();
+    fetchSingleMaterialParamsValue(id, token).then((res) => {
+      setSinglePakMaterialParamsValue(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setParamsValue(materialParamsValue);
+  }, [materialParamsValue]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +108,26 @@ const MaterialParamsValue = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singlePakMaterialParamsValue.name}
+              name="name"
+              onChange={change}
+            />
+            <Button
+              title="Змінити"
+              onClick={() => patchSingleMaterialParamsValue()}
+            />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredMaterialParamsValue.length
             ? materialParamsValue &&
@@ -76,7 +137,14 @@ const MaterialParamsValue = ({
                     <td>{materialParamsValue.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() =>
+                            getSingleParamsValue(materialParamsValue._id)
+                          }
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() =>
                             deleteMaterialParamsValue(materialParamsValue._id)
@@ -96,7 +164,12 @@ const MaterialParamsValue = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleParamsValue(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deleteMaterialParamsValue(filter._id)}
                         >

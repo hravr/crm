@@ -52,15 +52,6 @@ export const createProdSezonAction = (prodSezon) => {
   };
 };
 
-export const editProdSezonAction = (prodSezon, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdSezon(prodSezon, token, id);
-    dispatch({ type: ADD_PROD_SEZON, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteProdSezonAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

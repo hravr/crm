@@ -52,15 +52,6 @@ export const createProdClassAction = (prodClass) => {
   };
 };
 
-export const editProdClassAction = (prodClass, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdClass(prodClass, token, id);
-    dispatch({ type: ADD_PROD_CLASS, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteProdClassAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

@@ -15,9 +15,13 @@ export const fetchSklad1 = (token) => {
 export const fetchFilteredSklad1 = (from, to, search, token) => {
   let baseUrl = "/sklad1?";
   if (search) {
-    baseUrl += `search=${search}&from=${from}&to=${to}`;
-  } else {
-    baseUrl += `from=${from}&to=${to}`;
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
   }
   return _axios.get(baseUrl, {
     headers: {
@@ -109,41 +113,6 @@ export const fetchZpSklad1 = (token) => {
   });
 };
 
-export const fetchSearchZpSklad1 = (search, token) => {
-  let baseUrl = "/zp_sklad1?";
-  if (search) {
-    baseUrl += `search=${search}`;
-  }
-  return _axios.get(baseUrl, {
-    headers: {
-      Authorization: `Baer ${token}`,
-    },
-  });
-};
-
-export const createZpSklad1 = (zp_sklad1, token) => {
-  return _axios.post("/zp_sklad1", zp_sklad1, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const patchZpSklad1 = (zp_sklad1, id, token) => {
-  return _axios.patch(`/zp_sklad1/${id}`, zp_sklad1, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const deleteZpSklad1 = (id, token) => {
-  return _axios.delete(`/zp_sklad1/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
 export const fetchZpSklad2 = (token) => {
   return _axios.get("/zp_sklad2", {
     headers: {
@@ -152,41 +121,6 @@ export const fetchZpSklad2 = (token) => {
   });
 };
 
-export const fetchSearchZpSklad2 = (search, token) => {
-  let baseUrl = "/zp_sklad2?";
-  if (search) {
-    baseUrl += `search=${search}`;
-  }
-  return _axios.get(baseUrl, {
-    headers: {
-      Authorization: `Baer ${token}`,
-    },
-  });
-};
-
-export const createZpSklad2 = (zp_sklad2, token) => {
-  return _axios.post("/zp_sklad2", zp_sklad2, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const patchZpSklad2 = (zp_sklad2, id, token) => {
-  return _axios.patch(`/zp_sklad1/${id}`, zp_sklad2, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const deleteZpSklad2 = (id, token) => {
-  return _axios.delete(`/zp_sklad2/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
 export const fetchZpSklad3 = (token) => {
   return _axios.get("/zp_sklad3", {
     headers: {
@@ -195,80 +129,8 @@ export const fetchZpSklad3 = (token) => {
   });
 };
 
-export const fetchSearchZpSklad3 = (search, token) => {
-  let baseUrl = "/zp_sklad3?";
-  if (search) {
-    baseUrl += `search=${search}`;
-  }
-  return _axios.get(baseUrl, {
-    headers: {
-      Authorization: `Baer ${token}`,
-    },
-  });
-};
-
-export const createZpSklad3 = (zp_sklad3, token) => {
-  return _axios.post("/zp_sklad3", zp_sklad3, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const patchZpSklad3 = (zp_sklad3, id, token) => {
-  return _axios.patch(`/zp_sklad3/${id}`, zp_sklad3, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const deleteZpSklad3 = (id, token) => {
-  return _axios.delete(`/zp_sklad3/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
 export const fetchZpSklad4 = (token) => {
   return _axios.get("/zp_sklad4", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const fetchSearchZpSklad4 = (search, token) => {
-  let baseUrl = "/zp_sklad4?";
-  if (search) {
-    baseUrl += `search=${search}`;
-  }
-  return _axios.get(baseUrl, {
-    headers: {
-      Authorization: `Baer ${token}`,
-    },
-  });
-};
-
-export const createZpSklad4 = (zp_sklad4, token) => {
-  return _axios.post("/zp_sklad4", zp_sklad4, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const patchZpSklad4 = (zp_sklad4, id, token) => {
-  return _axios.patch(`/zp_sklad4/${id}`, zp_sklad4, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const deleteZpSklad4 = (id, token) => {
-  return _axios.delete(`/zp_sklad4/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -332,6 +194,15 @@ export const fetchProdAsortument = (token) => {
     },
   });
 };
+
+export const fetchSingleProdAsortument = (id, token) => {
+  return _axios.get(`/prod_asortument/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchFilteredProdAsortument = (search, token) => {
   let baseUrl = "/prod_asortument?";
   if (search) {
@@ -352,8 +223,8 @@ export const createProdAsortument = (prodAsortument, token) => {
   });
 };
 
-export const patchProdAsortument = (prodAsortument, id, token) => {
-  return _axios.patch(`/prod_asortument/${id}`, prodAsortument, {
+export const patchProdAsortument = (id, token, prod) => {
+  return _axios.patch(`/prod_asortument/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -369,6 +240,14 @@ export const deleteProdAsortument = (id, token) => {
 };
 export const fetchProdClass = (token) => {
   return _axios.get("/prod_class", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleProdClass = (id, token) => {
+  return _axios.get(`/prod_class/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -395,7 +274,7 @@ export const createProdClass = (prod, token) => {
   });
 };
 
-export const patchProdClass = (prod, id, token) => {
+export const patchProdClass = (id, token, prod) => {
   return _axios.patch(`/prod_class/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -413,6 +292,14 @@ export const deleteProdClass = (id, token) => {
 
 export const fetchProdColor = (token) => {
   return _axios.get("/prod_color", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleProdColor = (id, token) => {
+  return _axios.get(`/prod_color/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -439,7 +326,7 @@ export const createProdColor = (prod, token) => {
   });
 };
 
-export const patchProdColor = (prod, id, token) => {
+export const patchProdColor = (id, token, prod) => {
   return _axios.patch(`/prod_color/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -457,6 +344,14 @@ export const deleteProdColor = (id, token) => {
 
 export const fetchProdImage = (token) => {
   return _axios.get("/prod_image", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleProdImage = (id, token) => {
+  return _axios.get(`/prod_image/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -482,7 +377,7 @@ export const createProdImage = (prod, token) => {
   });
 };
 
-export const patchProdImage = (prod, id, token) => {
+export const patchProdImage = (id, token, prod) => {
   return _axios.patch(`/prod_image/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -499,6 +394,14 @@ export const deleteProdImage = (id, token) => {
 };
 export const fetchProdSezon = (token) => {
   return _axios.get("/prod_season", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleProdSezon = (id, token) => {
+  return _axios.get(`/prod_season/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -525,7 +428,7 @@ export const createProdSezon = (prod, token) => {
   });
 };
 
-export const patchProdSezon = (prod, id, token) => {
+export const patchProdSezon = (id, token, prod) => {
   return _axios.patch(`/prod_season/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -543,6 +446,14 @@ export const deleteProdSezon = (id, token) => {
 
 export const fetchProdSize = (token) => {
   return _axios.get("/prod_size", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleProdSize = (id, token) => {
+  return _axios.get(`/prod_size/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -568,7 +479,7 @@ export const createProdSize = (prod, token) => {
   });
 };
 
-export const patchProdSize = (prod, id, token) => {
+export const patchProdSize = (id, token, prod) => {
   return _axios.patch(`/prod_size/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -591,6 +502,14 @@ export const fetchProdType = (token) => {
     },
   });
 };
+export const fetchSingleProdType = (id, token) => {
+  return _axios.get(`/prod_type/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchFilteredProdType = (search, token) => {
   let baseUrl = "/prod_type?";
   if (search) {
@@ -611,7 +530,7 @@ export const createProdType = (prod, token) => {
   });
 };
 
-export const patchProdType = (prod, id, token) => {
+export const patchProdType = (id, token, prod) => {
   return _axios.patch(`/prod_type/${id}`, prod, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -629,6 +548,14 @@ export const deleteProdType = (id, token) => {
 
 export const fetchPrajaColor = (token) => {
   return _axios.get("/priaga_color", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSinglePrajaColor = (id, token) => {
+  return _axios.get(`/priaga_color/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -655,7 +582,7 @@ export const createPrajaColor = (prajaColor, token) => {
   });
 };
 
-export const patchPrajaColor = (prajaColor, id, token) => {
+export const patchPrajaColor = (id, token, prajaColor) => {
   return _axios.patch(`/priaga_color/${id}`, prajaColor, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -673,6 +600,14 @@ export const deletePrajaColor = (id, token) => {
 
 export const fetchPrajaRozhid = (token) => {
   return _axios.get("/priaga_dilanka_rozxody", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSinglePrajaRozhid = (id, token) => {
+  return _axios.get(`/priaga_dilanka_rozxody/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -699,7 +634,7 @@ export const createPrajaRozhid = (prajaRozhid, token) => {
   });
 };
 
-export const patchPrajaRozhid = (prajaRozhid, id, token) => {
+export const patchPrajaRozhid = (id, token, prajaRozhid) => {
   return _axios.patch(`/priaga_dilanka_rozxody/${id}`, prajaRozhid, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -723,6 +658,13 @@ export const fetchPrajaSurovuna = (token) => {
   });
 };
 
+export const fetchSinglePrajaSurovuna = (id, token) => {
+  return _axios.get(`/priaga_surovuna/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchSearchPrajaSurovuna = (search, token) => {
   let baseUrl = "/priaga_surovuna?";
   if (search) {
@@ -743,7 +685,7 @@ export const createPrajaSurovuna = (prajaSurovuna, token) => {
   });
 };
 
-export const patchPrajaSurovuna = (prajaSurovuna, id, token) => {
+export const patchPrajaSurovuna = (id, token, prajaSurovuna) => {
   return _axios.patch(`/priaga_surovuna/${id}`, prajaSurovuna, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -761,6 +703,14 @@ export const deletePrajaSurovuna = (id, token) => {
 
 export const fetchPrajaTovtshina = (token) => {
   return _axios.get("/priaga_tovtshina", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSinglePrajaTovtshina = (id, token) => {
+  return _axios.get(`/priaga_tovtshina/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -787,7 +737,7 @@ export const createPrajaTovtshina = (prajaTovtshina, token) => {
   });
 };
 
-export const patchPrajaTovtshina = (prajaTovtshina, id, token) => {
+export const patchPrajaTovtshina = (id, token, prajaTovtshina) => {
   return _axios.patch(`/priaga_tovtshina/${id}`, prajaTovtshina, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -805,6 +755,13 @@ export const deletePrajaTovtshina = (id, token) => {
 
 export const fetchPrajaType = (token) => {
   return _axios.get("/priaga_type", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSinglePrajaType = (id, token) => {
+  return _axios.get(`/priaga_type/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -831,7 +788,7 @@ export const createPrajaType = (prajaType, token) => {
   });
 };
 
-export const patchPrajaType = (prajaType, id, token) => {
+export const patchPrajaType = (id, token, prajaType) => {
   return _axios.patch(`/priaga_type/${id}`, prajaType, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -854,7 +811,13 @@ export const fetchPrajaVendor = (token) => {
     },
   });
 };
-
+export const fetchSinglePrajaVendor = (id, token) => {
+  return _axios.get(`/priaga_vendor/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchSearchPrajaVendor = (search, token) => {
   let baseUrl = "/priaga_vendor?";
   if (search) {
@@ -875,7 +838,7 @@ export const createPrajaVendor = (prajaVendor, token) => {
   });
 };
 
-export const patchPrajaVendor = (prajaVendor, id, token) => {
+export const patchPrajaVendor = (id, token, prajaVendor) => {
   return _axios.patch(`/priaga_vendor/${id}`, prajaVendor, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -898,8 +861,60 @@ export const fetchMachine = (token) => {
     },
   });
 };
+
+export const fetchSingleMachine = (id, token) => {
+  return _axios.get(`/machines/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSearchMachine = (search, token) => {
+  let baseUrl = "/machines?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Baer ${token}`,
+    },
+  });
+};
+
+export const createMachine = (machines, token) => {
+  return _axios.post("/machines", machines, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMachine = (id, machines, token) => {
+  return _axios.patch(`/machines/${id}`, machines, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMachine = (id, token) => {
+  return _axios.delete(`/machines/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchMachineModel = (token) => {
   return _axios.get("/machines_model", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSingleMachineModel = (id, token) => {
+  return _axios.get(`/machines_model/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -926,7 +941,7 @@ export const createMachineModel = (machineModel, token) => {
   });
 };
 
-export const patchMachineModel = (machineModel, id, token) => {
+export const patchMachineModel = (id, token, machineModel) => {
   return _axios.patch(`/machines_model/${id}`, machineModel, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -944,6 +959,14 @@ export const deleteMachineModel = (id, token) => {
 
 export const fetchMachineGolku = (token) => {
   return _axios.get("/machines_golku", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleMachineGolku = (id, token) => {
+  return _axios.get(`/machines_golku/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -970,7 +993,7 @@ export const createMachineGolku = (machineGolku, token) => {
   });
 };
 
-export const patchMachineGolku = (machineGolku, id, token) => {
+export const patchMachineGolku = (id, token, machineGolku) => {
   return _axios.patch(`/machines_golku/${id}`, machineGolku, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -988,6 +1011,14 @@ export const deleteMachineGolku = (id, token) => {
 
 export const fetchMachineDuymu = (token) => {
   return _axios.get("/machines_duymu", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleMachineDuymu = (id, token) => {
+  return _axios.get(`/machines_duymu/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1014,7 +1045,7 @@ export const createMachineDuymu = (machineDuymu, token) => {
   });
 };
 
-export const patchMachineDuymu = (machineDuymu, id, token) => {
+export const patchMachineDuymu = (id, token, machineDuymu) => {
   return _axios.patch(`/machines_duymu/${id}`, machineDuymu, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1032,6 +1063,14 @@ export const deleteMachineDuymu = (id, token) => {
 
 export const fetchMachineVyazalni = (token) => {
   return _axios.get("/machines_vyazalni", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleMachineVyazalni = (id, token) => {
+  return _axios.get(`/machines_vyazalni/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1058,7 +1097,7 @@ export const createMachineVyazalni = (machineVyazalni, token) => {
   });
 };
 
-export const patchMachineVyazalni = (machineVyazalni, id, token) => {
+export const patchMachineVyazalni = (id, token, machineVyazalni) => {
   return _axios.patch(`/machines_vyazalni/${id}`, machineVyazalni, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1109,7 +1148,7 @@ export const createRoztsinka = (roztsinka, token) => {
   });
 };
 
-export const patchRoztsinka = (roztsinka, id, token) => {
+export const patchRoztsinka = (id, token, roztsinka) => {
   return _axios.patch(`/roztsinka/${id}`, roztsinka, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1127,6 +1166,13 @@ export const deleteRoztsinka = (id, token) => {
 
 export const fetchMaterialVendor = (token) => {
   return _axios.get("/materials_vendor", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSingleMaterialVendor = (id, token) => {
+  return _axios.get(`/materials_vendor/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1153,7 +1199,7 @@ export const createMaterialVendor = (materialVendor, token) => {
   });
 };
 
-export const patchMaterialVendor = (materialVendor, id, token) => {
+export const patchMaterialVendor = (id, token, materialVendor) => {
   return _axios.patch(`/materials_vendor/${id}`, materialVendor, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1171,6 +1217,14 @@ export const deleteMaterialVendor = (id, token) => {
 
 export const fetchMaterialRozhid = (token) => {
   return _axios.get("/materials_dilanka_rozxody", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleMaterialRozhid = (id, token) => {
+  return _axios.get(`/materials_dilanka_rozxody/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1197,7 +1251,7 @@ export const createMaterialRozhid = (materialRozhid, token) => {
   });
 };
 
-export const patchMaterialRozhid = (materialRozhid, id, token) => {
+export const patchMaterialRozhid = (id, token, materialRozhid) => {
   return _axios.patch(`/materials_dilanka_rozxody/${id}`, materialRozhid, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1219,7 +1273,13 @@ export const fetchMaterialType = (token) => {
     },
   });
 };
-
+export const fetchSingleMaterialType = (id, token) => {
+  return _axios.get(`/materials_type/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchSearchMaterialType = (search, token) => {
   let baseUrl = "/materials_type?";
   if (search) {
@@ -1240,7 +1300,7 @@ export const createMaterialType = (materialType, token) => {
   });
 };
 
-export const patchMaterialType = (materialType, id, token) => {
+export const patchMaterialType = (id, token, materialType) => {
   return _axios.patch(`/materials_type/${id}`, materialType, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1263,7 +1323,13 @@ export const fetchMaterialParams = (token) => {
     },
   });
 };
-
+export const fetchSingleMaterialParams = (id, token) => {
+  return _axios.get(`/materials_params/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchSearchMaterialParams = (search, token) => {
   let baseUrl = "/materials_params?";
   if (search) {
@@ -1284,7 +1350,7 @@ export const createMaterialParams = (materialParams, token) => {
   });
 };
 
-export const patchMaterialParams = (materialParams, id, token) => {
+export const patchMaterialParams = (id, token, materialParams) => {
   return _axios.patch(`/materials_params/${id}`, materialParams, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1307,7 +1373,13 @@ export const fetchMaterialParamsValue = (token) => {
     },
   });
 };
-
+export const fetchSingleMaterialParamsValue = (id, token) => {
+  return _axios.get(`/materials_params_value/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchSearchMaterialParamsValue = (search, token) => {
   let baseUrl = "/materials_params_value?";
   if (search) {
@@ -1328,7 +1400,7 @@ export const createMaterialParamsValue = (materialParamsValue, token) => {
   });
 };
 
-export const patchMaterialParamsValue = (materialParamsValue, id, token) => {
+export const patchMaterialParamsValue = (id, token, materialParamsValue) => {
   return _axios.patch(`/materials_params_value/${id}`, materialParamsValue, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1351,13 +1423,13 @@ export const fetchOperations = (token) => {
     },
   });
 };
-// export const fetchOperations = (id, token) => {
-//   return _axios.get(`/operations/${id}`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-// };
+export const fetchSingleOperations = (id, token) => {
+  return _axios.get(`/operations/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const fetchSearchOperations = (search, token) => {
   let baseUrl = "/operations?";
@@ -1379,7 +1451,7 @@ export const createOperations = (operations, token) => {
   });
 };
 
-export const patchOperations = (operations, id, token) => {
+export const patchOperations = (id, token, operations) => {
   return _axios.patch(`/operations/${id}`, operations, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1403,14 +1475,42 @@ export const fetchZvitu = (token) => {
   });
 };
 
+export const fetchSingleZvitu = (id, token) => {
+  return _axios.get(`/zvitu/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchFilteredZvitu = (from, to, search, token) => {
   let baseUrl = "/zvitu?";
   if (search) {
-    baseUrl += `search=${search}&from=${from}&to=${to}`;
-  } else {
-    baseUrl += `from=${from}&to=${to}`;
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
   }
   return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createZvitu = (zvitu, token) => {
+  return _axios.post("/zvitu", zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchZvitu = (id, token, zvitu) => {
+  return _axios.patch(`/zvitu/${id}`, zvitu, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1432,13 +1532,24 @@ export const fetchZvituRozxid = (token) => {
     },
   });
 };
+export const fetchSingleZvituRozxid = (id, token) => {
+  return _axios.get(`/zvitu_rozxid/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const fetchFilteredZvituRozxid = (from, to, search, token) => {
   let baseUrl = "/zvitu_rozxid?";
   if (search) {
-    baseUrl += `search=${search}&from=${from}&to=${to}`;
-  } else {
-    baseUrl += `from=${from}&to=${to}`;
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
   }
   return _axios.get(baseUrl, {
     headers: {
@@ -1447,8 +1558,49 @@ export const fetchFilteredZvituRozxid = (from, to, search, token) => {
   });
 };
 
+export const createZvituRozxid = (zvituRozxid, token) => {
+  return _axios.post("/zvitu_rozxid", zvituRozxid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchZvituRozxid = (id, token, zvituRozxid) => {
+  return _axios.patch(`/zvitu_rozxid/${id}`, zvituRozxid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const deleteZvituRozxid = (id, token) => {
   return _axios.delete(`/zvitu_rozxid/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchZvituZalushok = (token) => {
+  return _axios.get("/zvitu_zalushok", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchFilteredZvituZalushok = (from, to, search, token) => {
+  let baseUrl = "/zvitu_zalushok?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  return _axios.get(baseUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

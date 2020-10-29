@@ -10,18 +10,57 @@ import {
   filterProdAsortumentAction,
   getProdAsortumentAction,
 } from "../../store/actions/prodTypeAsortActions";
+import { getToken } from "../../utils/utils";
+import {
+  fetchSingleProdAsortument,
+  patchProdAsortument,
+} from "../../store/api/api";
 
 const ProdAsort = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdAsortument,
-  prodAsortument,
+  productciaAsortument,
   filterProdAsorument,
-  filteredPprodAsortument,
+  filteredProdAsortument,
   deleteProdAsortument,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleAsortument, setsingleAsortument] = useState({});
+  const [prodAsort, setProdAsort] = useState([]);
+
+  const change = (e) => {
+    setsingleAsortument({ ...singleAsortument, name: e.target.value });
+  };
+
+  const patchSingleProdAsortument = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdAsortument(singleAsortument._id, token, singleAsortument).then(
+      (res) => {
+        res.status === 200 &&
+          setProdAsort((prevState) =>
+            prevState.filter((asortument) =>
+              asortument._id === singleAsortument._id
+                ? (asortument.name = singleAsortument.name)
+                : asortument
+            )
+          );
+      }
+    );
+  };
+
+  const getSingleProdAsort = (id) => {
+    const token = getToken();
+    fetchSingleProdAsortument(id, token).then((res) => {
+      setsingleAsortument(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdAsort(productciaAsortument);
+  }, [productciaAsortument]);
 
   useEffect(() => {
     (async () => {
@@ -61,27 +100,42 @@ const ProdAsort = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleAsortument.name}
+              name="name"
+              onChange={change}
+            />
+            <Button
+              title="Змінити"
+              onClick={() => patchSingleProdAsortument()}
+            />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
-          {!filteredPprodAsortument.length
-            ? prodAsortument &&
-              prodAsortument.map((prodAsortument) => {
+          {!filteredProdAsortument.length
+            ? productciaAsortument &&
+              productciaAsortument.map((prodA) => {
                 return (
                   <tr>
-                    <td>{prodAsortument.name || "err"}</td>
+                    <td>{prodA.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
                         <button
-                          onClick={() =>
-                            deleteProdAsortument(prodAsortument._id)
-                          }
+                          className={s.del}
+                          onClick={() => getSingleProdAsort(prodA._id)}
                         >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdAsortument(prodA._id)}>
                           Видалити
                         </button>
                       </div>
@@ -89,8 +143,8 @@ const ProdAsort = ({
                   </tr>
                 );
               })
-            : filteredPprodAsortument.length &&
-              filteredPprodAsortument.map((filter) => {
+            : filteredProdAsortument.length &&
+              filteredProdAsortument.map((filter) => {
                 return (
                   <tr>
                     <td>{filter.name || "err"}</td>
@@ -133,8 +187,8 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodAsortument: state.prodAsortument.prodAsortument,
-    filteredPprodAsortument: state.prodAsortument.filtered,
+    productciaAsortument: state.prodAsortument.prodAsortument,
+    filteredProdAsortument: state.prodAsortument.filtered,
   };
 };
 const mapDispatchToProps = (dispatch) => {

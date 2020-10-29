@@ -10,6 +10,11 @@ import {
   getMachineVyazalniAction,
 } from "../../store/actions/Machine/vyazalniActions";
 import { filterMachineVyazalniAction } from "../../store/actions/Machine/vyazalniActions";
+import {
+  fetchSingleMachineVyazalni,
+  patchMachineVyazalni,
+} from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const MachineVyazalni = ({
   handleChange,
@@ -22,6 +27,45 @@ const MachineVyazalni = ({
   deleteMachineVyazalni,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singleMachineVyazalni, setsingleMachineVyazalni] = useState({});
+  const [vyazalni, setVyazalni] = useState([]);
+
+  const change = (e) => {
+    setsingleMachineVyazalni({
+      ...singleMachineVyazalni,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMachineVyazalni = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMachineVyazalni(
+      singleMachineVyazalni._id,
+      token,
+      singleMachineVyazalni
+    ).then((res) => {
+      res.status === 200 &&
+        setVyazalni((prevState) =>
+          prevState.filter((golku) =>
+            golku._id === singleMachineVyazalni._id
+              ? (golku.name = singleMachineVyazalni.name)
+              : golku
+          )
+        );
+    });
+  };
+
+  const getSingleVyazalni = (id) => {
+    const token = getToken();
+    fetchSingleMachineVyazalni(id, token).then((res) => {
+      setsingleMachineVyazalni(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setVyazalni(machineVyazalni);
+  }, [machineVyazalni]);
 
   useEffect(() => {
     (async () => {
@@ -60,12 +104,26 @@ const MachineVyazalni = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleMachineVyazalni.name}
+              name="name"
+              onChange={change}
+            />
+            <Button
+              title="Змінити"
+              onClick={() => patchSingleMachineVyazalni()}
+            />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredMachineVyazalni.length
             ? machineVyazalni &&
@@ -75,7 +133,12 @@ const MachineVyazalni = ({
                     <td>{machineVyazalni.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleVyazalni(machineVyazalni._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() =>
                             deleteMachineVyazalni(machineVyazalni._id)
@@ -95,7 +158,12 @@ const MachineVyazalni = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleVyazalni(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deleteMachineVyazalni(filter._id)}
                         >

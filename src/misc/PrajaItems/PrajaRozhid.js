@@ -10,6 +10,8 @@ import {
   getPrajaRozhidAction,
 } from "../../store/actions/Praja/rozhidActions";
 import { withFormik } from "formik";
+import { fetchSinglePrajaRozhid, patchPrajaRozhid } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const PrajaRozhid = ({
   handleChange,
@@ -22,6 +24,43 @@ const PrajaRozhid = ({
   deletePrajaRozhid,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singlePrajaRozhid, setsinglePrajaRozhid] = useState({});
+  const [rozhid, setRozhid] = useState([]);
+
+  const change = (e) => {
+    setsinglePrajaRozhid({
+      ...singlePrajaRozhid,
+      name: e.target.value,
+    });
+  };
+
+  const patchSinglePrajaRozhid = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchPrajaRozhid(singlePrajaRozhid._id, token, singlePrajaRozhid).then(
+      (res) => {
+        res.status === 200 &&
+          setRozhid((prevState) =>
+            prevState.filter((golku) =>
+              golku._id === singlePrajaRozhid._id
+                ? (golku.name = singlePrajaRozhid.name)
+                : golku
+            )
+          );
+      }
+    );
+  };
+
+  const getSinglePrajaRozhid = (id) => {
+    const token = getToken();
+    fetchSinglePrajaRozhid(id, token).then((res) => {
+      setsinglePrajaRozhid(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setRozhid(prajaRozhid);
+  }, [prajaRozhid]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +100,23 @@ const PrajaRozhid = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singlePrajaRozhid.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSinglePrajaRozhid()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredPrajaRozhid.length
             ? prajaRozhid &&
@@ -76,7 +126,12 @@ const PrajaRozhid = ({
                     <td>{prajaRozhid.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaRozhid(prajaRozhid._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deletePrajaRozhid(prajaRozhid._id)}
                         >
@@ -94,7 +149,12 @@ const PrajaRozhid = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaRozhid(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deletePrajaRozhid(filter._id)}>
                           Видалити
                         </button>

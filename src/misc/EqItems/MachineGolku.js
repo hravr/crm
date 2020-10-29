@@ -11,6 +11,11 @@ import {
   deleteMachineGolkuAction,
   getMachineGolkuAction,
 } from "../../store/actions/Machine/golkuActions";
+import { getToken } from "../../utils/utils";
+import {
+  fetchSingleMachineGolku,
+  patchMachineGolku,
+} from "../../store/api/api";
 
 const MachineGolku = ({
   handleChange,
@@ -23,6 +28,43 @@ const MachineGolku = ({
   deleteMachineGolku,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singleMachineGolku, setsingleMachineGolku] = useState({});
+  const [golku, setGolku] = useState([]);
+
+  const change = (e) => {
+    setsingleMachineGolku({
+      ...singleMachineGolku,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMachineGolku = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMachineGolku(singleMachineGolku._id, token, singleMachineGolku).then(
+      (res) => {
+        res.status === 200 &&
+          setGolku((prevState) =>
+            prevState.filter((golku) =>
+              golku._id === singleMachineGolku._id
+                ? (golku.name = singleMachineGolku.name)
+                : golku
+            )
+          );
+      }
+    );
+  };
+
+  const getSingleGolku = (id) => {
+    const token = getToken();
+    fetchSingleMachineGolku(id, token).then((res) => {
+      setsingleMachineGolku(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setGolku(machineGolku);
+  }, [machineGolku]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +103,23 @@ const MachineGolku = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleMachineGolku.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleMachineGolku()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredMachineGolku.length
             ? machineGolku &&
@@ -76,7 +129,12 @@ const MachineGolku = ({
                     <td>{machineGolku.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleGolku(machineGolku._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deleteMachineGolku(machineGolku._id)}
                         >
@@ -94,7 +152,12 @@ const MachineGolku = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleGolku(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteMachineGolku(filter._id)}>
                           Видалити
                         </button>

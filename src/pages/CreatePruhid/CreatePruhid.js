@@ -30,12 +30,6 @@ const CreatePruhid = ({
       </div>
       <div className={s.main__container}>
         <div className={s.left}>
-          {/* <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Склад</span>
-            </div>
-            <Select options={options} />
-          </div> */}
           <Input
             type="date"
             label="Дата"
@@ -173,7 +167,6 @@ const formikHOC = withFormik({
     date_prixod: "",
   }),
   handleSubmit: async (values, { props: { CreatePruhid }, resetForm }) => {
-    console.log("pezda");
     const isSuccess = await CreatePruhid(values);
     if (isSuccess) {
       alert("Success");

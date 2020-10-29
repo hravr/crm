@@ -49,6 +49,7 @@ const EditPrice = ({
   operations,
   getSingleRoztsinka,
   singleRoztsinka,
+  errors,
 }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
@@ -59,41 +60,81 @@ const EditPrice = ({
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
   const [operationsOptions, setOperationsOptions] = useState([]);
-
+  const [machinesOptions, setMachinesOptions] = useState([]);
   const { id } = useParams();
 
+  const options = [
+    { value: 1, label: 1 },
+    { value: 2, label: 2 },
+    { value: 3, label: 3 },
+  ];
+
+  const gatynokSelect = (options) => {
+    setValues({ ...values, gatynok: options.value });
+  };
+
   const asortumentSelect = (asortument) => {
-    setValues({ ...values, asortument: asortument.value });
+    setValues({
+      ...values,
+      asortument: asortument.value,
+      asortumentName: asortument.label,
+    });
   };
   const classSelect = (classId) => {
-    setValues({ ...values, classId: classId.value });
+    setValues({ ...values, classId: classId.value, classN: classId.label });
   };
   const colorSelect = (colorId) => {
-    setValues({ ...values, colorId: colorId.value });
+    setValues({ ...values, colorId: colorId.value, colorName: colorId.label });
   };
   const imageSelect = (imageId) => {
-    setValues({ ...values, imageId: imageId.value });
+    setValues({ ...values, imageId: imageId.value, imageName: imageId.label });
   };
   const sizeSelect = (sizeId) => {
-    setValues({ ...values, sizeId: sizeId.value });
+    setValues({ ...values, sizeId: sizeId.value, sizeName: sizeId.label });
   };
 
   const sezonSelect = (seasonId) => {
-    setValues({ ...values, seasonId: seasonId.value });
+    setValues({
+      ...values,
+      seasonId: seasonId.value,
+      seasonName: seasonId.label,
+    });
   };
   const typeSelect = (typeId) => {
-    setValues({ ...values, typeId: typeId.value });
+    setValues({ ...values, typeId: typeId.value, typeName: typeId.label });
   };
 
   const articleSelect = (articleId) => {
-    setValues({ ...values, articleId: articleId.value });
+    setValues({
+      ...values,
+      articleId: articleId.value,
+      articleName: articleId.label,
+    });
   };
 
   const operationSelect = (operations) => {
-    console.log("her");
-    setValues({ ...values, operationId: operations.value });
+    setValues({
+      ...values,
+      operationId: operations.value,
+      operationName: operations.label,
+    });
+  };
+  const machinesSelect = (machineId) => {
+    setValues({
+      ...values,
+      machineId: machineId.value,
+      machineName: machineId.label,
+    });
   };
 
+  useEffect(() => {
+    setMachinesOptions(
+      machineId.length &&
+        machineId.map((opt) => {
+          return { label: opt.name, value: opt._id };
+        })
+    );
+  }, [machineId]);
   useEffect(() => {
     setOperationsOptions(
       operations.map((opt) => {
@@ -144,7 +185,6 @@ const EditPrice = ({
         })
     );
   }, [sizeId]);
-  console.log(singleRoztsinka);
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
@@ -174,11 +214,6 @@ const EditPrice = ({
   useEffect(() => {
     (async () => {
       await getSingleRoztsinka(id);
-    })();
-  }, []);
-  useEffect(() => {
-    (async () => {
-      await getSingleRoztsinka(id);
       await getOperations();
       await fetchProdType();
       await fetchProdArticle();
@@ -203,6 +238,7 @@ const EditPrice = ({
       classId,
       colorId,
       operationId,
+      machineId,
       startDate,
       endDate,
       price,
@@ -214,14 +250,25 @@ const EditPrice = ({
       setValues({
         ...values,
         asortument,
+        asortumentName: asortument.name,
+        machineId,
+        machineName: machineId.name,
         articleId,
+        articleName: articleId.name,
         typeId,
+        typeName: typeId.name,
         sizeId,
+        sizeName: sizeId.name,
         seasonId,
+        seasonName: seasonId.name,
         imageId,
+        imageName: imageId.name,
         classId,
+        classN: classId.name,
         colorId,
-        operationId: operationId[0],
+        colorName: colorId.name,
+        operationId,
+        operationName: operationId.name,
         startDate,
         endDate,
         price,
@@ -235,7 +282,7 @@ const EditPrice = ({
   return (
     <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Створити розцінку</span>
+        <span className={s.title}>Змінити розцінку</span>
         <hr></hr>
       </div>
       <div className={s.main__container}>
@@ -267,75 +314,71 @@ const EditPrice = ({
             name="name"
             onChange={handleChange}
           />
-          {/* <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Обладнання</span>
-            </div>
-            <Select
-              options={operationsOptions}
-              value={values.machineId.label}
-              name="operationId"
-              onChange={operationSelect}
-            />
-          </div> */}
-          <Input
-            type="number"
-            label="ID Обладнання!!!!!!!!!!!!!!!!!!!"
-            value={values.machineId}
-            name="machineId"
-            onChange={handleChange}
-          />
-          <div className={s.select__container}>
-            <Input
-              type="number"
-              label="Гатунок"
-              value={values.gatynok}
-              name="gatynok"
-              onChange={handleChange}
-            />
-          </div>
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Операція</span>
-            </div>
-            <Select
-              options={operationsOptions}
-              value={values.operationId.label}
-              name="operationId"
-              onChange={operationSelect}
-            />
-          </div>
-        </div>
-        <div className={s.left}>
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Тип</span>
-            </div>
-            <Select
-              options={typeOptions}
-              value={values.typeId.label}
-              name="typeId"
-              onChange={typeSelect}
-            />
-          </div>
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Артикуль</span>
             </div>
             <Select
               options={articleOptions}
-              value={values.articleId.label}
+              value={{ label: values.articleName, value: values.articleId }}
               name="articleId"
               onChange={articleSelect}
             />
           </div>
           <div className={s.select__container}>
             <div className={s.span}>
+              <span>Гатунок</span>
+            </div>
+            <Select
+              options={options}
+              value={{ label: values.gatynok, value: values.gatynok }}
+              name="gatynok"
+              onChange={gatynokSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Обладнання</span>
+            </div>
+            <Select
+              options={machinesOptions}
+              value={{ label: values.machineName, value: values.machineId }}
+              name="machineId"
+              onChange={machinesSelect}
+            />
+          </div>
+        </div>
+        <div className={s.left}>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Операція</span>
+            </div>
+            <Select
+              options={operationsOptions}
+              value={{ label: values.operationName, value: values.operationId }}
+              name="operationId"
+              onChange={operationSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Тип</span>
+            </div>
+            <Select
+              options={typeOptions}
+              value={{ label: values.typeName, value: values.typeId }}
+              name="typeId"
+              onChange={typeSelect}
+            />
+          </div>
+
+          <div className={s.select__container}>
+            <div className={s.span}>
               <span>Колір</span>
             </div>
             <Select
               options={colorOptions}
-              value={values.colorId.label}
+              value={{ label: values.colorName, value: values.colorId }}
               name="colorId"
               onChange={colorSelect}
             />
@@ -346,7 +389,7 @@ const EditPrice = ({
             </div>
             <Select
               options={classOptions}
-              value={values.classId.label}
+              value={{ label: values.classN, value: values.classId }}
               name="classId"
               onChange={classSelect}
             />
@@ -357,7 +400,7 @@ const EditPrice = ({
             </div>
             <Select
               options={asortumenOptions}
-              value={values.asortument.label}
+              value={{ label: values.asortumentName, value: values.asortument }}
               name="asortument"
               onChange={asortumentSelect}
             />
@@ -368,7 +411,7 @@ const EditPrice = ({
             </div>
             <Select
               options={imageOptions}
-              value={values.imageId.label}
+              value={{ label: values.imageName, value: values.imageId }}
               name="imageId"
               onChange={imageSelect}
             />
@@ -379,7 +422,7 @@ const EditPrice = ({
             </div>
             <Select
               options={sezonOptions}
-              value={values.seasonId.label}
+              value={{ label: values.seasonName, value: values.seasonId }}
               name="seasonId"
               onChange={sezonSelect}
             />
@@ -390,7 +433,7 @@ const EditPrice = ({
             </div>
             <Select
               options={sizeOptions}
-              value={values.sizeId.label}
+              value={{ label: values.sizeName, value: values.sizeId }}
               name="sizeId"
               onChange={sizeSelect}
             />
@@ -398,7 +441,11 @@ const EditPrice = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Створити" onClick={handleSubmit} />
+        <Button
+          title="Змінити"
+          onClick={handleSubmit}
+          disabled={!!errors.name}
+        />
       </div>
     </div>
   );
@@ -419,11 +466,35 @@ const formikHOC = withFormik({
     price: "",
     name: "",
     gatynok: "",
+    machineId: "",
     _id: "",
   }),
+  validate: (values) => {
+    const errors = {};
+    if (
+      !values.asortument ||
+      !values.articleId ||
+      !values.typeId ||
+      !values.sizeId ||
+      !values.seasonId ||
+      !values.imageId ||
+      !values.classId ||
+      !values.colorId ||
+      !values.operationId ||
+      !values.startDate ||
+      !values.machineId ||
+      !values.endDate ||
+      !values.price ||
+      !values.name
+    ) {
+      errors.name = "Required";
+    }
+
+    return errors;
+  },
   handleSubmit: async (
     values,
-    { props: { editRoztsinka, singleRoztsinka }, resetForm }
+    { props: { editRoztsinka, singleRoztsinka, history } }
   ) => {
     const pricesToSubmit = {
       asortument: values.asortument,
@@ -440,15 +511,14 @@ const formikHOC = withFormik({
       name: values.name,
       gatynok: values.gatynok,
       operationId: values.operationId,
+      machineId: values.machineId,
     };
-    console.log("pezda");
     const isSuccess = await editRoztsinka(pricesToSubmit, singleRoztsinka._id);
     if (isSuccess) {
-      alert("Success");
+      alert("Змінено") || history.push("/prices");
     } else {
       alert("error===");
     }
-    // resetForm({ fatherName: "", fName: "", sName: "" });
   },
 })(EditPrice);
 const mapStateToProps = (state) => {

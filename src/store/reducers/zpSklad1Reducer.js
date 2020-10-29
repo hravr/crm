@@ -1,13 +1,7 @@
-import {
-  ADD_ZP_SKLAD1,
-  DELETE_ZP_SKLAD1,
-  SET_FILTERED_ZP_SKLAD1,
-  SET_ZP_SKLAD1,
-} from "../actions/actionTypes";
+import { SET_ZP_SKLAD1 } from "../actions/actionTypes";
 
 const initialState = {
-  zp_sklad1: "",
-  filtered: {},
+  zpsklad1: "",
 };
 
 export default (state = initialState, action) => {
@@ -15,24 +9,7 @@ export default (state = initialState, action) => {
     case SET_ZP_SKLAD1:
       return {
         ...state,
-        zp_sklad1: action.zp_sklad1,
-      };
-    case SET_FILTERED_ZP_SKLAD1:
-      return {
-        ...state,
-        filtered: action.filtered,
-      };
-    case ADD_ZP_SKLAD1:
-      return {
-        ...state,
-        zp_sklad1: [...state.zp_sklad1, action.zp_sklad1],
-      };
-    case DELETE_ZP_SKLAD1:
-      return {
-        ...state,
-        zp_sklad1: state.zp_sklad1.filter(
-          (zp_sklad1) => zp_sklad1._id !== action._id
-        ),
+        zpsklad1: action.zpsklad1,
       };
     default:
       return state;

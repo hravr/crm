@@ -21,6 +21,7 @@ const EditWorker = ({
   operations,
   singleWorker,
   getSingleWorker,
+  errors,
 }) => {
   const [operationsOptions, setOperationsOptions] = useState([]);
   const { id } = useParams();
@@ -35,7 +36,11 @@ const EditWorker = ({
   };
 
   const operationSelect = (operations) => {
-    setValues({ ...values, operationId: operations.value });
+    setValues({
+      ...values,
+      operationId: operations.value,
+      operationName: operations.label,
+    });
   };
 
   useEffect(() => {
@@ -55,6 +60,7 @@ const EditWorker = ({
 
   useEffect(() => {
     const { fName, sName, fatherName, operationId, status, _id } = singleWorker;
+    console.log(singleWorker);
     if (singleWorker._id) {
       setValues({
         ...values,
@@ -62,6 +68,7 @@ const EditWorker = ({
         sName,
         fatherName,
         operationId: operationId[0],
+        operationName: operationId[0].name,
         status,
         _id,
       });
@@ -105,9 +112,9 @@ const EditWorker = ({
             </div>
             <Select
               options={options}
-              value={{ label: values.status, value: values.status }}
               name="status"
               onChange={statusSelect}
+              value={{ label: values.status, value: values.status }}
             />
             <div className={s.select__container}>
               <div className={s.span}>
@@ -115,7 +122,10 @@ const EditWorker = ({
               </div>
               <Select
                 options={operationsOptions}
-                value={{ label: values.operationId, value: values.operationId }}
+                value={{
+                  label: values.operationName,
+                  value: values.operationId,
+                }}
                 name="operationId"
                 onChange={operationSelect}
               />
@@ -124,14 +134,17 @@ const EditWorker = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Редагувати" onClick={handleSubmit} />
+        <Button
+          title="Редагувати"
+          onClick={handleSubmit}
+          disabled={!!errors.name}
+        />
       </div>
     </div>
   );
 };
 const formikHOC = withFormik({
-  mapPropsToValues: ({ singleWorker }) => {
-    console.log(singleWorker);
+  mapPropsToValues: () => {
     return {
       fName: "",
       sName: "",
@@ -141,9 +154,23 @@ const formikHOC = withFormik({
       _id: "",
     };
   },
+  validate: (values) => {
+    const errors = {};
+    if (
+      !values.fName ||
+      !values.sName ||
+      !values.fatherName ||
+      !values.operationId ||
+      !values.status
+    ) {
+      errors.name = "Required";
+    }
+
+    return errors;
+  },
   handleSubmit: async (
     values,
-    { props: { editWorker, singleWorker }, resetForm }
+    { props: { editWorker, singleWorker, history } }
   ) => {
     const workerToSubmit = {
       status: values.status,
@@ -152,14 +179,12 @@ const formikHOC = withFormik({
       fatherName: values.fatherName,
       sName: values.sName,
     };
-    console.log("pezda");
     const isSuccess = await editWorker(workerToSubmit, singleWorker._id);
     if (isSuccess) {
-      alert("Success");
+      history.push("/workers") || alert("Змінено");
     } else {
       alert("error===");
     }
-    resetForm({ fatherName: "", fName: "", sName: "" });
   },
 })(EditWorker);
 const mapStateToProps = (state) => {

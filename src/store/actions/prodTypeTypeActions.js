@@ -52,15 +52,6 @@ export const createProdTypeAction = (prodType) => {
   };
 };
 
-export const editProdTypeAction = (prodType, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdType(prodType, token, id);
-    dispatch({ type: ADD_PROD_TYPE, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteProdTypeAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

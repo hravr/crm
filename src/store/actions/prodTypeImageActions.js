@@ -53,15 +53,6 @@ export const createProdImageAction = (prodImage) => {
   };
 };
 
-export const editProdImageAction = (prodImage, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdImage(prodImage, token, id);
-    dispatch({ type: ADD_PROD_IMAGE, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteProdImageAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

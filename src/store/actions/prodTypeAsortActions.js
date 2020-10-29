@@ -57,14 +57,6 @@ export const createProdAsortumentAction = (prodAsortument) => {
   };
 };
 
-export const editProdAsortumentAction = (prodAsortument, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdAsortument(prodAsortument, token, id);
-    dispatch({ type: ADD_PROD_ASORTUMENT, token });
-    return response.status === 200;
-  };
-};
 
 export const deleteProdAsortumentAction = (id) => {
   return async (dispatch) => {

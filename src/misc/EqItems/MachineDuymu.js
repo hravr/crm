@@ -10,6 +10,11 @@ import {
   getMachineDuymuAction,
 } from "../../store/actions/Machine/duymuActions";
 import { filterMachineDuymuAction } from "../../store/actions/Machine/duymuActions";
+import {
+  fetchSingleMachineDuymu,
+  patchMachineDuymu,
+} from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const MachineDuymu = ({
   handleChange,
@@ -22,6 +27,43 @@ const MachineDuymu = ({
   deleteMachineDuymu,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singleMachineDuymu, setsingleMachineDuymu] = useState({});
+  const [duymu, setDuymu] = useState([]);
+
+  const change = (e) => {
+    setsingleMachineDuymu({
+      ...singleMachineDuymu,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMachineDuymu = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMachineDuymu(singleMachineDuymu._id, token, singleMachineDuymu).then(
+      (res) => {
+        res.status === 200 &&
+          setDuymu((prevState) =>
+            prevState.filter((golku) =>
+              golku._id === singleMachineDuymu._id
+                ? (golku.name = singleMachineDuymu.name)
+                : golku
+            )
+          );
+      }
+    );
+  };
+
+  const getSingleDuymu = (id) => {
+    const token = getToken();
+    fetchSingleMachineDuymu(id, token).then((res) => {
+      setsingleMachineDuymu(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setDuymu(machineDuymu);
+  }, [machineDuymu]);
 
   useEffect(() => {
     (async () => {
@@ -60,12 +102,23 @@ const MachineDuymu = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleMachineDuymu.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleMachineDuymu()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredMachineDuymu.length
             ? machineDuymu &&
@@ -75,7 +128,12 @@ const MachineDuymu = ({
                     <td>{machineDuymu.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleDuymu(machineDuymu._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deleteMachineDuymu(machineDuymu._id)}
                         >
@@ -93,7 +151,12 @@ const MachineDuymu = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleDuymu(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteMachineDuymu(filter._id)}>
                           Видалити
                         </button>

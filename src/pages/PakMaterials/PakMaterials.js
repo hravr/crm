@@ -16,6 +16,11 @@ import PakRozhid from "../../misc/PakItems/PakRozhid";
 import PakParams from "../../misc/PakItems/PakParams";
 import PakParamsValue from "../../misc/PakItems/PakParamsValue";
 import PakType from "../../misc/PakItems/PakType";
+import { getToken } from "../../utils/utils";
+import {
+  fetchSingleMaterialVendor,
+  patchMaterialVendor,
+} from "../../store/api/api";
 
 const PakMaterials = ({
   handleChange,
@@ -29,6 +34,45 @@ const PakMaterials = ({
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singlePakMaterialVendor, setSinglePakMaterialVendor] = useState({});
+  const [vendor, setVendor] = useState([]);
+
+  const change = (e) => {
+    setSinglePakMaterialVendor({
+      ...singlePakMaterialVendor,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMaterialVendor = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMaterialVendor(
+      singlePakMaterialVendor._id,
+      token,
+      singlePakMaterialVendor
+    ).then((res) => {
+      res.status === 200 &&
+        setVendor((prevState) =>
+          prevState.filter((vendor) =>
+            vendor._id === singlePakMaterialVendor._id
+              ? (vendor.name = singlePakMaterialVendor.name)
+              : vendor
+          )
+        );
+    });
+  };
+
+  const getSingleVendor = (id) => {
+    const token = getToken();
+    fetchSingleMaterialVendor(id, token).then((res) => {
+      setSinglePakMaterialVendor(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setVendor(materialVendor);
+  }, [materialVendor]);
 
   useEffect(() => {
     (async () => {
@@ -89,12 +133,26 @@ const PakMaterials = ({
                 <Button title="Створити" onClick={handleSubmit} />
               </div>
             </div>
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Input
+                  label="Редагувати"
+                  value={singlePakMaterialVendor.name}
+                  name="name"
+                  onChange={change}
+                />
+                <Button
+                  title="Змінити"
+                  onClick={() => patchSingleMaterialVendor()}
+                />
+              </div>
+            </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}></th>
+                <th className={s.status__table}>Назва</th>
+                <th className={s.status__table}></th>
               </tr>
               {!filteredMaterialVendor.length
                 ? materialVendor &&
@@ -104,7 +162,14 @@ const PakMaterials = ({
                         <td>{materialVendor.name || "err"}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() =>
+                                getSingleVendor(materialVendor._id)
+                              }
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() =>
                                 deleteMaterialVendor(materialVendor._id)
@@ -124,7 +189,12 @@ const PakMaterials = ({
                         <td>{filter.name || "err"}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() => getSingleVendor(filter._id)}
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() => deleteMaterialVendor(filter._id)}
                             >

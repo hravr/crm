@@ -53,14 +53,7 @@ export const createMachineModelAction = (machineModel) => {
   };
 };
 
-export const editMachineModelAction = (machineModel, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMachineModel(machineModel, token, id);
-    dispatch({ type: ADD_MACHINE_MODEL, token });
-    return response.status === 200;
-  };
-};
+
 
 export const deleteMachineModelAction = (id) => {
   return async (dispatch) => {

@@ -53,15 +53,6 @@ export const createMachineGolkuAction = (machineGolku) => {
   };
 };
 
-export const editMachineGolkuAction = (machineGolku, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMachineGolku(machineGolku, token, id);
-    dispatch({ type: ADD_MACHINE_GOLKU, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteMachineGolkuAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

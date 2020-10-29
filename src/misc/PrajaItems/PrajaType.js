@@ -10,6 +10,8 @@ import {
   getPrajaTypeAction,
 } from "../../store/actions/Praja/typeActions";
 import { withFormik } from "formik";
+import { getToken } from "../../utils/utils";
+import { fetchSinglePrajaType, patchPrajaType } from "../../store/api/api";
 
 const PrajaType = ({
   handleChange,
@@ -22,6 +24,41 @@ const PrajaType = ({
   deletePrajaType,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singlePrajaType, setsinglePrajaType] = useState({});
+  const [type, setType] = useState([]);
+
+  const change = (e) => {
+    setsinglePrajaType({
+      ...singlePrajaType,
+      name: e.target.value,
+    });
+  };
+
+  const patchSinglePrajaType = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchPrajaType(singlePrajaType._id, token, singlePrajaType).then((res) => {
+      res.status === 200 &&
+        setType((prevState) =>
+          prevState.filter((golku) =>
+            golku._id === singlePrajaType._id
+              ? (golku.name = singlePrajaType.name)
+              : golku
+          )
+        );
+    });
+  };
+
+  const getSinglePrajaType = (id) => {
+    const token = getToken();
+    fetchSinglePrajaType(id, token).then((res) => {
+      setsinglePrajaType(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setType(prajaType);
+  }, [prajaType]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +98,23 @@ const PrajaType = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singlePrajaType.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSinglePrajaType()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredPrajaType.length
             ? prajaType &&
@@ -76,7 +124,12 @@ const PrajaType = ({
                     <td>{prajaType.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaType(prajaType._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deletePrajaType(prajaType._id)}>
                           Видалити
                         </button>
@@ -92,7 +145,12 @@ const PrajaType = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaType(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deletePrajaType(filter._id)}>
                           Видалити
                         </button>

@@ -52,7 +52,6 @@ const formikHOC = withFormik({
     password: "",
   }),
   handleSubmit: async (values, { props: { login, history } }) => {
-    console.log("pezda");
     const isSuccess = await login(values);
     if (isSuccess) {
       history.push("/sklad_1");

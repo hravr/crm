@@ -42,6 +42,7 @@ const CreatePrices = ({
   machineId,
   getOperations,
   operations,
+  errors,
 }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
@@ -52,6 +53,17 @@ const CreatePrices = ({
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
   const [operationsOptions, setOperationsOptions] = useState([]);
+  const [machinesOptions, setMachinesOptions] = useState([]);
+
+  const options = [
+    { value: 1, label: 1 },
+    { value: 2, label: 2 },
+    { value: 3, label: 3 },
+  ];
+
+  const gatynokSelect = (options) => {
+    setValues({ ...values, gatynok: options.value });
+  };
 
   const asortumentSelect = (asortument) => {
     setValues({ ...values, asortument: asortument.value });
@@ -81,9 +93,21 @@ const CreatePrices = ({
   };
 
   const operationSelect = (operations) => {
-    console.log("her");
     setValues({ ...values, operationId: operations.value });
   };
+
+  const machinesSelect = (machineId) => {
+    setValues({ ...values, machineId: machineId.value });
+  };
+
+  useEffect(() => {
+    setMachinesOptions(
+      machineId.length &&
+        machineId.map((opt) => {
+          return { label: opt.name, value: opt._id };
+        })
+    );
+  }, [machineId]);
 
   useEffect(() => {
     setOperationsOptions(
@@ -212,33 +236,30 @@ const CreatePrices = ({
             name="name"
             onChange={handleChange}
           />
-          {/* <div className={s.select__container}>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Гатунок</span>
+            </div>
+            <Select
+              options={options}
+              value={values.gatynok.label}
+              name="gatynok"
+              onChange={gatynokSelect}
+            />
+          </div>
+          <div className={s.select__container}>
             <div className={s.span}>
               <span>Обладнання</span>
             </div>
             <Select
-              options={operationsOptions}
+              options={machinesOptions}
               value={values.machineId.label}
-              name="operationId"
-              onChange={operationSelect}
-            />
-          </div> */}
-          <Input
-            type="number"
-            label="ID Обладнання!!!!!!!!!!!!!!!!!!!"
-            value={values.machineId}
-            name="machineId"
-            onChange={handleChange}
-          />
-          <div className={s.select__container}>
-            <Input
-              type="number"
-              label="Гатунок"
-              value={values.gatynok}
-              name="gatynok"
-              onChange={handleChange}
+              name="machineId"
+              onChange={machinesSelect}
             />
           </div>
+        </div>
+        <div className={s.left}>
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Операція</span>
@@ -250,8 +271,6 @@ const CreatePrices = ({
               onChange={operationSelect}
             />
           </div>
-        </div>
-        <div className={s.left}>
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Тип</span>
@@ -343,13 +362,18 @@ const CreatePrices = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Створити" onClick={handleSubmit} />
+        <Button
+          title="Створити"
+          onClick={handleSubmit}
+          disabled={!!errors.name}
+        />
       </div>
     </div>
   );
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
+    gatynok: {},
     asortument: {},
     articleId: {},
     typeId: {},
@@ -359,14 +383,38 @@ const formikHOC = withFormik({
     classId: {},
     colorId: {},
     operationId: {},
+    machineId: {},
     startDate: "",
     endDate: "",
     price: "",
     name: "",
-    gatynok: "",
   }),
-  handleSubmit: async (values, { props: { createPrices }, resetForm }) => {
+  validate: (values) => {
+    const errors = {};
+    if (
+      !values.asortument ||
+      !values.articleId ||
+      !values.typeId ||
+      !values.sizeId ||
+      !values.seasonId ||
+      !values.imageId ||
+      !values.classId ||
+      !values.colorId ||
+      !values.operationId ||
+      !values.startDate ||
+      !values.machineId ||
+      !values.endDate ||
+      !values.price ||
+      !values.name
+    ) {
+      errors.name = "Required";
+    }
+
+    return errors;
+  },
+  handleSubmit: async (values, { props: { createPrices, history } }) => {
     const pricesToSubmit = {
+      gatynok: values.gatynok,
       asortument: values.asortument,
       typeId: values.typeId,
       articleId: values.articleId,
@@ -379,17 +427,15 @@ const formikHOC = withFormik({
       endDate: values.endDate,
       price: values.price,
       name: values.name,
-      gatynok: values.gatynok,
       operationId: values.operationId,
+      machineId: values.machineId,
     };
-    console.log("pezda");
     const isSuccess = await createPrices(pricesToSubmit);
     if (isSuccess) {
-      alert("Success");
+      alert("Створено") || history.push("/prices");
     } else {
       alert("error===");
     }
-    // resetForm({ fatherName: "", fName: "", sName: "" });
   },
 })(CreatePrices);
 const mapStateToProps = (state) => {

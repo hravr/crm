@@ -24,9 +24,6 @@ const Sklad1 = ({
   const [dataForFilter, setDataForFilter] = useState({});
   const h = useHistory();
 
-  // const searchResults = !filterSklad1.length && !sklad1;
-
-  console.log("===123");
   useEffect(() => {
     (async () => {
       await getSklad1();
@@ -104,7 +101,7 @@ const Sklad1 = ({
           <div className={s.table}>
             <table id="table-to-xls">
               <tr>
-                <th className={s.name__table}>ID Мішка</th>
+                <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
                 <th className={s.status__table}>Майстер </th>
                 <th className={s.status__table}>Вязальниця</th>
@@ -230,7 +227,7 @@ const Sklad1 = ({
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>Назва</th>
+                <th className={s.status__table}>Назва</th>
                 <th className={s.status__table}>Дата</th>
                 <th className={s.status__table}>ID швеї</th>
                 <th className={s.status__table}>ID сортувальниці</th>
@@ -286,7 +283,7 @@ const Sklad1 = ({
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>ID Мішка</th>
+                <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
                 <th className={s.status__table}>Майстер </th>
                 <th className={s.status__table}>Вязальниця</th>

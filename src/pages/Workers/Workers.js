@@ -59,9 +59,10 @@ const Workers = ({
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Ім'я</th>
+            <th className={s.status__table}>Ім'я</th>
             <th className={s.status__table}>Статус</th>
             <th className={s.status__table}>ID операції</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredWorkers.length
             ? workers &&
@@ -71,7 +72,11 @@ const Workers = ({
                     <td>{worker?.fName + " " + worker?.sName}</td>
                     <td>{worker?.status}</td>
                     <td>
-                      {worker?.operationId}
+                      {worker?.operationId?.map((q) => {
+                        return q.name;
+                      })}
+                    </td>
+                    <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
@@ -93,7 +98,11 @@ const Workers = ({
                   <tr key={workers._id}>
                     <td>{filetred.fName + " " + filetred.sName}</td>
                     <td>{filetred.status}</td>
-                    <td>{filetred.operationId}</td>
+                    <td>
+                      {filetred?.operationId?.map((q) => {
+                        return q.name;
+                      })}
+                    </td>
                     <td>
                       <div className={s.table__btn}>
                         <button

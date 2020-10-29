@@ -10,6 +10,11 @@ import {
   getMaterialRozhidAction,
 } from "../../store/actions/Material/dilankaRozhoduActions";
 import { withFormik } from "formik";
+import {
+  fetchSingleMaterialRozhid,
+  patchMaterialRozhid,
+} from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const MaterialRozhid = ({
   handleChange,
@@ -22,6 +27,45 @@ const MaterialRozhid = ({
   deleteMaterialRozhid,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singlePakMaterialRozhid, setSinglePakMaterialRozhid] = useState({});
+  const [rozhid, setRozhid] = useState([]);
+
+  const change = (e) => {
+    setSinglePakMaterialRozhid({
+      ...singlePakMaterialRozhid,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMaterialRozhid = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMaterialRozhid(
+      singlePakMaterialRozhid._id,
+      token,
+      singlePakMaterialRozhid
+    ).then((res) => {
+      res.status === 200 &&
+        setRozhid((prevState) =>
+          prevState.filter((roz) =>
+            roz._id === singlePakMaterialRozhid._id
+              ? (roz.name = singlePakMaterialRozhid.name)
+              : roz
+          )
+        );
+    });
+  };
+
+  const getSingleRozhid = (id) => {
+    const token = getToken();
+    fetchSingleMaterialRozhid(id, token).then((res) => {
+      setSinglePakMaterialRozhid(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setRozhid(materialRozhid);
+  }, [materialRozhid]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +105,26 @@ const MaterialRozhid = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singlePakMaterialRozhid.name}
+              name="name"
+              onChange={change}
+            />
+            <Button
+              title="Змінити"
+              onClick={() => patchSingleMaterialRozhid()}
+            />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredMaterialRozhid.length
             ? materialRozhid &&
@@ -76,7 +134,12 @@ const MaterialRozhid = ({
                     <td>{materialRozhid.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleRozhid(materialRozhid._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() =>
                             deleteMaterialRozhid(materialRozhid._id)
@@ -96,7 +159,12 @@ const MaterialRozhid = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleRozhid(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deleteMaterialRozhid(filter._id)}
                         >

@@ -52,15 +52,6 @@ export const createProdSizeAction = (prodSize) => {
   };
 };
 
-export const editProdSizeAction = (prodSize, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdSize(prodSize, token, id);
-    dispatch({ type: ADD_PROD_SIZE, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteProdSizeAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

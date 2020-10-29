@@ -71,6 +71,7 @@ const Prices = ({
             <th>Розмір</th>
             <th>Артикул</th>
             <th>Гатунок</th>
+            <th>ID працівника</th>
             <th></th>
           </tr>
           {!filteredRoztsinka.length
@@ -79,20 +80,21 @@ const Prices = ({
                 return (
                   <tr key={roztsinka._id}>
                     <td>{roztsinka.name}</td>
-                    <td>{roztsinka.startDate}</td>
-                    <td>{roztsinka.endDate}</td>
+                    <td>{roztsinka.startDate?.slice(0, 10)}</td>
+                    <td>{roztsinka.endDate?.slice(0, 10)}</td>
                     <td>{roztsinka.price}</td>
-                    <td>{roztsinka.machineId || "err==="}</td>
-                    <td>{roztsinka.operationId}</td>
-                    <td>{roztsinka.typeId || "err==="}</td>
-                    <td>{roztsinka.colorId || "err==="}</td>
-                    <td>{roztsinka.asortument || "err==="}</td>
-                    <td>{roztsinka.classId || "err==="}</td>
-                    <td>{roztsinka.seasonId || "err==="}</td>
-                    <td>{roztsinka.imageId || "err==="}</td>
-                    <td>{roztsinka.sizeId || "err==="}</td>
-                    <td>{roztsinka.articleId || "err==="}</td>
+                    <td>{roztsinka.machineId?.name || "err==="}</td>
+                    <td>{roztsinka.operationId?.name}</td>
+                    <td>{roztsinka.typeId?.name || "err==="}</td>
+                    <td>{roztsinka.colorId?.name || "err==="}</td>
+                    <td>{roztsinka.asortument?.name || "err==="}</td>
+                    <td>{roztsinka.classId?.name || "err==="}</td>
+                    <td>{roztsinka.seasonId?.name || "err==="}</td>
+                    <td>{roztsinka.imageId?.name || "err==="}</td>
+                    <td>{roztsinka.sizeId?.name || "err==="}</td>
+                    <td>{roztsinka.articleId?.name || "err==="}</td>
                     <td>{roztsinka.gatynok || "err==="}</td>
+                    <td>{roztsinka.changesId?.firstName || "err==="}</td>
                     <div className={s.table__btn}>
                       <button
                         className={s.del}
@@ -112,20 +114,22 @@ const Prices = ({
                 return (
                   <tr>
                     <td>{filter.name}</td>
-                    <td>{filter.startDate}</td>
-                    <td>{filter.endDate}</td>
+                    <td>{filter.startDate?.slice(0, 10)}</td>
+                    <td>{filter.endDate?.slice(0, 10)}</td>
                     <td>{filter.price}</td>
-                    <td>{filter.machineId || "err==="}</td>
-                    <td>{filter.operationId}</td>
-                    <td>{filter.typeId || "err==="}</td>
-                    <td>{filter.colorId || "err==="}</td>
-                    <td>{filter.asortument || "err==="}</td>
-                    <td>{filter.classId || "err==="}</td>
-                    <td>{filter.seasonId || "err==="}</td>
-                    <td>{filter.imageId || "err==="}</td>
-                    <td>{filter.sizeId || "err==="}</td>
-                    <td>{filter.articleId || "err==="}</td>
+                    <td>{filter.machineId?.name || "err==="}</td>
+                    <td>{filter.operationId?.name}</td>
+                    <td>{filter.typeId?.name || "err==="}</td>
+                    <td>{filter.colorId?.name || "err==="}</td>
+                    <td>{filter.asortument?.name || "err==="}</td>
+                    <td>{filter.classId?.name || "err==="}</td>
+                    <td>{filter.seasonId?.name || "err==="}</td>
+                    <td>{filter.imageId?.name || "err==="}</td>
+                    <td>{filter.sizeId?.name || "err==="}</td>
+                    <td>{filter.articleId?.name || "err==="}</td>
                     <td>{filter.gatynok || "err==="}</td>
+                    <td>{filter.changesId.fName?.name || "err==="}</td>
+
                     <div className={s.table__btn}>
                       <button
                         className={s.del}

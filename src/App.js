@@ -27,6 +27,12 @@ import CreateWorker from "./pages/CreateWorker/CreateWorker";
 import CreatePrices from "./pages/CreatePrices/CreatePrices";
 import EditWorker from "./pages/EditWorker/EditWorker";
 import EditPrice from "./pages/EditPrice/EditPrice";
+import CreateMachine from "./pages/CreateMachine/CreateMachine";
+import EditMachine from "./pages/EditMachine/EditMachine";
+import CreateZvitu from "./pages/CreateZvitu/CreateZvitu";
+import CreateZvituRozxid from "./pages/CreateZvituRozxid/CreateZvituRozxid";
+import EditZvitu from "./pages/EditZvitu/EditZvitu";
+import EditZvituRozxid from "./pages/EditZvituRozxid/EditZvituRozxid";
 
 function App(props) {
   // const Route = ({
@@ -69,6 +75,12 @@ function App(props) {
           <Route path="/create-prices" component={CreatePrices} />
           <Route path="/edit-worker/:id" component={EditWorker} />
           <Route path="/edit-price/:id" component={EditPrice} />
+          <Route path="/create-machine" component={CreateMachine} />
+          <Route path="/edit-machine/:id" component={EditMachine} />
+          <Route path="/create-zvitu" component={CreateZvitu} />
+          <Route path="/create-zvitu-rozxid" component={CreateZvituRozxid} />
+          <Route path="/edit-zvitu/:id" component={EditZvitu} />
+          <Route path="/edit-zvitu-rozxid/:id" component={EditZvituRozxid} />
         </Switch>
       </div>
     </Router>

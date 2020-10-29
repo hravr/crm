@@ -67,7 +67,7 @@ export const editWorkerAction = (workers, id) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await patchWorker(workers, token, id);
-    dispatch({ type: ADD_WORKER, token });
+    dispatch({ type: ADD_WORKER, token, workers: response.data });
     return response.status === 200;
   };
 };

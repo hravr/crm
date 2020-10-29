@@ -1,12 +1,17 @@
 import { getToken } from "../../../utils/utils";
 import {
+  createZvituRozxid,
   deleteZvituRozxid,
   fetchFilteredZvituRozxid,
+  fetchSingleZvituRozxid,
   fetchZvituRozxid,
+  patchZvituRozxid,
 } from "../../api/api";
 import {
+  ADD_ZVITU_ROZXID,
   DELETE_ZVITU_ROZXID,
   SET_FILTERED_ZVITU_ROZXID,
+  SET_SINGLE_ZVITU_ROZXID,
   SET_ZVITU_ROZXID,
 } from "../actionTypes";
 
@@ -20,7 +25,7 @@ export const getZvituRozxidAction = () => {
   };
 };
 
-export const filterZvituRoxidAction = ({ from, to, search }) => {
+export const filterZvituRozxidAction = ({ from, to, search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchFilteredZvituRozxid(from, to, search, token);
@@ -37,7 +42,39 @@ export const filterZvituRoxidAction = ({ from, to, search }) => {
     }
   };
 };
-export const deleteZvituRoxidAction = (id) => {
+
+export const getSingleZvituRozxidAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleZvituRozxid(id, token);
+    dispatch({
+      type: SET_SINGLE_ZVITU_ROZXID,
+      singleZvituRozxid: response.data,
+    });
+  };
+};
+
+export const createZvituRozxidAction = (zvituRozxid) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await createZvituRozxid(zvituRozxid, token);
+    if (response.status === 200) {
+      dispatch({ type: ADD_ZVITU_ROZXID, token, zvituRozxid: response.data });
+      return true;
+    }
+  };
+};
+
+export const editZvituRozxidAction = (zvituRozxid, id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await patchZvituRozxid(zvituRozxid, token, id);
+    dispatch({ type: ADD_ZVITU_ROZXID, token, zvituRozxid: response.data });
+    return response.status === 200;
+  };
+};
+
+export const deleteZvituRozxidAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
     const responce = await deleteZvituRozxid(id, token);

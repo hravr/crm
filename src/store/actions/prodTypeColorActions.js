@@ -52,15 +52,6 @@ export const createProdColorAction = (prodColor) => {
   };
 };
 
-export const editProdColorAction = (prodColor, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchProdColor(prodColor, token, id);
-    dispatch({ type: ADD_PROD_COLOR, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteProdColorAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

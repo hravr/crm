@@ -10,6 +10,11 @@ import {
   getPrajaTovtshinaAction,
 } from "../../store/actions/Praja/tovtshinaActions";
 import { withFormik } from "formik";
+import { getToken } from "../../utils/utils";
+import {
+  fetchSinglePrajaTovtshina,
+  patchPrajaTovtshina,
+} from "../../store/api/api";
 
 const PrajaTovtshina = ({
   handleChange,
@@ -22,6 +27,45 @@ const PrajaTovtshina = ({
   deletePrajaTovtshina,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singlePrajaTovtshina, setsinglePrajaTovtshina] = useState({});
+  const [tovtshina, setTovtshina] = useState([]);
+
+  const change = (e) => {
+    setsinglePrajaTovtshina({
+      ...singlePrajaTovtshina,
+      name: e.target.value,
+    });
+  };
+
+  const patchSinglePrajaTovtshina = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchPrajaTovtshina(
+      singlePrajaTovtshina._id,
+      token,
+      singlePrajaTovtshina
+    ).then((res) => {
+      res.status === 200 &&
+        setTovtshina((prevState) =>
+          prevState.filter((golku) =>
+            golku._id === singlePrajaTovtshina._id
+              ? (golku.name = singlePrajaTovtshina.name)
+              : golku
+          )
+        );
+    });
+  };
+
+  const getSinglePrajaTovtshina = (id) => {
+    const token = getToken();
+    fetchSinglePrajaTovtshina(id, token).then((res) => {
+      setsinglePrajaTovtshina(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setTovtshina(prajaTovtshina);
+  }, [prajaTovtshina]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +105,26 @@ const PrajaTovtshina = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singlePrajaTovtshina.name}
+              name="name"
+              onChange={change}
+            />
+            <Button
+              title="Змінити"
+              onClick={() => patchSinglePrajaTovtshina()}
+            />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredPrajaTovtshina.length
             ? prajaTovtshina &&
@@ -76,7 +134,14 @@ const PrajaTovtshina = ({
                     <td>{prajaTovtshina.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() =>
+                            getSinglePrajaTovtshina(prajaTovtshina._id)
+                          }
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() =>
                             deletePrajaTovtshina(prajaTovtshina._id)
@@ -96,7 +161,12 @@ const PrajaTovtshina = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaTovtshina(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deletePrajaTovtshina(filter._id)}
                         >

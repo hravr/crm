@@ -15,6 +15,12 @@ import {
 import MachineDuymu from "../../misc/EqItems/MachineDuymu";
 import MachineGolku from "../../misc/EqItems/MachineGolku";
 import MachineVyazalni from "../../misc/EqItems/MachineVyazalni";
+import {
+  fetchSingleMachineModel,
+  patchMachineModel,
+} from "../../store/api/api";
+import { getToken } from "../../utils/utils";
+import Machines from "../../misc/EqItems/Machines";
 
 const Equipment = ({
   handleChange,
@@ -28,6 +34,43 @@ const Equipment = ({
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singleMachineModel, setsingleMachineModel] = useState({});
+  const [model, setModel] = useState([]);
+
+  const change = (e) => {
+    setsingleMachineModel({
+      ...singleMachineModel,
+      name: e.target.value,
+    });
+  };
+
+  const patchSingleMachineModel = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchMachineModel(singleMachineModel._id, token, singleMachineModel).then(
+      (res) => {
+        res.status === 200 &&
+          setModel((prevState) =>
+            prevState.filter((model) =>
+              model._id === singleMachineModel._id
+                ? (model.name = singleMachineModel.name)
+                : model
+            )
+          );
+      }
+    );
+  };
+
+  const getSingleModel = (id) => {
+    const token = getToken();
+    fetchSingleMachineModel(id, token).then((res) => {
+      setsingleMachineModel(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setModel(machineModel);
+  }, [machineModel]);
 
   useEffect(() => {
     (async () => {
@@ -38,18 +81,23 @@ const Equipment = ({
     <Tabs>
       <div className={s.main}>
         <TabList className={s.tabs}>
-          {["Моделі", "Голки", "Дюйми", "Машини в'язальні"].map((item, i) => (
-            <Tab
-              onClick={() => setActiveTabIndex(i)}
-              key={item}
-              className={classnames(s.tab, {
-                [s.tab__active]: activeTabIndex === i,
-              })}
-            >
-              {item}
-            </Tab>
-          ))}
+          {["Машини", "Моделі", "Голки", "Дюйми", "Машини в'язальні"].map(
+            (item, i) => (
+              <Tab
+                onClick={() => setActiveTabIndex(i)}
+                key={item}
+                className={classnames(s.tab, {
+                  [s.tab__active]: activeTabIndex === i,
+                })}
+              >
+                {item}
+              </Tab>
+            )
+          )}
         </TabList>
+        <TabPanel>
+          <Machines />
+        </TabPanel>
         <TabPanel>
           <div className={s.title__container}>
             <span className={s.title}>Моделі</span>
@@ -81,12 +129,26 @@ const Equipment = ({
                 <Button title="Створити" onClick={handleSubmit} />
               </div>
             </div>
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Input
+                  label="Редагувати"
+                  value={singleMachineModel.name}
+                  name="name"
+                  onChange={change}
+                />
+                <Button
+                  title="Змінити"
+                  onClick={() => patchSingleMachineModel()}
+                />
+              </div>
+            </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}></th>
+                <th className={s.status__table}>Назва</th>
+                <th className={s.status__table}></th>
               </tr>
               {!filteredMachineModel.length
                 ? machineModel &&
@@ -96,7 +158,12 @@ const Equipment = ({
                         <td>{machineModel.name || "err"}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() => getSingleModel(machineModel._id)}
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() =>
                                 deleteMachineModel(machineModel._id)
@@ -116,7 +183,12 @@ const Equipment = ({
                         <td>{filter.name || "err"}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() => getSingleModel(filter._id)}
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() => deleteMachineModel(filter._id)}
                             >

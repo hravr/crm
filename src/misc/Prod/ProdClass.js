@@ -10,20 +10,50 @@ import {
   filterProdClassAction,
   getProdClassAction,
 } from "../../store/actions/prodTypeClassActions";
-
+import { fetchSingleProdClass, patchProdClass } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const ProdClass = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdClass,
-  prodClass,
+  productciaClass,
   filteredProdClass,
   filterProdClass,
-  deleteProdClass
+  deleteProdClass,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleClass, setSingleClass] = useState({});
+  const [prodClass, setProdClass] = useState([]);
 
+  const change = (e) => {
+    setSingleClass({ ...singleClass, name: e.target.value });
+  };
+
+  const patchSingleProdClass = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdClass(singleClass._id, token, singleClass).then((res) => {
+      res.status === 200 &&
+        setProdClass((prevState) =>
+          prevState.filter((clas) =>
+            clas._id === singleClass._id ? (clas.name = singleClass.name) : clas
+          )
+        );
+    });
+  };
+
+  const getSingleProdClass = (id) => {
+    const token = getToken();
+    fetchSingleProdClass(id, token).then((res) => {
+      setSingleClass(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdClass(productciaClass);
+  }, [productciaClass]);
 
   useEffect(() => {
     (async () => {
@@ -51,7 +81,6 @@ const ProdClass = ({
             }}
           />
         </div>
-
         <div className={s.filter__container}>
           <div className={s.search__container}>
             <Input
@@ -63,13 +92,24 @@ const ProdClass = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleClass.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleProdClass()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
+            <th className={s.status__table}>Назва</th>
 
-            <th className={s.name__table}></th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredProdClass.length
             ? prodClass &&
@@ -79,8 +119,15 @@ const ProdClass = ({
                     <td>{prodClass.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button onClick={() => deleteProdClass(prodClass._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdClass(prodClass._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdClass(prodClass._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -125,7 +172,7 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodClass: state.prodClass.prodClass,
+    productciaClass: state.prodClass.prodClass,
     filteredProdClass: state.prodClass.filtered,
   };
 };

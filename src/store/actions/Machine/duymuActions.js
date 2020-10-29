@@ -53,15 +53,6 @@ export const createMachineDuymuAction = (machineDuymu) => {
   };
 };
 
-export const editMachineDuymuAction = (machineDuymu, id) => {
-  return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMachineDuymu(machineDuymu, token, id);
-    dispatch({ type: ADD_MACHINE_DYUMU, token });
-    return response.status === 200;
-  };
-};
-
 export const deleteMachineDuymuAction = (id) => {
   return async (dispatch) => {
     const token = getToken();

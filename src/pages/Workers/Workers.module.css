@@ -28,12 +28,12 @@ tr:nth-child(even) {
   margin-left: 260px;
   width: 1000px;
 } */
-
-.name__table {
+/* 
+.status__table {
   width: 60%;
   color: white;
   background-color: #4caf50;
-}
+} */
 .status__table {
   width: 40%;
   color: white;

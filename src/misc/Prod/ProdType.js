@@ -10,18 +10,50 @@ import {
   filterProdTypeAction,
   getProdTypeAction,
 } from "../../store/actions/prodTypeTypeActions";
+import { getToken } from "../../utils/utils";
+import { fetchSingleProdType, patchProdType } from "../../store/api/api";
 
 const ProdType = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdType,
-  prodType,
+  productciaType,
   filteredProdType,
   filterProdType,
   deleteProdType,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleType, setSingleType] = useState({});
+  const [prodType, setProdType] = useState([]);
+
+  const change = (e) => {
+    setSingleType({ ...singleType, name: e.target.value });
+  };
+
+  const patchSingleProdType = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdType(singleType._id, token, singleType).then((res) => {
+      res.status === 200 &&
+        setProdType((prevState) =>
+          prevState.filter((type) =>
+            type._id === singleType._id ? (type.name = singleType.name) : type
+          )
+        );
+    });
+  };
+
+  const getSingleProdType = (id) => {
+    const token = getToken();
+    fetchSingleProdType(id, token).then((res) => {
+      setSingleType(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdType(productciaType);
+  }, [productciaType]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +93,23 @@ const ProdType = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleType.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleProdType()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredProdType.length
             ? prodType &&
@@ -76,7 +119,12 @@ const ProdType = ({
                     <td>{prodType.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdType(prodType._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteProdType(prodType._id)}>
                           Видалити
                         </button>
@@ -92,7 +140,12 @@ const ProdType = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdType(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deleteProdType(filter._id)}>
                           Видалити
                         </button>
@@ -124,7 +177,7 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodType: state.prodType.prodType,
+    productciaType: state.prodType.prodType,
     filteredProdType: state.prodType.filtered,
   };
 };

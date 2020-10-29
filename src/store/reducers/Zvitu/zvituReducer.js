@@ -1,12 +1,15 @@
 import {
+  ADD_ZVITU,
   DELETE_ZVITU,
   SET_FILTERED_ZVITU,
+  SET_SINGLE_ZVITU,
   SET_ZVITU,
 } from "../../actions/actionTypes";
 
 const initialState = {
   zvitu: "",
   filtered: [],
+  single: {},
 };
 
 export default (state = initialState, action) => {
@@ -15,6 +18,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         zvitu: action.zvitu,
+      };
+    case SET_SINGLE_ZVITU:
+      return { ...state, single: action.singleZvitu };
+    case ADD_ZVITU:
+      return {
+        ...state,
+        zvitu: [...state.zvitu, action.zvitu],
       };
     case SET_FILTERED_ZVITU:
       return {
@@ -26,6 +36,7 @@ export default (state = initialState, action) => {
         ...state,
         zvitu: state.zvitu.filter((zvitu) => zvitu._id !== action._id),
       };
+
     default:
       return state;
   }

@@ -1,12 +1,15 @@
 import {
+  ADD_ZVITU_ROZXID,
   DELETE_ZVITU_ROZXID,
   SET_FILTERED_ZVITU_ROZXID,
+  SET_SINGLE_ZVITU_ROZXID,
   SET_ZVITU_ROZXID,
 } from "../../actions/actionTypes";
 
 const initialState = {
   zvituRozxid: "",
   filtered: [],
+  single: {},
 };
 
 export default (state = initialState, action) => {
@@ -15,6 +18,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         zvituRozxid: action.zvituRozxid,
+      };
+    case SET_SINGLE_ZVITU_ROZXID:
+      return { ...state, single: action.singleZvituRozxid };
+    case ADD_ZVITU_ROZXID:
+      return {
+        ...state,
+        zvituRozxid: [...state.zvituRozxid, action.zvituRozxid],
       };
     case SET_FILTERED_ZVITU_ROZXID:
       return {
@@ -28,6 +38,7 @@ export default (state = initialState, action) => {
           (zvituRozxid) => zvituRozxid._id !== action._id
         ),
       };
+
     default:
       return state;
   }

@@ -10,6 +10,8 @@ import {
   createOperationsAction,
 } from "../../store/actions/operationsAction";
 import { connect } from "react-redux";
+import { getToken } from "../../utils/utils";
+import { fetchSingleOperations, patchOperations } from "../../store/api/api";
 
 const Operations = ({
   searchOperations,
@@ -22,6 +24,38 @@ const Operations = ({
   values,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleOperation, setSingleOperation] = useState({});
+  const [operation, setOperation] = useState([]);
+
+  const change = (e) => {
+    setSingleOperation({ ...singleOperation, name: e.target.value });
+  };
+
+  const patchSingleOperation = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchOperations(singleOperation._id, token, singleOperation).then((res) => {
+      res.status === 200 &&
+        setOperation((prevState) =>
+          prevState.filter((oper) =>
+            oper._id === singleOperation._id
+              ? (oper.name = singleOperation.name)
+              : oper
+          )
+        );
+    });
+  };
+
+  const getSingleOperation = (id) => {
+    const token = getToken();
+    fetchSingleOperations(id, token).then((res) => {
+      setSingleOperation(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setOperation(operations);
+  }, [operations]);
   useEffect(() => {
     (async () => {
       await getOperations();
@@ -49,7 +83,6 @@ const Operations = ({
             }}
           />
         </div>
-
         <div className={s.filter__container}>
           <div className={s.search__container}>
             <Input
@@ -61,13 +94,22 @@ const Operations = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleOperation.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleOperation()} />
+          </div>
+        </div>
       </div>
-
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Ім'я</th>
-            {/* <th className={s.status__table}>ID </th> */}
+            <th className={s.status__table}>Ім'я</th>
             <th></th>
           </tr>
           {filteredOperations.length &&
@@ -75,10 +117,14 @@ const Operations = ({
               return (
                 <tr key={operations._id}>
                   <td>{filtered?.name}</td>
-                  {/* <td>{filtered._id}</td> */}
                   <td>
                     <div className={s.table__btn}>
-                      <button className={s.del}>Редагувати</button>
+                      <button
+                        className={s.del}
+                        onClick={() => getSingleOperation(filtered._id)}
+                      >
+                        Редагувати
+                      </button>
                       <button onClick={() => deleteOperations(filtered._id)}>
                         Видалити
                       </button>

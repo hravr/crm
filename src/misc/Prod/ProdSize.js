@@ -10,19 +10,50 @@ import {
   filterProdSizeAction,
   getProdSizeAction,
 } from "../../store/actions/prodTypeSizeActions";
-
+import { fetchSingleProdSize, patchProdSize } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const ProdSize = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdSize,
-  prodSize,
+  productciaSize,
   filteredProdSize,
   filterProdSize,
-  deleteProdSize
+  deleteProdSize,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleSize, setSingleSize] = useState({});
+  const [prodSize, setProdSize] = useState([]);
+
+  const change = (e) => {
+    setSingleSize({ ...singleSize, name: e.target.value });
+  };
+
+  const patchSingleProdSize = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdSize(singleSize._id, token, singleSize).then((res) => {
+      res.status === 200 &&
+        setProdSize((prevState) =>
+          prevState.filter((size) =>
+            size._id === singleSize._id ? (size.name = singleSize.name) : size
+          )
+        );
+    });
+  };
+
+  const getSingleProdSize = (id) => {
+    const token = getToken();
+    fetchSingleProdSize(id, token).then((res) => {
+      setSingleSize(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdSize(productciaSize);
+  }, [productciaSize]);
 
   useEffect(() => {
     (async () => {
@@ -62,12 +93,23 @@ const ProdSize = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleSize.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleProdSize()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredProdSize.length
             ? prodSize &&
@@ -77,8 +119,15 @@ const ProdSize = ({
                     <td>{prodSize.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button  onClick={() => deleteProdSize(prodSize._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdSize(prodSize._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdSize(prodSize._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -91,8 +140,15 @@ const ProdSize = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button onClick={() => deleteProdSize(filter._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdSize(filter._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdSize(filter._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -121,7 +177,7 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodSize: state.prodSize.prodSize,
+    productciaSize: state.prodSize.prodSize,
     filteredProdSize: state.prodSize.filtered,
   };
 };

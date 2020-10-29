@@ -10,6 +10,8 @@ import {
   getPrajaColorAction,
 } from "../../store/actions/Praja/colorActions";
 import { withFormik } from "formik";
+import { fetchSinglePrajaColor, patchPrajaColor } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const PrajaColor = ({
   handleChange,
@@ -22,6 +24,43 @@ const PrajaColor = ({
   deletePrajaColor,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singlePrajaColor, setsinglePrajaColor] = useState({});
+  const [color, setColor] = useState([]);
+
+  const change = (e) => {
+    setsinglePrajaColor({
+      ...singlePrajaColor,
+      name: e.target.value,
+    });
+  };
+
+  const patchSinglePrajaColor = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchPrajaColor(singlePrajaColor._id, token, singlePrajaColor).then(
+      (res) => {
+        res.status === 200 &&
+          setColor((prevState) =>
+            prevState.filter((golku) =>
+              golku._id === singlePrajaColor._id
+                ? (golku.name = singlePrajaColor.name)
+                : golku
+            )
+          );
+      }
+    );
+  };
+
+  const getSinglePrajaColor = (id) => {
+    const token = getToken();
+    fetchSinglePrajaColor(id, token).then((res) => {
+      setsinglePrajaColor(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setColor(prajaColor);
+  }, [prajaColor]);
 
   useEffect(() => {
     (async () => {
@@ -61,12 +100,23 @@ const PrajaColor = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singlePrajaColor.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSinglePrajaColor()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredPrajaColor.length
             ? prajaColor &&
@@ -76,7 +126,12 @@ const PrajaColor = ({
                     <td>{prajaColor.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaColor(prajaColor._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button
                           onClick={() => deletePrajaColor(prajaColor._id)}
                         >
@@ -94,7 +149,12 @@ const PrajaColor = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSinglePrajaColor(filter._id)}
+                        >
+                          Редагувати
+                        </button>
                         <button onClick={() => deletePrajaColor(filter._id)}>
                           Видалити
                         </button>

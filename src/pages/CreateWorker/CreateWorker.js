@@ -5,10 +5,7 @@ import Button from "../../misc/Button/Button";
 import s from "./CreateWorker.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
-import {
-  createWorkerAction,
-  getWorkersAction,
-} from "../../store/actions/workersActions";
+import { createWorkerAction } from "../../store/actions/workersActions";
 import { getOperationsAction } from "../../store/actions/operationsAction";
 
 const CreateWorker = ({
@@ -19,9 +16,9 @@ const CreateWorker = ({
   getOperations,
   setValues,
   operations,
+  errors,
 }) => {
   const [operationsOptions, setOperationsOptions] = useState([]);
-
   const options = [
     { value: "worked", label: "Працює" },
     { value: "not-worked", label: "Не працює" },
@@ -32,7 +29,6 @@ const CreateWorker = ({
   };
 
   const operationSelect = (operations) => {
-    console.log("her");
     setValues({ ...values, operationId: operations.value });
   };
 
@@ -62,6 +58,7 @@ const CreateWorker = ({
             value={values.fName}
             name="fName"
             onChange={handleChange}
+            onBlur={handleBlur}
           />
           <div className={s.select__container}>
             <Input
@@ -69,6 +66,7 @@ const CreateWorker = ({
               value={values.sName}
               name="sName"
               onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
 
@@ -78,6 +76,7 @@ const CreateWorker = ({
               value={values.fatherName}
               name="fatherName"
               onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
           <div className={s.select__container}>
@@ -89,6 +88,7 @@ const CreateWorker = ({
               value={values.status.label}
               name="status"
               onChange={statusSelect}
+              onBlur={handleBlur}
             />
             <div className={s.select__container}>
               <div className={s.span}>
@@ -99,13 +99,18 @@ const CreateWorker = ({
                 value={values.operationId.label}
                 name="operationId"
                 onChange={operationSelect}
+                onBlur={handleBlur}
               />
             </div>
           </div>
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Створити" onClick={handleSubmit} />
+        <Button
+          title="Створити"
+          onClick={handleSubmit}
+          disabled={!!errors.name}
+        />
       </div>
     </div>
   );
@@ -118,7 +123,21 @@ const formikHOC = withFormik({
     operationId: {},
     status: {},
   }),
-  handleSubmit: async (values, { props: { createWorker }, resetForm }) => {
+  validate: (values) => {
+    const errors = {};
+    if (
+      !values.fName ||
+      !values.sName ||
+      !values.fatherName ||
+      !values.operationId ||
+      !values.status
+    ) {
+      errors.name = "Required";
+    }
+
+    return errors;
+  },
+  handleSubmit: async (values, { props: { createWorker, history } }) => {
     const workerToSubmit = {
       status: values.status,
       operationId: values.operationId,
@@ -126,14 +145,12 @@ const formikHOC = withFormik({
       fatherName: values.fatherName,
       sName: values.sName,
     };
-    console.log("pezda");
     const isSuccess = await createWorker(workerToSubmit);
     if (isSuccess) {
-      alert("Success");
+      history.push("/workers") || alert("Створено");
     } else {
-      alert("error===");
+      alert("Помилка");
     }
-    resetForm({ fatherName: "", fName: "", sName: "" });
   },
 })(CreateWorker);
 const mapStateToProps = (state) => {

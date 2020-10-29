@@ -17,6 +17,11 @@ import PrajaTovtshina from "../../misc/PrajaItems/PrajaTovtshina";
 import PrajaVendor from "../../misc/PrajaItems/PrajaVendor";
 import PrajaRozhid from "../../misc/PrajaItems/PrajaRozhid";
 import PrajaColor from "../../misc/PrajaItems/PrajaColor";
+import {
+  fetchSinglePrajaSurovuna,
+  patchPrajaSurovuna,
+} from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const Praja = ({
   handleChange,
@@ -30,6 +35,45 @@ const Praja = ({
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState({});
+  const [singlePrajaSurovuna, setsinglePrajaSurovuna] = useState({});
+  const [surovuna, setSurovuna] = useState([]);
+
+  const change = (e) => {
+    setsinglePrajaSurovuna({
+      ...singlePrajaSurovuna,
+      name: e.target.value,
+    });
+  };
+
+  const patchSinglePrajaSurovuna = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchPrajaSurovuna(
+      singlePrajaSurovuna._id,
+      token,
+      singlePrajaSurovuna
+    ).then((res) => {
+      res.status === 200 &&
+        setSurovuna((prevState) =>
+          prevState.filter((golku) =>
+            golku._id === singlePrajaSurovuna._id
+              ? (golku.name = singlePrajaSurovuna.name)
+              : golku
+          )
+        );
+    });
+  };
+
+  const getSinglePrajaSurovuna = (id) => {
+    const token = getToken();
+    fetchSinglePrajaSurovuna(id, token).then((res) => {
+      setsinglePrajaSurovuna(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setSurovuna(prajaSurovuna);
+  }, [prajaSurovuna]);
 
   useEffect(() => {
     (async () => {
@@ -91,12 +135,26 @@ const Praja = ({
                 <Button title="Створити" onClick={handleSubmit} />
               </div>
             </div>
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Input
+                  label="Редагувати"
+                  value={singlePrajaSurovuna.name}
+                  name="name"
+                  onChange={change}
+                />
+                <Button
+                  title="Змінити"
+                  onClick={() => patchSinglePrajaSurovuna()}
+                />
+              </div>
+            </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
-                <th className={s.name__table}>Назва</th>
-                <th className={s.name__table}></th>
+                <th className={s.status__table}>Назва</th>
+                <th className={s.status__table}></th>
               </tr>
               {!filteredPrajaSurovuna.length
                 ? prajaSurovuna &&
@@ -106,7 +164,14 @@ const Praja = ({
                         <td>{prajaSurovuna.name || "err"}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() =>
+                                getSinglePrajaSurovuna(prajaSurovuna._id)
+                              }
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() =>
                                 deletePrajaSurovuna(prajaSurovuna._id)
@@ -126,7 +191,12 @@ const Praja = ({
                         <td>{filter.name || "err"}</td>
                         <td>
                           <div className={s.table__btn}>
-                            <button className={s.del}>Редагувати</button>
+                            <button
+                              className={s.del}
+                              onClick={() => getSinglePrajaSurovuna(filter._id)}
+                            >
+                              Редагувати
+                            </button>
                             <button
                               onClick={() => deletePrajaSurovuna(filter._id)}
                             >

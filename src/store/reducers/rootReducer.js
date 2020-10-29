@@ -31,6 +31,7 @@ import zvituRozxidReducer from "./Zvitu/zvituRozxidReducer";
 import typeMReducer from "./Material/typeMReducer";
 import vendorMReducer from "./Material/vendorMReducer";
 import machineReducer from "./Machine/machineReducer";
+import zvituZalushokReducer from "./Zvitu/zvituZalushokReducer";
 
 export default combineReducers({
   profile: profilleReducer,
@@ -64,5 +65,6 @@ export default combineReducers({
   operations: operationsReducer,
   zvitu: zvituReducer,
   zvituRozxid: zvituRozxidReducer,
+  zvituZalushok: zvituZalushokReducer,
   zpsklad1: zpSklad1Reducer,
 });

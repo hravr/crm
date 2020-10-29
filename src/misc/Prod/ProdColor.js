@@ -10,19 +10,52 @@ import {
   filterProdColorAction,
   getProdColorAction,
 } from "../../store/actions/prodTypeColorActions";
-import { deleteProdColor } from "../../store/api/api";
+import { fetchSingleProdColor, patchProdColor } from "../../store/api/api";
+import { getToken } from "../../utils/utils";
 
 const ProdColor = ({
   handleChange,
   handleSubmit,
   values,
   fetchProdColor,
-  prodColor,
   filteredProdColor,
   filterProdColor,
-  deleteProdColor
+  deleteProdColor,
+  productciaColor,
 }) => {
   const [dataForFilter, setDataForFilter] = useState([]);
+  const [singleColor, setSingleColor] = useState({});
+  const [prodColor, setProdColor] = useState([]);
+
+  const change = (e) => {
+    setSingleColor({ ...singleColor, name: e.target.value });
+  };
+
+  const patchSingleProdColor = (id) => {
+    alert("Змінено");
+    const token = getToken();
+    patchProdColor(singleColor._id, token, singleColor).then((res) => {
+      res.status === 200 &&
+        setProdColor((prevState) =>
+          prevState.filter((color) =>
+            color._id === singleColor._id
+              ? (color.name = singleColor.name)
+              : color
+          )
+        );
+    });
+  };
+
+  const getSingleProdColor = (id) => {
+    const token = getToken();
+    fetchSingleProdColor(id, token).then((res) => {
+      setSingleColor(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setProdColor(productciaColor);
+  }, [productciaColor]);
 
   useEffect(() => {
     (async () => {
@@ -62,12 +95,23 @@ const ProdColor = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Редагувати"
+              value={singleColor.name}
+              name="name"
+              onChange={change}
+            />
+            <Button title="Змінити" onClick={() => patchSingleProdColor()} />
+          </div>
+        </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
-            <th className={s.name__table}>Назва</th>
-            <th className={s.name__table}></th>
+            <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}></th>
           </tr>
           {!filteredProdColor.length
             ? prodColor &&
@@ -77,8 +121,15 @@ const ProdColor = ({
                     <td>{prodColor.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button onClick={() => deleteProdColor(prodColor._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdColor(prodColor._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdColor(prodColor._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -91,8 +142,15 @@ const ProdColor = ({
                     <td>{filter.name || "err"}</td>
                     <td>
                       <div className={s.table__btn}>
-                        <button className={s.del}>Редагувати</button>
-                        <button onClick={() => deleteProdColor(filter._id)}>Видалити</button>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleProdColor(filter._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteProdColor(filter._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -121,7 +179,7 @@ const formikHOC = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    prodColor: state.prodColor.prodColor,
+    productciaColor: state.prodColor.prodColor,
     filteredProdColor: state.prodColor.filtered,
   };
 };
