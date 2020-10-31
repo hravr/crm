@@ -9,18 +9,9 @@ import {
   filterMaterialTypeAction,
   getMaterialTypeAction,
 } from "../../store/actions/Material/typeActions";
-import { withFormik } from "formik";
-import { getToken } from "../../utils/utils";
-import {
-  fetchSingleMaterialType,
-  patchMaterialType,
-} from "../../store/api/api";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const MaterialType = ({
-  handleChange,
-  handleSubmit,
-  values,
   fetchMaterialType,
   materialType,
   filterMaterialType,
@@ -28,46 +19,7 @@ const MaterialType = ({
   deleteMaterialType,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
-  const [singlePakMaterialType, setSinglePakMaterialType] = useState({});
-  const [rozhid, setType] = useState([]);
-
-  const change = (e) => {
-    setSinglePakMaterialType({
-      ...singlePakMaterialType,
-      name: e.target.value,
-    });
-  };
-
-  const patchSingleMaterialType = (id) => {
-    alert("Змінено");
-    const token = getToken();
-    patchMaterialType(
-      singlePakMaterialType._id,
-      token,
-      singlePakMaterialType
-    ).then((res) => {
-      res.status === 200 &&
-        setType((prevState) =>
-          prevState.filter((type) =>
-            type._id === singlePakMaterialType._id
-              ? (type.name = singlePakMaterialType.name)
-              : type
-          )
-        );
-    });
-  };
-
-  const getSingleType = (id) => {
-    const token = getToken();
-    fetchSingleMaterialType(id, token).then((res) => {
-      setSinglePakMaterialType(res.data);
-    });
-  };
-
-  useEffect(() => {
-    setType(materialType);
-  }, [materialType]);
-
+  const history = useHistory();
   useEffect(() => {
     (async () => {
       await fetchMaterialType();
@@ -95,29 +47,6 @@ const MaterialType = ({
             }}
           />
         </div>
-        <div className={s.filter__container}>
-          <div className={s.search__container}>
-            <Input
-              label="Створити"
-              value={values.name}
-              name="name"
-              onChange={handleChange}
-            />
-            <Button title="Створити" onClick={handleSubmit} />
-          </div>
-        </div>
-
-        <div className={s.filter__container}>
-          <div className={s.search__container}>
-            <Input
-              label="Редагувати"
-              value={singlePakMaterialType.name}
-              name="name"
-              onChange={change}
-            />
-            <Button title="Змінити" onClick={() => patchSingleMaterialType()} />
-          </div>
-        </div>
         <Link to="/create-paktype">
           <Button title="Створити" />
         </Link>
@@ -126,6 +55,9 @@ const MaterialType = ({
         <table>
           <tr>
             <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}>Ділянка розходу</th>
+            <th className={s.status__table}>Параметри</th>
+            <th className={s.status__table}>Постачальник</th>
             <th className={s.status__table}></th>
           </tr>
           {!filteredMaterialType.length
@@ -133,12 +65,17 @@ const MaterialType = ({
               materialType.map((materialType) => {
                 return (
                   <tr>
-                    <td>{materialType.name || "err"}</td>
+                    <td>{materialType.name || "Всі"}</td>
+                    <td>{materialType.dilankaId?.name || "Всі"}</td>
+                    <td>{materialType.paramsId?.name || "Всі"}</td>
+                    <td>{materialType.vendorId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
-                          onClick={() => getSingleType(materialType._id)}
+                          onClick={() =>
+                            history.push(`/edit-paktype/${materialType._id}`)
+                          }
                         >
                           Редагувати
                         </button>
@@ -156,12 +93,17 @@ const MaterialType = ({
               filteredMaterialType.map((filter) => {
                 return (
                   <tr>
-                    <td>{filter.name || "err"}</td>
+                    <td>{filter.name || "Всі"}</td>
+                    <td>{filter.dilankaId?.name || "Всі"}</td>
+                    <td>{filter.paramsId?.name || "Всі"}</td>
+                    <td>{filter.vendorId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
-                          onClick={() => getSingleType(filter._id)}
+                          onClick={() =>
+                            history.push(`/edit-paktype/${filter._id}`)
+                          }
                         >
                           Редагувати
                         </button>
@@ -179,24 +121,6 @@ const MaterialType = ({
   );
 };
 
-const formikHOC = withFormik({
-  mapPropsToValues: () => ({
-    name: "",
-  }),
-  handleSubmit: async (
-    values,
-    { props: { createMaterialType }, resetForm }
-  ) => {
-    const isSuccess = await createMaterialType(values);
-    if (isSuccess) {
-      alert("Створено");
-    } else {
-      alert("error===");
-    }
-    resetForm({ name: "" });
-  },
-})(MaterialType);
-
 const mapStateToProps = (state) => {
   return {
     materialType: state.materialType.materialType,
@@ -211,4 +135,4 @@ const mapDispatchToProps = (dispatch) => {
     deleteMaterialType: (data) => dispatch(deleteMaterialTypeAction(data)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);
+export default connect(mapStateToProps, mapDispatchToProps)(MaterialType);

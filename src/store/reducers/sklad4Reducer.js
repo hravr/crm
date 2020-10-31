@@ -2,6 +2,7 @@ import {
   ADD_SKLAD4,
   DELETE_SKLAD4,
   SET_FILTERED_SKLAD4,
+  SET_SINGLE_SKLAD4,
   SET_SKLAD4,
 } from "../actions/actionTypes";
 
@@ -17,6 +18,8 @@ export default (state = initialState, action) => {
         ...state,
         sklad4: action.sklad4,
       };
+    case SET_SINGLE_SKLAD4:
+      return { ...state, single: action.singleSklad4 };
     case SET_FILTERED_SKLAD4:
       return {
         ...state,

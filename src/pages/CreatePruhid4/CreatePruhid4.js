@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
@@ -18,6 +18,8 @@ import {
   createSklad2Action,
   getSklad2Action,
 } from "../../store/actions/sklad2Actions";
+import { getOperationsAction } from "../../store/actions/operationsAction";
+import { getWorkersAction } from "../../store/actions/workersActions";
 
 const CreatePruhid4 = ({
   values,
@@ -41,11 +43,13 @@ const CreatePruhid4 = ({
   fetchMachine,
   machineId,
   getSklad2,
-  masterId,
-  vyazalId,
   articleId,
   fetchProdArticle,
   errors,
+  operations,
+  workers,
+  getOperations,
+  getWorkers,
 }) => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
@@ -55,9 +59,41 @@ const CreatePruhid4 = ({
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
   const [machinesOptions, setMachinesOptions] = useState([]);
-  const [masterOptions, setMasterOptions] = useState([]);
-  const [vyazalOptions, setVyazalOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
+
+  const operationsObject = useMemo(() => {
+    const temp = {};
+    operations.forEach((operation) => {
+      workers.forEach((worker) => {
+        if (!temp[operation.name]) {
+          temp[operation.name] = [worker];
+          return;
+        }
+        temp[operation.name].push(worker);
+      });
+    });
+    return temp;
+  }, [workers, operations]);
+
+  const operationsOptions = useMemo(() => {
+    const temp = {};
+    Object.entries(operationsObject).forEach(([key, value]) => {
+      value.forEach((operation) => {
+        const isCorrect = !!operation.operationId.find(({ name }) => {
+          return name === key;
+        });
+        if (!isCorrect) return;
+        const { name, fName, sName } = operation;
+        const option = { label: `${fName} ${sName}`, value: operation._id };
+        if (!temp[key]) {
+          temp[key] = [option];
+          return;
+        }
+        temp[key].push(option);
+      });
+    });
+    return temp;
+  }, [operationsObject]);
 
   const articleSelect = (articleId) => {
     setValues({ ...values, articleId: articleId.value });
@@ -67,8 +103,8 @@ const CreatePruhid4 = ({
     setValues({ ...values, vyazalId: vyazalId.value });
   };
 
-  const masterSelect = (masterId) => {
-    setValues({ ...values, masterId: masterId.value });
+  const masterSelect = (packId) => {
+    setValues({ ...values, packId: packId.value });
   };
 
   const asortumentSelect = (asortument) => {
@@ -105,28 +141,6 @@ const CreatePruhid4 = ({
         })
     );
   }, [articleId]);
-  useEffect(() => {
-    setVyazalOptions(
-      vyazalId?.length &&
-        vyazalId?.map((opt) => {
-          return {
-            label: opt.vyazalId?.fName + " " + opt.vyazalId?.sName,
-            value: opt.vyazalId?._id,
-          };
-        })
-    );
-  }, [vyazalId]);
-  useEffect(() => {
-    setMasterOptions(
-      masterId?.length &&
-        masterId?.map((opt) => {
-          return {
-            label: opt.masterId?.fName + " " + opt.masterId?.sName,
-            value: opt.masterId?._id,
-          };
-        })
-    );
-  }, [masterId]);
   useEffect(() => {
     setMachinesOptions(
       machineId.length &&
@@ -209,6 +223,8 @@ const CreatePruhid4 = ({
       await fetchProdClass();
       await fetchProdColor();
       await fetchProdArticle();
+      await getWorkers();
+      await getOperations();
     })();
   }, []);
 
@@ -257,23 +273,12 @@ const CreatePruhid4 = ({
           </div>
           <div className={s.select__container}>
             <div className={s.span}>
-              <span>В'язальниця</span>
+              <span>Пакувальниця</span>
             </div>
             <Select
-              options={vyazalOptions}
-              value={values.vyazalId.label}
-              name="vyazalId"
-              onChange={vyazalSelect}
-            />
-          </div>
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Майстер</span>
-            </div>
-            <Select
-              options={masterOptions}
-              value={values.masterId.label}
-              name="masterId"
+              options={operationsOptions["Пакувальниця"]}
+              value={values.packId.label}
+              name="packId"
               onChange={masterSelect}
             />
           </div>
@@ -389,8 +394,7 @@ const formikHOC = withFormik({
     classId: {},
     colorId: {},
     machineId: {},
-    masterId: {},
-    vyazalId: {},
+    packId: {},
     articleId: {},
     date_prixod: "",
     gatynok1: "",
@@ -410,8 +414,7 @@ const formikHOC = withFormik({
       !values.date_prixod ||
       !values.articleId ||
       !values.machineId ||
-      !values.masterId ||
-      !values.vyazalId ||
+      !values.packId ||
       !values.gatynok1 ||
       !values.gatynok2 ||
       !values.gatynok3
@@ -435,8 +438,7 @@ const formikHOC = withFormik({
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
       machineId: values.machineId,
-      masterId: values.masterId,
-      vyazalId: values.vyazalId,
+      packId: values.packId,
       articleId: values.articleId,
     };
     const isSuccess = await createPruhid2(pruhudToSubmit);
@@ -459,8 +461,9 @@ const mapStateToProps = (state) => {
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
     machineId: state.machines.machines,
-    masterId: state.sklad1.sklad1,
-    vyazalId: state.sklad1.sklad1,
+    packId: state.sklad1.sklad1,
+    operations: state.operations.operations,
+    workers: state.workers.workers,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -476,6 +479,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchProdImage: () => dispatch(getProdImageAction()),
     fetchMachine: () => dispatch(getMachineAction()),
     fetchProdArticle: () => dispatch(getProdArticleAction()),
+    getOperations: () => dispatch(getOperationsAction()),
+    getWorkers: () => dispatch(getWorkersAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

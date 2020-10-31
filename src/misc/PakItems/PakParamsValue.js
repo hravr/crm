@@ -4,17 +4,11 @@ import Input from "../../misc/Input/Input";
 import s from "./PakItems.module.css";
 import { connect } from "react-redux";
 import {
-  createMaterialParamsValueAction,
   deleteMaterialParamsValueAction,
   filterMaterialParamsValueAction,
   getMaterialParamsValueAction,
 } from "../../store/actions/Material/paramsValueActions";
-import { withFormik } from "formik";
-import { getToken } from "../../utils/utils";
-import {
-  fetchSingleMaterialParamsValue,
-  patchMaterialParamsValue,
-} from "../../store/api/api";
+
 import { Link, useHistory } from "react-router-dom";
 
 const MaterialParamsValue = ({
@@ -73,14 +67,14 @@ const MaterialParamsValue = ({
                 return (
                   <tr>
                     <td>{materialParamsValue.name || "Всі"}</td>
-                    <td>{materialParamsValue?.paramId || "Всі"}</td>
+                    <td>{materialParamsValue?.paramId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
                           onClick={() =>
                             history.push(
-                              `/create-pak-paramsvalue/${materialParamsValue._id}`
+                              `/edit-pak-paramsvalue/${materialParamsValue._id}`
                             )
                           }
                         >
@@ -103,15 +97,13 @@ const MaterialParamsValue = ({
                 return (
                   <tr>
                     <td>{filter.name || "Всі"}</td>
-                    <td>{filter?.paramId || "Всі"}</td>
+                    <td>{filter?.paramId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
                           onClick={() =>
-                            history.push(
-                              `/create-pak-paramsvalue/${filter._id}`
-                            )
+                            history.push(`/edit-pak-paramsvalue/${filter._id}`)
                           }
                         >
                           Редагувати

@@ -78,11 +78,15 @@ export const editMaterialParamsValueAction = (materialParamsValue, id) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await patchMaterialParamsValue(
+      id,
       materialParamsValue,
-      token,
-      id
+      token
     );
-    dispatch({ type: ADD_MATERIALS_PARAMS_VALUE, token });
+    dispatch({
+      type: ADD_MATERIALS_PARAMS_VALUE,
+      token,
+      materialParamsValue: response.data,
+    });
     return response.status === 200;
   };
 };

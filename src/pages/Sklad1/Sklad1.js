@@ -129,7 +129,7 @@ const Sklad1 = ({
                   sklad1.map((sklad) => {
                     return (
                       <tr key={sklad1._id}>
-                        <td>{sklad.mishok._id || "Всі"}</td>
+                        <td>{sklad.mishok?._id || "Всі"}</td>
                         <td>{sklad?.date_prixod?.slice(0, 10) || "Всі"}</td>
                         <div className={s.gatynok}>
                           <td>
@@ -173,7 +173,9 @@ const Sklad1 = ({
                           <div className={s.table__btn}>
                             <button
                               className={s.del}
-                              onClick={() => h.push("/edit")}
+                              onClick={() =>
+                                h.push(`/edit-sklad1/${sklad._id}`)
+                              }
                             >
                               Редагувати
                             </button>
@@ -235,7 +237,9 @@ const Sklad1 = ({
                           <div className={s.table__btn}>
                             <button
                               className={s.del}
-                              onClick={() => h.push("/edit")}
+                              onClick={() =>
+                                h.push(`/edit-sklad1/${filtered._id}`)
+                              }
                             >
                               Редагувати
                             </button>

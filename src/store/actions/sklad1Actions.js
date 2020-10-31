@@ -3,6 +3,7 @@ import {
   createSklad1,
   deleteSklad1,
   fetchFilteredSklad1,
+  fetchSingleSklad1,
   fetchSklad1,
   fetchSklad1to2,
   patchSklad1,
@@ -13,6 +14,7 @@ import {
   ADD_SKLAD1,
   DELETE_SKLAD1,
   SET_SKLAD1_TO2,
+  SET_SINGLE_SKLAD1,
 } from "./actionTypes";
 
 export const getSklad1Action = () => {
@@ -23,6 +25,13 @@ export const getSklad1Action = () => {
       dispatch({ type: SET_SKLAD1, sklad1: response.data });
     }
     return response.status === 200;
+  };
+};
+export const getSingleSklad1Action = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleSklad1(id, token);
+    dispatch({ type: SET_SINGLE_SKLAD1, singleSklad1: response.data });
   };
 };
 export const getSklad1to2Action = () => {

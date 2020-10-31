@@ -38,6 +38,9 @@ import EditProdArticle from "./pages/EditProdArticle/EditProdArticle";
 import Sklad2 from "./pages/Sklad2/Sklad2";
 import CreatePakType from "./pages/CreatePakType/CreatePakType";
 import CreateParamsValue from "./pages/CreateParamsValue/CreateParamsValue";
+import EditPramsValue from "./pages/EditPramsValue/EditPramsValue";
+import EditPakType from "./pages/EditPakType/EditPakType";
+import EditSklad1 from "./pages/EditSklad/EditSklad1";
 
 function App(props) {
   // const Route = ({
@@ -91,6 +94,9 @@ function App(props) {
           <Route path="/edit-prod-article/:id" component={EditProdArticle} />
           <Route path="/create-paktype" component={CreatePakType} />
           <Route path="/create-pak-paramsvalue" component={CreateParamsValue} />
+          <Route path="/edit-pak-paramsvalue/:id" component={EditPramsValue} />
+          <Route path="/edit-paktype/:id" component={EditPakType} />
+          <Route path="/edit-sklad1/:id" component={EditSklad1} />
         </Switch>
       </div>
     </Router>

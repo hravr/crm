@@ -11,7 +11,34 @@ export const fetchSklad1 = (token) => {
     },
   });
 };
-
+export const fetchSingleSklad1 = (id, token) => {
+  return _axios.get(`/sklad1/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSingleSklad2 = (id, token) => {
+  return _axios.get(`/sklad2/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSingleSklad3 = (id, token) => {
+  return _axios.get(`/sklad3/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSingleSklad4 = (id, token) => {
+  return _axios.get(`/sklad4/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 export const fetchFilteredSklad1 = (from, to, search, token) => {
   let baseUrl = "/sklad1?";
   if (search) {
@@ -1455,7 +1482,7 @@ export const createMaterialType = (materialType, token) => {
   });
 };
 
-export const patchMaterialType = (id, token, materialType) => {
+export const patchMaterialType = (id, materialType, token) => {
   return _axios.patch(`/materials_type/${id}`, materialType, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -1555,13 +1582,14 @@ export const createMaterialParamsValue = (materialParamsValue, token) => {
   });
 };
 
-export const patchMaterialParamsValue = (id, token, materialParamsValue) => {
+export function patchMaterialParamsValue(id, materialParamsValue, token) {
+  console.log("args ===", arguments);
   return _axios.patch(`/materials_params_value/${id}`, materialParamsValue, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-};
+}
 
 export const deleteMaterialParamsValue = (id, token) => {
   return _axios.delete(`/materials_params_value/${id}`, {

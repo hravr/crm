@@ -21,7 +21,7 @@ const Workers = ({
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
   const h = useHistory();
-
+  console.log(filteredWorkers);
   useEffect(() => {
     (async () => {
       await getWorkers();
@@ -93,16 +93,16 @@ const Workers = ({
                 );
               })
             : filteredWorkers.length &&
-              filteredWorkers.map((filtered) => {
+              filteredWorkers?.map((filtered) => {
                 return (
-                  <tr key={workers._id}>
-                    <td>{filetred.fName + " " + filetred.sName}</td>
-                    <td>{filetred.status}</td>
-                    <td>
+                  <tr key={filetred?._id}>
+                    <td>{filetred?.fName + " " + filetred?.sName}</td>
+                    <td>{filetred?.status}</td>
+                    {/* <td>
                       {filetred?.operationId?.map((q) => {
                         return q.name;
                       })}
-                    </td>
+                    </td> */}
                     <td>
                       <div className={s.table__btn}>
                         <button

@@ -3,6 +3,7 @@ import {
   createSklad4,
   deleteSklad4,
   fetchFilteredSklad4,
+  fetchSingleSklad4,
   fetchSklad4,
   patchSklad4,
 } from "../api/api";
@@ -10,6 +11,7 @@ import {
   ADD_SKLAD4,
   DELETE_SKLAD4,
   SET_FILTERED_SKLAD4,
+  SET_SINGLE_SKLAD4,
   SET_SKLAD4,
 } from "./actionTypes";
 
@@ -23,6 +25,15 @@ export const getSklad4Action = () => {
     return response.status === 200;
   };
 };
+
+export const getSingleSklad4Action = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleSklad4(id, token);
+    dispatch({ type: SET_SINGLE_SKLAD4, singleSklad4: response.data });
+  };
+};
+
 export const filterSklad4Action = ({ sort, from, to, search }) => {
   return async (dispatch) => {
     const token = getToken();

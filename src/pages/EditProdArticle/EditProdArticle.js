@@ -57,10 +57,6 @@ const EditProdArticle = ({
     { value: 3, label: 3 },
   ];
 
-  const gatynokSelect = (options) => {
-    setValues({ ...values, gatynok: options.value });
-  };
-
   const asortumentSelect = (asortumentId) => {
     setValues({
       ...values,

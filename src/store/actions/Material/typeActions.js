@@ -4,6 +4,7 @@ import {
   deleteMaterialType,
   fetchMaterialType,
   fetchSearchMaterialType,
+  fetchSingleMaterialType,
   patchMaterialType,
 } from "../../api/api";
 import {
@@ -11,6 +12,7 @@ import {
   DELETE_MATERIALS_TYPE,
   SET_FILTER_MATERIALS_TYPE,
   ADD_MATERIALS_TYPE,
+  SET_SINGLE_MATERIALS_TYPE,
 } from "../actionTypes";
 
 export const getMaterialTypeAction = () => {
@@ -26,7 +28,16 @@ export const getMaterialTypeAction = () => {
     return response.status === 200;
   };
 };
-
+export const getSingleMaterialTypeAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleMaterialType(id, token);
+    dispatch({
+      type: SET_SINGLE_MATERIALS_TYPE,
+      singleType: response.data,
+    });
+  };
+};
 export const filterMaterialTypeAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
@@ -63,8 +74,8 @@ export const createMaterialTypeAction = (materialType) => {
 export const editMaterialTypeAction = (materialType, id) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await patchMaterialType(materialType, token, id);
-    dispatch({ type: ADD_MATERIALS_TYPE, token });
+    const response = await patchMaterialType(id, materialType, token);
+    dispatch({ type: ADD_MATERIALS_TYPE, token, materialType: response.data });
     return response.status === 200;
   };
 };

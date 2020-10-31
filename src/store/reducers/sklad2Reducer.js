@@ -2,12 +2,13 @@ import {
   ADD_SKLAD2,
   DELETE_SKLAD2,
   SET_FILTERED_SKLAD2,
+  SET_SINGLE_SKLAD2,
   SET_SKLAD2,
 } from "../actions/actionTypes";
 
 const initialState = {
   sklad2: "",
-  filtered: [],
+  filtered: [],single: {}
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +18,8 @@ export default (state = initialState, action) => {
         ...state,
         sklad2: action.sklad2,
       };
+      case SET_SINGLE_SKLAD2:
+        return { ...state, single: action.singleSklad2 };
     case SET_FILTERED_SKLAD2:
       return {
         ...state,

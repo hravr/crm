@@ -2,10 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import s from "./CreatePruhid.module.css";
+import s from "./EditSklad.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
-import classnames from "classnames";
 import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
 import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
 import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
@@ -16,17 +15,16 @@ import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
 import { getMachineAction } from "../../store/actions/Machine/machineActions";
 import {
   createSklad1Action,
+  editSklad1ction,
+  getSingleSklad1Action,
   getSklad1Action,
 } from "../../store/actions/sklad1Actions";
 import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import CreatePruhid2 from "../CreatePruhid2/CreatePruhid2";
-import CreatePruhid3 from "../CreatePruhid3/CreatePruhid3";
-import CreatePruhid4 from "../CreatePruhid4/CreatePruhid4";
 import { getOperationsAction } from "../../store/actions/operationsAction";
 import { getWorkersAction } from "../../store/actions/workersActions";
+import { useParams } from "react-router-dom";
 
-const CreatePruhid = ({
+const EditSklad1 = ({
   values,
   handleChange,
   handleSubmit,
@@ -52,9 +50,10 @@ const CreatePruhid = ({
   fetchProdArticle,
   getWorkers,
   getOperations,
-  errors,
   operations,
   workers,
+  singleSklad1,
+  getSingleSklad1,
 }) => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
@@ -65,8 +64,7 @@ const CreatePruhid = ({
   const [colorOptions, setColorOptions] = useState([]);
   const [machinesOptions, setMachinesOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-
+  const { id } = useParams();
   const operationsObject = useMemo(() => {
     const temp = {};
     operations.forEach((operation) => {
@@ -102,43 +100,68 @@ const CreatePruhid = ({
   }, [operationsObject]);
 
   const articleSelect = (articleId) => {
-    setValues({ ...values, articleId: articleId.value });
+    setValues({
+      ...values,
+      articleId: articleId.value,
+      articleName: articleId.label,
+    });
   };
 
   const vyazalSelect = (vyazalId) => {
-    setValues({ ...values, vyazalId: vyazalId.value });
+    setValues({
+      ...values,
+      vyazalId: vyazalId.value,
+      vyazalName: vyazalId.label,
+    });
   };
 
   const masterSelect = (masterId) => {
-    setValues({ ...values, masterId: masterId.value });
+    setValues({
+      ...values,
+      masterId: masterId.value,
+      masterName: masterId.label,
+    });
   };
 
   const asortumentSelect = (asortument) => {
-    setValues({ ...values, asortument: asortument.value });
+    setValues({
+      ...values,
+      asortument: asortument.value,
+      asortumentName: asortument.label,
+    });
   };
   const classSelect = (classId) => {
-    setValues({ ...values, classId: classId.value });
+    setValues({ ...values, classId: classId.value, cName: classId.label });
   };
   const colorSelect = (colorId) => {
-    setValues({ ...values, colorId: colorId.value });
+    setValues({ ...values, colorId: colorId.value, colorName: colorId.label });
   };
   const imageSelect = (imageId) => {
-    setValues({ ...values, imageId: imageId.value });
+    setValues({ ...values, imageId: imageId.value, imageName: imageId.label });
   };
   const sizeSelect = (sizeId) => {
-    setValues({ ...values, sizeId: sizeId.value });
+    setValues({ ...values, sizeId: sizeId.value, sizeName: sizeId.label });
   };
 
   const sezonSelect = (seasonId) => {
-    setValues({ ...values, seasonId: seasonId.value });
+    setValues({
+      ...values,
+      seasonId: seasonId.value,
+      seasonName: seasonId.label,
+    });
   };
   const typeSelect = (typeId) => {
-    setValues({ ...values, typeId: typeId.value });
+    setValues({ ...values, typeId: typeId.value, typeName: typeId.label });
   };
 
   const machinesSelect = (machineId) => {
-    setValues({ ...values, machineId: machineId.value });
+    setValues({
+      ...values,
+      machineId: machineId.value,
+      machineName: machineId.label,
+    });
   };
+
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
@@ -219,6 +242,7 @@ const CreatePruhid = ({
 
   useEffect(() => {
     (async () => {
+      await getSingleSklad1(id);
       await getSklad1();
       await fetchMachine();
       await fetchProdAsortument();
@@ -233,245 +257,240 @@ const CreatePruhid = ({
       await getOperations();
     })();
   }, []);
-
+  useEffect(() => {
+    const {
+      typeId,
+      seasonId,
+      sizeId,
+      imageId,
+      colorId,
+      machineId,
+      masterId,
+      vyazalId,
+      articleId,
+      asortument,
+      classId,
+      _id,
+    } = singleSklad1;
+    if (singleSklad1._id) {
+      setValues({
+        ...values,
+        seasonId,
+        seasonName: seasonId?.name,
+        typeId,
+        typeName: typeId?.name,
+        sizeId,
+        sizeName: sizeId?.name,
+        imageId,
+        imageName: imageId?.name,
+        colorId,
+        colorName: colorId?.name,
+        classId,
+        cName: classId?.name,
+        machineId,
+        machineName: machineId?.name,
+        masterId,
+        masterName: masterId?.name,
+        vyazalId,
+        vyazalName: vyazalId?.name,
+        articleId,
+        articleName: articleId?.name,
+        asortument,
+        asortumentName: asortument?.name,
+        _id,
+      });
+    }
+  }, [singleSklad1]);
   return (
-    <Tabs className={s.main}>
+    <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Створити прихід</span>
+        <span className={s.title}>Змінити склад 1</span>
         <hr></hr>
       </div>
-      <TabList className={s.tabs}>
-        {["Cклад 1", "Cклад 2", "Cклад 3", "Cклад 4"].map((item, i) => (
-          <Tab
-            onClick={() => setActiveTabIndex(i)}
-            key={item}
-            className={classnames(s.tab, {
-              [s.tab__active]: activeTabIndex === i,
-            })}
-          >
-            {item}
-          </Tab>
-        ))}
-      </TabList>
-      <TabPanel>
-        <div className={s.main__container}>
-          <div className={s.left}>
-            <Input
-              type="date"
-              value={values.date_prixod}
-              name="date_prixod"
-              label="Дата"
-              onChange={handleChange}
-            />
-            <Input
-              type="number"
-              value={values.gatynok1}
-              name="gatynok1"
-              label="Гатунок 1"
-              onChange={handleChange}
-            />
-            <Input
-              type="number"
-              value={values.gatynok2}
-              name="gatynok2"
-              label="Гатунок 2"
-              onChange={handleChange}
-            />
-            <Input
-              type="number"
-              label="Гатунок 3"
-              value={values.gatynok3}
-              name="gatynok3"
-              onChange={handleChange}
-            />
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Обладнання</span>
-              </div>
-              <Select
-                options={machinesOptions}
-                value={values.machineId.label}
-                name="machineId"
-                onChange={machinesSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>В'язальниця</span>
-              </div>
-              <Select
-                options={operationsOptions["В'язальниця"]}
-                value={values.vyazalId.label}
-                name="vyazalId"
-                onChange={vyazalSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Майстер</span>
-              </div>
-              <Select
-                options={operationsOptions["Майстер"]}
-                value={values.masterId.label}
-                name="masterId"
-                onChange={masterSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Артикул</span>
-              </div>
-              <Select
-                options={articleOptions}
-                value={values.articleId.label}
-                name="articleId"
-                onChange={articleSelect}
-              />
-            </div>
-          </div>
-          <div className={s.left}>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Тип</span>
-              </div>
-              <Select
-                options={typeOptions}
-                value={values.typeId.label}
-                name="typeId"
-                onChange={typeSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Колір</span>
-              </div>
-              <Select
-                options={colorOptions}
-                value={values.colorId.label}
-                name="colorId"
-                onChange={colorSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Клас</span>
-              </div>
-              <Select
-                options={classOptions}
-                value={values.classId.label}
-                name="classId"
-                onChange={classSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Асортимент</span>
-              </div>
-              <Select
-                options={asortumenOptions}
-                value={values.asortument.label}
-                name="asortument"
-                onChange={asortumentSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Малюнок</span>
-              </div>
-              <Select
-                options={imageOptions}
-                value={values.imageId.label}
-                name="imageId"
-                onChange={imageSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Сезон</span>
-              </div>
-              <Select
-                options={sezonOptions}
-                value={values.seasonId.label}
-                name="seasonId"
-                onChange={sezonSelect}
-              />
-            </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Розмір</span>
-              </div>
-              <Select
-                options={sizeOptions}
-                value={values.sizeId.label}
-                name="sizeId"
-                onChange={sizeSelect}
-              />
-            </div>
-          </div>
-        </div>
-        <div className={s.btn__container}>
-          <Button
-            title="Створити"
-            onClick={handleSubmit}
-            disabled={!!errors.name}
+      <div className={s.main__container}>
+        <div className={s.left}>
+          <Input
+            type="date"
+            value={values.date_prixod}
+            name="date_prixod"
+            label="Дата"
+            onChange={handleChange}
           />
+          <Input
+            type="number"
+            value={values.gatynok1}
+            name="gatynok1"
+            label="Гатунок 1"
+            onChange={handleChange}
+          />
+          <Input
+            type="number"
+            value={values.gatynok2}
+            name="gatynok2"
+            label="Гатунок 2"
+            onChange={handleChange}
+          />
+          <Input
+            type="number"
+            label="Гатунок 3"
+            value={values.gatynok3}
+            name="gatynok3"
+            onChange={handleChange}
+          />
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Обладнання</span>
+            </div>
+            <Select
+              options={machinesOptions}
+              value={{ label: values.machineName, value: values.machineId }}
+              name="machineId"
+              onChange={machinesSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>В'язальниця</span>
+            </div>
+            <Select
+              options={operationsOptions["В'язальниця"]}
+              value={{ label: values.vyazalName, value: values.vyazalId }}
+              name="vyazalId"
+              onChange={vyazalSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Майстер</span>
+            </div>
+            <Select
+              options={operationsOptions["Майстер"]}
+              value={{ label: values.masterName, value: values.masterId }}
+              name="masterId"
+              onChange={masterSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Артикул</span>
+            </div>
+            <Select
+              options={articleOptions}
+              value={{ label: values.articleName, value: values.articleId }}
+              name="articleId"
+              onChange={articleSelect}
+            />
+          </div>
         </div>
-      </TabPanel>
-      <TabPanel>
-        <CreatePruhid2 />
-      </TabPanel>
-      <TabPanel>
-        <CreatePruhid3 />
-      </TabPanel>
-      <TabPanel>
-        <CreatePruhid4 />
-      </TabPanel>
-    </Tabs>
+        <div className={s.left}>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Тип</span>
+            </div>
+            <Select
+              options={typeOptions}
+              value={{ label: values.typeName, value: values.typeId }}
+              name="typeId"
+              onChange={typeSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Колір</span>
+            </div>
+            <Select
+              options={colorOptions}
+              value={{ label: values.colorName, value: values.colorId }}
+              name="colorId"
+              onChange={colorSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Клас</span>
+            </div>
+            <Select
+              options={classOptions}
+              value={{ label: values.cName, value: values.classId }}
+              name="classId"
+              onChange={classSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Асортимент</span>
+            </div>
+            <Select
+              options={asortumenOptions}
+              value={{ label: values.asortumentName, value: values.asortument }}
+              name="asortument"
+              onChange={asortumentSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Малюнок</span>
+            </div>
+            <Select
+              options={imageOptions}
+              value={{ label: values.imageName, value: values.imageId }}
+              name="imageId"
+              onChange={imageSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Сезон</span>
+            </div>
+            <Select
+              options={sezonOptions}
+              value={{ label: values.imageOptions, value: values.seasonId }}
+              name="seasonId"
+              onChange={sezonSelect}
+            />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Розмір</span>
+            </div>
+            <Select
+              options={sizeOptions}
+              value={{ label: values.sizeName, value: values.sizeId }}
+              name="sizeId"
+              onChange={sizeSelect}
+            />
+          </div>
+        </div>
+      </div>
+      <div className={s.btn__container}>
+        <Button title="Створити" onClick={handleSubmit} />
+      </div>
+    </div>
   );
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
-    asortument: {},
-    typeId: {},
-    sizeId: {},
-    seasonId: {},
-    imageId: {},
-    classId: {},
-    colorId: {},
-    machineId: {},
-    masterId: {},
-    vyazalId: {},
-    articleId: {},
+    asortument: "",
+    typeId: "",
+    sizeId: "",
+    seasonId: "",
+    imageId: "",
+    classId: "",
+    colorId: "",
+    machineId: "",
+    masterId: "",
+    vyazalId: "",
+    articleId: "",
     date_prixod: "",
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
+    _id: "",
   }),
-  validate: (values) => {
-    const errors = {};
-    if (
-      !values.asortument ||
-      !values.typeId ||
-      !values.sizeId ||
-      !values.seasonId ||
-      !values.imageId ||
-      !values.classId ||
-      !values.colorId ||
-      !values.date_prixod ||
-      !values.articleId ||
-      !values.machineId ||
-      !values.masterId ||
-      !values.vyazalId ||
-      !values.gatynok1 ||
-      !values.gatynok2 ||
-      !values.gatynok3
-    ) {
-      errors.name = "Required";
-    }
-
-    return errors;
-  },
-  handleSubmit: async (values, { props: { createPruhid1, history } }) => {
+  handleSubmit: async (
+    values,
+    { props: { editSklad1, history, singleSklad1 } }
+  ) => {
     const pruhudToSubmit = {
       asortument: values.asortument,
       typeId: values.typeId,
@@ -489,14 +508,14 @@ const formikHOC = withFormik({
       vyazalId: values.vyazalId,
       articleId: values.articleId,
     };
-    const isSuccess = await createPruhid1(pruhudToSubmit);
+    const isSuccess = await editSklad1(pruhudToSubmit, singleSklad1._id);
     if (isSuccess) {
-      alert("Створено") || history.push("/sklad_1");
+      alert("Змінено") || history.push("/sklad_1");
     } else {
       alert("error===");
     }
   },
-})(CreatePruhid);
+})(EditSklad1);
 const mapStateToProps = (state) => {
   return {
     operations: state.operations.operations,
@@ -513,6 +532,7 @@ const mapStateToProps = (state) => {
     vyazalId: state.sklad1.sklad1,
     operations: state.operations.operations,
     workers: state.workers.workers,
+    singleSklad1: state.sklad1.single,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -530,6 +550,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchProdArticle: () => dispatch(getProdArticleAction()),
     getOperations: () => dispatch(getOperationsAction()),
     getWorkers: () => dispatch(getWorkersAction()),
+    getSingleSklad1: (id) => dispatch(getSingleSklad1Action(id)),
+    editSklad1: (sklad1, id) => dispatch(editSklad1ction(sklad1, id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

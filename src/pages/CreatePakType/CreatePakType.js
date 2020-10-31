@@ -5,58 +5,69 @@ import Button from "../../misc/Button/Button";
 import s from "./CreatePakType.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
-import { getOperationsAction } from "../../store/actions/operationsAction";
 import { createMaterialTypeAction } from "../../store/actions/Material/typeActions";
 import { getMaterialVendorAction } from "../../store/actions/Material/vendorActions";
+import { getMaterialParamsAction } from "../../store/actions/Material/paramsActions";
+import { getMaterialRozhidAction } from "../../store/actions/Material/dilankaRozhoduActions";
 
 const CreatePakType = ({
   values,
   handleChange,
   handleBlur,
   handleSubmit,
-  getOperations,
   setValues,
-  operations,
+  paramsId,
   vendorId,
   fetchMaterialVendor,
+  fetchMaterialParams,
+  dilankaId,
   errors,
+  fetchMaterialRozhid,
 }) => {
-  const [operationsOptions, setOperationsOptions] = useState([]);
   const [vendorOptions, setVendorOptions] = useState([]);
-  const options = [
-    { value: "worked", label: "Працює" },
-    { value: "not-worked", label: "Не працює" },
-  ];
+  const [paramsOptions, setParamsOptions] = useState([]);
+  const [rozhidOptions, setRozhidActions] = useState([]);
+
+  const paramsSelect = (paramsId) => {
+    setValues({ ...values, paramsId: paramsId.value });
+  };
 
   const vendorSelect = (vendorId) => {
     setValues({ ...values, vendorId: vendorId.value });
   };
-  const statusSelect = (options) => {
-    setValues({ ...values, status: options.value });
-  };
-
-  const operationSelect = (operations) => {
-    setValues({ ...values, operationId: operations.value });
+  const rozhidSelect = (dilankaId) => {
+    setValues({ ...values, dilankaId: dilankaId.value });
   };
 
   useEffect(() => {
+    setRozhidActions(
+      dilankaId.length &&
+        dilankaId.map((opt) => {
+          return { label: opt.name, value: opt._id };
+        })
+    );
+  }, [dilankaId]);
+  useEffect(() => {
+    setParamsOptions(
+      paramsId.length &&
+        paramsId.map((opt) => {
+          return { label: opt.name, value: opt._id };
+        })
+    );
+  }, [paramsId]);
+  useEffect(() => {
     setVendorOptions(
-      vendorId.map((opt) => {
-        return { label: opt.name, value: opt._id };
-      })
+      vendorId.length &&
+        vendorId.map((opt) => {
+          return { label: opt.name, value: opt._id };
+        })
     );
   }, [vendorId]);
   useEffect(() => {
-    setOperationsOptions(
-      operations.map((opt) => {
-        return { label: opt.name, value: opt._id };
-      })
-    );
-  }, [operations]);
-  useEffect(() => {
     (async () => {
-      await getOperations();
       await fetchMaterialVendor();
+      await fetchMaterialParams();
+      await fetchMaterialRozhid();
     })();
   }, []);
 
@@ -76,50 +87,40 @@ const CreatePakType = ({
             onBlur={handleBlur}
           />
           <div className={s.select__container}>
-            <Input
-              label="Ділянка розходу на склад"
-              value={values.dilankaId}
+            <div className={s.span}>
+              <span>Ділянка розходу</span>
+            </div>
+            <Select
+              options={rozhidOptions}
+              value={values.dilankaId.label}
               name="dilankaId"
-              onChange={handleChange}
+              onChange={rozhidSelect}
               onBlur={handleBlur}
-              type="number"
             />
           </div>
           <div className={s.select__container}>
             <div className={s.span}>
-              <span>Статус</span>
+              <span>Постачальник</span>
             </div>
             <Select
-              options={options}
-              value={values.status.label}
-              name="status"
-              onChange={statusSelect}
+              options={vendorOptions}
+              value={values.vendorId.label}
+              name="vendorId"
+              onChange={vendorSelect}
               onBlur={handleBlur}
             />
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Постачальник</span>
-              </div>
-              <Select
-                options={vendorOptions}
-                value={values.vendorId.label}
-                name="vendorId"
-                onChange={vendorSelect}
-                onBlur={handleBlur}
-              />
+          </div>
+          <div className={s.select__container}>
+            <div className={s.span}>
+              <span>Параметер</span>
             </div>
-            <div className={s.select__container}>
-              <div className={s.span}>
-                <span>Операція</span>
-              </div>
-              <Select
-                options={operationsOptions}
-                value={values.operationId.label}
-                name="operationId"
-                onChange={operationSelect}
-                onBlur={handleBlur}
-              />
-            </div>
+            <Select
+              options={paramsOptions}
+              value={values.paramsId.label}
+              name="paramsId"
+              onChange={paramsSelect}
+              onBlur={handleBlur}
+            />
           </div>
         </div>
       </div>
@@ -136,19 +137,17 @@ const CreatePakType = ({
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
     name: "",
-    dilankaId: "",
-    operationId: {},
-    status: {},
     vendorId: {},
+    paramsId: {},
+    dilankaId: {},
   }),
   validate: (values) => {
     const errors = {};
     if (
       !values.name ||
-      !values.dilankaId ||
-      !values.operationId ||
       !values.vendorId ||
-      !values.status
+      !values.dilankaId ||
+      !values.paramsId
     ) {
       errors.name = "Required";
     }
@@ -157,15 +156,14 @@ const formikHOC = withFormik({
   },
   handleSubmit: async (values, { props: { createPakType, history } }) => {
     const typeToSubmit = {
-      status: values.status,
-      operationId: values.operationId,
       name: values.name,
-      dilankaId: values.dilankaId,
       vendorId: values.vendorId,
+      paramsId: values.paramsId,
+      dilankaId: values.dilankaId,
     };
     const isSuccess = await createPakType(typeToSubmit);
     if (isSuccess) {
-      history.push("/workers") || alert("Створено");
+      history.push("/pak_materials") || alert("Створено");
     } else {
       alert("Помилка");
     }
@@ -175,6 +173,8 @@ const mapStateToProps = (state) => {
   return {
     operations: state.operations.operations,
     vendorId: state.materialVendor.materialVendor,
+    paramsId: state.materialParams.materialParams,
+    dilankaId: state.materialRozhid.materialRozhid,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -182,7 +182,8 @@ const mapDispatchToProps = (dispatch) => {
     createPakType: (materialType) =>
       dispatch(createMaterialTypeAction(materialType)),
     fetchMaterialVendor: () => dispatch(getMaterialVendorAction()),
-    getOperations: () => dispatch(getOperationsAction()),
+    fetchMaterialParams: () => dispatch(getMaterialParamsAction()),
+    fetchMaterialRozhid: () => dispatch(getMaterialRozhidAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

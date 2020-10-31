@@ -3,10 +3,12 @@ import {
   DELETE_MATERIALS_TYPE,
   SET_FILTER_MATERIALS_TYPE,
   SET_MATERIALS_TYPE,
+  SET_SINGLE_MATERIALS_TYPE,
 } from "../../actions/actionTypes";
 
 const initialState = {
   materialType: "",
+  single: {},
   filtered: [],
 };
 
@@ -17,6 +19,8 @@ export default (state = initialState, action) => {
         ...state,
         materialType: action.materialType,
       };
+    case SET_SINGLE_MATERIALS_TYPE:
+      return { ...state, single: action.singleType };
     case SET_FILTER_MATERIALS_TYPE:
       return {
         ...state,

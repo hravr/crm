@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import s from "./CreateParamsValue.module.css";
+import s from "./EditPramsValue.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
 import { getMaterialParamsAction } from "../../store/actions/Material/paramsActions";
@@ -12,7 +12,7 @@ import {
 } from "../../store/actions/Material/paramsValueActions";
 import { useParams } from "react-router-dom";
 
-const CreateParamsValue = ({
+const EditParamsValue = ({
   values,
   handleChange,
   handleBlur,
@@ -20,7 +20,6 @@ const CreateParamsValue = ({
   setValues,
   paramId,
   fetchMaterialParams,
-  errors,
   getSingleParamsValue,
   singleParamsValue,
 }) => {
@@ -31,7 +30,7 @@ const CreateParamsValue = ({
     setValues({
       ...values,
       paramId: paramId.value,
-      paramsName: paramsId.label,
+      paramsName: paramId.label,
     });
   };
 
@@ -52,7 +51,6 @@ const CreateParamsValue = ({
   }, []);
   useEffect(() => {
     const { name, paramId, _id } = singleParamsValue;
-    console.log(singleParamsValue);
     if (singleParamsValue._id) {
       setValues({
         ...values,
@@ -66,7 +64,7 @@ const CreateParamsValue = ({
   return (
     <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Створити значення параметру</span>
+        <span className={s.title}>Змінити значення параметру</span>
         <hr></hr>
       </div>
       <div className={s.main__container}>
@@ -84,7 +82,7 @@ const CreateParamsValue = ({
             </div>
             <Select
               options={paramsOptions}
-              value={values.paramId.label}
+              value={{ label: values.paramsName, value: values.paramId }}
               name="paramId"
               onChange={paramsSelect}
               onBlur={handleBlur}
@@ -93,11 +91,7 @@ const CreateParamsValue = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button
-          title="Створити"
-          onClick={handleSubmit}
-          disabled={!!errors.name}
-        />
+        <Button title="Змінити" onClick={handleSubmit} />
       </div>
     </div>
   );
@@ -105,29 +99,28 @@ const CreateParamsValue = ({
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
     name: "",
-    paramId: {},
+    paramId: "",
   }),
-  validate: (values) => {
-    const errors = {};
-    if (!values.name || !values.paramId) {
-      errors.name = "Required";
-    }
 
-    return errors;
-  },
-  handleSubmit: async (values, { props: { editParamsValue, history } }) => {
+  handleSubmit: async (
+    values,
+    { props: { editParamsValue, history, singleParamsValue } }
+  ) => {
     const paramsValueToSubmit = {
       name: values.name,
       paramId: values.paramId,
     };
-    const isSuccess = await editParamsValue(paramsValueToSubmit);
+    const isSuccess = await editParamsValue(
+      paramsValueToSubmit,
+      singleParamsValue._id
+    );
     if (isSuccess) {
-      history.push("/pak_materials") || alert("Створено");
+      history.push("/pak_materials") || alert("Змінено");
     } else {
       alert("Помилка");
     }
   },
-})(CreateParamsValue);
+})(EditParamsValue);
 const mapStateToProps = (state) => {
   return {
     singleParamsValue: state.materialParamsValue.single,
