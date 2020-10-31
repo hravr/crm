@@ -284,7 +284,7 @@ const CreatePrices = ({
           </div>
           <div className={s.select__container}>
             <div className={s.span}>
-              <span>Артикуль</span>
+              <span>Артикул</span>
             </div>
             <Select
               options={articleOptions}

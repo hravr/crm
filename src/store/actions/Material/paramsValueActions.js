@@ -4,6 +4,7 @@ import {
   deleteMaterialParamsValue,
   fetchMaterialParamsValue,
   fetchSearchMaterialParamsValue,
+  fetchSingleMaterialParamsValue,
   patchMaterialParamsValue,
 } from "../../api/api";
 import {
@@ -11,6 +12,7 @@ import {
   DELETE_MATERIALS_PARAMS_VALUE,
   SET_FILTER_MATERIALS_PARAMS_VALUE,
   ADD_MATERIALS_PARAMS_VALUE,
+  SET_SINGLE_MATERIALS_PARAMS_VALUE,
 } from "../actionTypes";
 
 export const getMaterialParamsValueAction = () => {
@@ -26,7 +28,16 @@ export const getMaterialParamsValueAction = () => {
     return response.status === 200;
   };
 };
-
+export const getSingleMaterialParamsValueAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleMaterialParamsValue(id, token);
+    dispatch({
+      type: SET_SINGLE_MATERIALS_PARAMS_VALUE,
+      singleParamsValue: response.data,
+    });
+  };
+};
 export const filterMaterialParamsValueAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
@@ -48,7 +59,10 @@ export const filterMaterialParamsValueAction = ({ search }) => {
 export const createMaterialParamsValueAction = (materialParamsValue) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await createMaterialParamsValue(materialParamsValue, token);
+    const response = await createMaterialParamsValue(
+      materialParamsValue,
+      token
+    );
     if (response.status === 200) {
       dispatch({
         type: ADD_MATERIALS_PARAMS_VALUE,

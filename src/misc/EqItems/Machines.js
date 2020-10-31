@@ -94,8 +94,8 @@ const Machines = ({
                 return (
                   <tr>
                     <td>{filter.name || "err"}</td>
-                    <td>{filter?.modelId?.name || "err"}</td>
                     <td>{filter?.golkuId?.name || "err"}</td>
+                    <td>{filter?.modelId?.name || "err"}</td>
                     <td>{filter?.duymuId?.name || "err"}</td>
                     <td>{filter?.vyazalniId?.name || "err"}</td>
                     <td>

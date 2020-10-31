@@ -5,7 +5,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ReactToExcel from "react-html-table-to-excel";
 import Barcode from "react-barcode";
 import {
@@ -47,7 +47,7 @@ const Zvitu = ({
     (async () => {
       await getZvitu();
       await getZvituRozxid();
-      // await getZvituZalushok();
+      await getZvituZalushok();
     })();
   }, []);
   return (
@@ -56,14 +56,6 @@ const Zvitu = ({
         <div className={s.title__container}>
           <span className={s.title}>Звіти</span>
           <hr></hr>
-        </div>
-        <div className={s.btn__container}>
-          <Link to="create-zvitu" className={s.create__worker}>
-            <Button title="Створити прихід" />
-          </Link>
-          <Link to="create-zvitu-rozxid" className={s.create__worker}>
-            <Button title="Створити розхід" />
-          </Link>
         </div>
         <TabList className={s.tabs}>
           {["Прихід", "Розхід", "Залишок"].map((item, i) => (
@@ -83,7 +75,6 @@ const Zvitu = ({
             {/* <div className={s.barcode}>
               <Barcode value="hey" />,
             </div> */}
-
             <div className={s.search__container}>
               <Input
                 label="Пошук"
@@ -519,7 +510,7 @@ const mapDispatchToProps = (dispatch) => {
     getZvituRozxid: () => dispatch(getZvituRozxidAction()),
     filterZvituRozxid: (data) => dispatch(filterZvituRozxidAction(data)),
     deleteZvituRozxid: (id) => dispatch(deleteZvituRozxidAction(id)),
-    getZvituZalushok: () => dispatch(getZvituZalushokAction()),
+    getZvituZalushok: (data) => dispatch(getZvituZalushokAction(data)),
     filterZvituZalushok: (data) => dispatch(filterZvituZalushokAction(data)),
   };
 };

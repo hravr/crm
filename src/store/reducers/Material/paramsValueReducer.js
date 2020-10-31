@@ -3,10 +3,12 @@ import {
   DELETE_MATERIALS_PARAMS_VALUE,
   SET_FILTER_MATERIALS_PARAMS_VALUE,
   SET_MATERIALS_PARAMS_VALUE,
+  SET_SINGLE_MATERIALS_PARAMS_VALUE,
 } from "../../actions/actionTypes";
 
 const initialState = {
   materialParamsValue: "",
+  single: {},
   filtered: [],
 };
 
@@ -17,6 +19,8 @@ export default (state = initialState, action) => {
         ...state,
         materialParamsValue: action.materialParamsValue,
       };
+    case SET_SINGLE_MATERIALS_PARAMS_VALUE:
+      return { ...state, single: action.singleParamsValue };
     case SET_FILTER_MATERIALS_PARAMS_VALUE:
       return {
         ...state,

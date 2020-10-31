@@ -3,25 +3,12 @@ import {
   DELETE_SKLAD1,
   SET_FILTERED_SKLAD1,
   SET_SKLAD1,
+  SET_SKLAD1_TO2,
 } from "../actions/actionTypes";
 
 const initialState = {
+  sklad1: "",
   filtered: [],
-  sklad1: [
-    {
-      vyazalId: "",
-      createdAt: "",
-      masterId: "",
-      machineId: "",
-      date_prixod: "",
-      date_rozsxodu: "",
-      mishok: "",
-      changesID: "",
-      deletedAt: "",
-      updatedAt: "",
-      _id: "",
-    },
-  ],
 };
 
 export default (state = initialState, action) => {
@@ -30,6 +17,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         sklad1: action.sklad1,
+      };
+    case SET_SKLAD1_TO2:
+      return {
+        ...state,
+        sklad1to2: action.sklad1to2,
       };
     case SET_FILTERED_SKLAD1:
       return {

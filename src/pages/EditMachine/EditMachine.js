@@ -41,16 +41,32 @@ const EditMachine = ({
   const { id } = useParams();
 
   const vyazalniSelect = (machineVyazalni) => {
-    setValues({ ...values, vyazalniId: machineVyazalni.value });
+    setValues({
+      ...values,
+      vyazalniId: machineVyazalni.value,
+      vyazalniName: machineVyazalni.label,
+    });
   };
   const golkuSelect = (machineGolku) => {
-    setValues({ ...values, golkuId: machineGolku.value });
+    setValues({
+      ...values,
+      golkuId: machineGolku.value,
+      golkuName: machineGolku.label,
+    });
   };
   const duymuSelect = (machineDuymu) => {
-    setValues({ ...values, duymuId: machineDuymu.value });
+    setValues({
+      ...values,
+      duymuId: machineDuymu.value,
+      dumuName: machineDuymu.label,
+    });
   };
   const modelSelect = (machineModel) => {
-    setValues({ ...values, modelId: machineModel.value });
+    setValues({
+      ...values,
+      modelId: machineModel.value,
+      modelName: machineModel.label,
+    });
   };
 
   useEffect(() => {
@@ -93,9 +109,13 @@ const EditMachine = ({
         ...values,
         name,
         modelId,
+        modelName: modelId.name,
         golkuId,
+        golkuName: golkuId.name,
         vyazalniId,
+        vyazalniName: vyazalniId.name,
         duymuId,
+        dumuName: duymuId.name,
         _id,
       });
     }
@@ -132,7 +152,7 @@ const EditMachine = ({
             </div>
             <Select
               options={modelOptions}
-              value={{ label: values.modelId, value: values.modelId }}
+              value={{ label: values.modelName, value: values.modelId }}
               name="modelId"
               onChange={modelSelect}
             />
@@ -143,7 +163,7 @@ const EditMachine = ({
             </div>
             <Select
               options={golkuOptions}
-              value={{ label: values.golkuId, value: values.golkuId }}
+              value={{ label: values.golkuName, value: values.golkuId }}
               name="golkuId"
               onChange={golkuSelect}
             />
@@ -154,7 +174,7 @@ const EditMachine = ({
             </div>
             <Select
               options={duymuOptions}
-              value={{ label: values.duymuId, value: values.duymuId }}
+              value={{ label: values.dumuName, value: values.duymuId }}
               name="duymuId"
               onChange={duymuSelect}
             />
@@ -165,7 +185,7 @@ const EditMachine = ({
             </div>
             <Select
               options={vyazalniOptions}
-              value={{ label: values.vyazalniId, value: values.vyazalniId }}
+              value={{ label: values.vyazalniName, value: values.vyazalniId }}
               name="vyazalniId"
               onChange={vyazalniSelect}
             />

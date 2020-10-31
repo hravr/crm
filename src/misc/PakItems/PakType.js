@@ -15,6 +15,7 @@ import {
   fetchSingleMaterialType,
   patchMaterialType,
 } from "../../store/api/api";
+import { Link } from "react-router-dom";
 
 const MaterialType = ({
   handleChange,
@@ -105,6 +106,7 @@ const MaterialType = ({
             <Button title="Створити" onClick={handleSubmit} />
           </div>
         </div>
+
         <div className={s.filter__container}>
           <div className={s.search__container}>
             <Input
@@ -116,6 +118,9 @@ const MaterialType = ({
             <Button title="Змінити" onClick={() => patchSingleMaterialType()} />
           </div>
         </div>
+        <Link to="/create-paktype">
+          <Button title="Створити" />
+        </Link>
       </div>
       <div className={s.table}>
         <table>

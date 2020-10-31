@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { withFormik } from "formik";
 import Input from "../../misc/Input/Input";
 import s from "./Productcia.module.css";
 import Button from "../../misc/Button/Button";
@@ -19,53 +18,18 @@ import ProdImg from "../../misc/Prod/ProdImg";
 import ProdSezon from "../../misc/Prod/ProdSezon";
 import ProdSize from "../../misc/Prod/ProdSize";
 import ProdType from "../../misc/Prod/ProdType";
-import { fetchSingleProdArticle, patchProdArticle } from "../../store/api/api";
-import { getToken } from "../../utils/utils";
+import { Link, useHistory } from "react-router-dom";
 
 const Productcia = ({
-  handleChange,
-  handleSubmit,
-  values,
   fetchProdArticle,
   filteredProdArticle,
-  productciaArticle,
   filterProdArticle,
   deleteProdArticle,
+  prodArticle,
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState([]);
-  const [singleArticle, setSingleArticle] = useState({});
-  const [prodArticle, setProdArticle] = useState([]);
-
-  const change = (e) => {
-    setSingleArticle({ ...singleArticle, name: e.target.value });
-  };
-
-  const patchSingleProdArticle = (id) => {
-    alert("Змінено");
-    const token = getToken();
-    patchProdArticle(singleArticle._id, token, singleArticle).then((res) => {
-      res.status === 200 &&
-        setProdArticle((prevState) =>
-          prevState.filter((article) =>
-            article._id === singleArticle._id
-              ? (article.name = singleArticle.name)
-              : article
-          )
-        );
-    });
-  };
-
-  const getSingleProdArticle = (id) => {
-    const token = getToken();
-    fetchSingleProdArticle(id, token).then((res) => {
-      setSingleArticle(res.data);
-    });
-  };
-
-  useEffect(() => {
-    setProdArticle(productciaArticle);
-  }, [productciaArticle]);
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -78,7 +42,7 @@ const Productcia = ({
       <div className={s.main}>
         <TabList className={s.tabs}>
           {[
-            "Артикуль",
+            "Артикул",
             "Асортимент",
             "Клас",
             "Колір",
@@ -99,9 +63,9 @@ const Productcia = ({
           ))}
         </TabList>
         <TabPanel>
+          <div className={s.top__container}></div>
           <div className={s.title__container}>
-            <span className={s.title}>Артикуль</span>
-            <hr></hr>
+            <span className={s.title}>Артикул</span>
           </div>
           <div className={s.filter__container}>
             <div className={s.search__container}>
@@ -119,35 +83,22 @@ const Productcia = ({
               />
             </div>
             <div className={s.filter__container}>
-              <div className={s.search__container}>
-                <Input
-                  label="Створити"
-                  value={values.name}
-                  name="name"
-                  onChange={handleChange}
-                />
-                <Button title="Створити" onClick={handleSubmit} />
-              </div>
-            </div>
-            <div className={s.filter__container}>
-              <div className={s.search__container}>
-                <Input
-                  label="Редагувати"
-                  value={singleArticle.name}
-                  name="name"
-                  onChange={change}
-                />
-                <Button
-                  title="Змінити"
-                  onClick={() => patchSingleProdArticle()}
-                />
-              </div>
+              <Link to="/create-prod-article">
+                <Button title="Створити" />
+              </Link>
             </div>
           </div>
           <div className={s.table}>
             <table>
               <tr>
                 <th className={s.status__table}>Назва</th>
+                <th className={s.status__table}>Асортимент</th>
+                <th className={s.status__table}>Клас</th>
+                <th className={s.status__table}>Колір</th>
+                <th className={s.status__table}>Малюнок</th>
+                <th className={s.status__table}>Сезон</th>
+                <th className={s.status__table}>Розмір</th>
+                <th className={s.status__table}>Тип</th>
                 <th className={s.status__table}></th>
               </tr>
               {!filteredProdArticle.length
@@ -156,11 +107,21 @@ const Productcia = ({
                     return (
                       <tr>
                         <td>{prodArt?.name}</td>
+                        <td>{prodArt?.asortumentId?.name}</td>
+                        <td>{prodArt?.classId?.name}</td>
+                        <td>{prodArt?.colorId?.name}</td>
+                        <td>{prodArt?.imageId?.name}</td>
+                        <td>{prodArt?.seasonId?.name}</td>
+                        <td>{prodArt?.sizeId?.name}</td>
+                        <td>{prodArt?.typeId?.name}</td>
                         <td>
                           <div className={s.table__btn}>
                             <button
-                              className={s.del}
-                              onClick={() => getSingleProdArticle(prodArt._id)}
+                              onClick={() =>
+                                history.push(
+                                  `/edit-prod-article/${prodArt._id}`
+                                )
+                              }
                             >
                               Редагувати
                             </button>
@@ -178,12 +139,22 @@ const Productcia = ({
                   filteredProdArticle.map((filtered) => {
                     return (
                       <tr>
-                        <td>{filtered.name}</td>
+                        <td>{filtered?.name}</td>
+                        <td>{filtered?.asortumentId?.name}</td>
+                        <td>{filtered?.classId?.name}</td>
+                        <td>{filtered?.colorId?.name}</td>
+                        <td>{filtered?.imageId?.name}</td>
+                        <td>{filtered?.seasonId?.name}</td>
+                        <td>{filtered?.sizeId?.name}</td>
+                        <td>{filtered?.typeId?.name}</td>
                         <td>
                           <div className={s.table__btn}>
                             <button
-                              className={s.del}
-                              onClick={() => getSingleProdArticle(filtered._id)}
+                              onClick={() =>
+                                history.push(
+                                  `/edit-prod-article/${filtered._id}`
+                                )
+                              }
                             >
                               Редагувати
                             </button>
@@ -226,25 +197,9 @@ const Productcia = ({
   );
 };
 
-const formikHOC = withFormik({
-  mapPropsToValues: () => {
-    return { name: "", _id: "" };
-  },
-  handleSubmit: async (values, { props: { createProdArticle }, resetForm }) => {
-    const isSuccess = await createProdArticle(values);
-
-    if (isSuccess) {
-      alert("Створено");
-    } else {
-      alert("error===");
-    }
-    resetForm({ name: "" });
-  },
-})(Productcia);
-
 const mapStateToProps = (state) => {
   return {
-    productciaArticle: state.prod.prodArticle,
+    prodArticle: state.prod.prodArticle,
     filteredProdArticle: state.prod.filtered,
   };
 };
@@ -256,4 +211,4 @@ const mapDispatchToProps = (dispatch) => {
     deleteProdArticle: (id) => dispatch(deleteProdArticleAction(id)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);
+export default connect(mapStateToProps, mapDispatchToProps)(Productcia);

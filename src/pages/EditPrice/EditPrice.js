@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { withFormik } from "formik";
 import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
 import {
-  createRoztsinkaAction,
   editRoztsinkaAction,
   getSingleRoztsinkaAction,
 } from "../../store/actions/roztsinkaActions";
@@ -49,7 +48,6 @@ const EditPrice = ({
   operations,
   getSingleRoztsinka,
   singleRoztsinka,
-  errors,
 }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
@@ -250,25 +248,25 @@ const EditPrice = ({
       setValues({
         ...values,
         asortument,
-        asortumentName: asortument.name,
+        asortumentName: asortument?.name || "Всі",
         machineId,
-        machineName: machineId.name,
+        machineName: machineId?.name || "Всі",
         articleId,
-        articleName: articleId.name,
+        articleName: articleId?.name || "Всі",
         typeId,
-        typeName: typeId.name,
+        typeName: typeId?.name || "Всі",
         sizeId,
-        sizeName: sizeId.name,
+        sizeName: sizeId?.name || "Всі",
         seasonId,
-        seasonName: seasonId.name,
+        seasonName: seasonId?.name || "Всі",
         imageId,
-        imageName: imageId.name,
+        imageName: imageId?.name || "Всі",
         classId,
-        classN: classId.name,
+        classN: classId?.name || "Всі",
         colorId,
-        colorName: colorId.name,
+        colorName: colorId?.name || "Всі",
         operationId,
-        operationName: operationId.name,
+        operationName: operationId?.name || "Всі",
         startDate,
         endDate,
         price,
@@ -316,7 +314,7 @@ const EditPrice = ({
           />
           <div className={s.select__container}>
             <div className={s.span}>
-              <span>Артикуль</span>
+              <span>Артикул</span>
             </div>
             <Select
               options={articleOptions}
@@ -441,11 +439,7 @@ const EditPrice = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button
-          title="Змінити"
-          onClick={handleSubmit}
-          disabled={!!errors.name}
-        />
+        <Button title="Змінити" onClick={handleSubmit} />
       </div>
     </div>
   );
@@ -469,29 +463,7 @@ const formikHOC = withFormik({
     machineId: "",
     _id: "",
   }),
-  validate: (values) => {
-    const errors = {};
-    if (
-      !values.asortument ||
-      !values.articleId ||
-      !values.typeId ||
-      !values.sizeId ||
-      !values.seasonId ||
-      !values.imageId ||
-      !values.classId ||
-      !values.colorId ||
-      !values.operationId ||
-      !values.startDate ||
-      !values.machineId ||
-      !values.endDate ||
-      !values.price ||
-      !values.name
-    ) {
-      errors.name = "Required";
-    }
 
-    return errors;
-  },
   handleSubmit: async (
     values,
     { props: { editRoztsinka, singleRoztsinka, history } }
@@ -540,7 +512,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getSingleRoztsinka: (id) => dispatch(getSingleRoztsinkaAction(id)),
     getOperations: () => dispatch(getOperationsAction()),
-    createPrices: (roztsinka) => dispatch(createRoztsinkaAction(roztsinka)),
     fetchProdType: () => dispatch(getProdTypeAction()),
     fetchProdArticle: () => dispatch(getProdArticleAction()),
     fetchProdColor: () => dispatch(getProdColorAction()),

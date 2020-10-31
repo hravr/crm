@@ -5,10 +5,10 @@ import {
   SET_ZVITU_ZALUSHOK,
 } from "../actionTypes";
 
-export const getZvituZalushokAction = () => {
+export const getZvituZalushokAction = (day) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchZvituZalushok(token);
+    const response = await fetchZvituZalushok(token, day);
     if (response.status === 200) {
       dispatch({ type: SET_ZVITU_ZALUSHOK, zvituZalushok: response.data });
     }

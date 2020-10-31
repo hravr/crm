@@ -5,7 +5,7 @@ const Button = ({ title, onClick, ...rest }) => {
   return (
     <div className={s.btn}>
       <button className={s.form__submit__button} {...rest} {...{ onClick }}>
-        {!!title && <span>{title}</span>}
+        {!!title && <span className={s.title}>{title}</span>}
       </button>
     </div>
   );

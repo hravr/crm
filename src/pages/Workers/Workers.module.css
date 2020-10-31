@@ -1,5 +1,5 @@
 .title__container {
-  text-align: center;
+  text-align: left;
   padding-top: 20px;
   border-bottom: black;
 }
@@ -24,16 +24,11 @@ td {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-/* .main {
-  margin-left: 260px;
-  width: 1000px;
-} */
-/* 
-.status__table {
-  width: 60%;
-  color: white;
-  background-color: #4caf50;
-} */
+.top__container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .status__table {
   width: 40%;
   color: white;
@@ -51,7 +46,7 @@ tr:nth-child(even) {
 
 .filter__container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }

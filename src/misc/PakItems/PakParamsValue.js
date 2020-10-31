@@ -15,11 +15,9 @@ import {
   fetchSingleMaterialParamsValue,
   patchMaterialParamsValue,
 } from "../../store/api/api";
+import { Link, useHistory } from "react-router-dom";
 
 const MaterialParamsValue = ({
-  handleChange,
-  handleSubmit,
-  values,
   fetchMaterialParamsValue,
   materialParamsValue,
   filterMaterialParamsValue,
@@ -27,48 +25,7 @@ const MaterialParamsValue = ({
   deleteMaterialParamsValue,
 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
-  const [
-    singlePakMaterialParamsValue,
-    setSinglePakMaterialParamsValue,
-  ] = useState({});
-  const [paramsValue, setParamsValue] = useState([]);
-
-  const change = (e) => {
-    setSinglePakMaterialParamsValue({
-      ...singlePakMaterialParamsValue,
-      name: e.target.value,
-    });
-  };
-
-  const patchSingleMaterialParamsValue = (id) => {
-    alert("Змінено");
-    const token = getToken();
-    patchMaterialParamsValue(
-      singlePakMaterialParamsValue._id,
-      token,
-      singlePakMaterialParamsValue
-    ).then((res) => {
-      res.status === 200 &&
-        setParamsValue((prevState) =>
-          prevState.filter((parVal) =>
-            parVal._id === singlePakMaterialParamsValue._id
-              ? (parVal.name = singlePakMaterialParamsValue.name)
-              : parVal
-          )
-        );
-    });
-  };
-
-  const getSingleParamsValue = (id) => {
-    const token = getToken();
-    fetchSingleMaterialParamsValue(id, token).then((res) => {
-      setSinglePakMaterialParamsValue(res.data);
-    });
-  };
-
-  useEffect(() => {
-    setParamsValue(materialParamsValue);
-  }, [materialParamsValue]);
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -98,35 +55,16 @@ const MaterialParamsValue = ({
           />
         </div>
         <div className={s.filter__container}>
-          <div className={s.search__container}>
-            <Input
-              label="Створити"
-              value={values.name}
-              name="name"
-              onChange={handleChange}
-            />
-            <Button title="Створити" onClick={handleSubmit} />
-          </div>
-        </div>
-        <div className={s.filter__container}>
-          <div className={s.search__container}>
-            <Input
-              label="Редагувати"
-              value={singlePakMaterialParamsValue.name}
-              name="name"
-              onChange={change}
-            />
-            <Button
-              title="Змінити"
-              onClick={() => patchSingleMaterialParamsValue()}
-            />
-          </div>
+          <Link to="/create-pak-paramsvalue" className={s.search__container}>
+            <Button title="Створити" />
+          </Link>
         </div>
       </div>
       <div className={s.table}>
         <table>
           <tr>
             <th className={s.status__table}>Назва</th>
+            <th className={s.status__table}>Параметер</th>
             <th className={s.status__table}></th>
           </tr>
           {!filteredMaterialParamsValue.length
@@ -134,13 +72,16 @@ const MaterialParamsValue = ({
               materialParamsValue.map((materialParamsValue) => {
                 return (
                   <tr>
-                    <td>{materialParamsValue.name || "err"}</td>
+                    <td>{materialParamsValue.name || "Всі"}</td>
+                    <td>{materialParamsValue?.paramId || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
                           onClick={() =>
-                            getSingleParamsValue(materialParamsValue._id)
+                            history.push(
+                              `/create-pak-paramsvalue/${materialParamsValue._id}`
+                            )
                           }
                         >
                           Редагувати
@@ -161,12 +102,17 @@ const MaterialParamsValue = ({
               filteredMaterialParamsValue.map((filter) => {
                 return (
                   <tr>
-                    <td>{filter.name || "err"}</td>
+                    <td>{filter.name || "Всі"}</td>
+                    <td>{filter?.paramId || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button
                           className={s.del}
-                          onClick={() => getSingleParamsValue(filter._id)}
+                          onClick={() =>
+                            history.push(
+                              `/create-pak-paramsvalue/${filter._id}`
+                            )
+                          }
                         >
                           Редагувати
                         </button>
@@ -186,24 +132,6 @@ const MaterialParamsValue = ({
   );
 };
 
-const formikHOC = withFormik({
-  mapPropsToValues: () => ({
-    name: "",
-  }),
-  handleSubmit: async (
-    values,
-    { props: { createMaterialParamsValue }, resetForm }
-  ) => {
-    const isSuccess = await createMaterialParamsValue(values);
-    if (isSuccess) {
-      alert("Створено");
-    } else {
-      alert("error===");
-    }
-    resetForm({ name: "" });
-  },
-})(MaterialParamsValue);
-
 const mapStateToProps = (state) => {
   return {
     materialParamsValue: state.materialParamsValue.materialParamsValue,
@@ -216,10 +144,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getMaterialParamsValueAction(search)),
     filterMaterialParamsValue: (data) =>
       dispatch(filterMaterialParamsValueAction(data)),
-    createMaterialParamsValue: (data) =>
-      dispatch(createMaterialParamsValueAction(data)),
     deleteMaterialParamsValue: (data) =>
       dispatch(deleteMaterialParamsValueAction(data)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MaterialParamsValue);

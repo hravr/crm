@@ -23,7 +23,6 @@ import prodTypeSizeReducer from "./prodTypeSizeReducer";
 import prodTypeTypeReducer from "./prodTypeTypeReducer";
 import profilleReducer from "./profileReducer";
 import roztsinkaReducer from "./roztsinkaReducer";
-import skladReducer from "./skladReducer";
 import workersReducer from "./workersReducer";
 import zpSklad1Reducer from "./zpSklad1Reducer";
 import zvituReducer from "./Zvitu/zvituReducer";
@@ -32,10 +31,17 @@ import typeMReducer from "./Material/typeMReducer";
 import vendorMReducer from "./Material/vendorMReducer";
 import machineReducer from "./Machine/machineReducer";
 import zvituZalushokReducer from "./Zvitu/zvituZalushokReducer";
+import sklad1Reducer from "./sklad1Reducer";
+import sklad2Reducer from "./sklad2Reducer";
+import sklad3Reducer from "./sklad3Reducer";
+import sklad4Reducer from "./sklad4Reducer";
 
 export default combineReducers({
   profile: profilleReducer,
-  sklad1: skladReducer,
+  sklad1: sklad1Reducer,
+  sklad2: sklad2Reducer,
+  sklad3: sklad3Reducer,
+  sklad4: sklad4Reducer,
   workers: workersReducer,
   prod: prodTypeArticleReducer,
   prodAsortument: prodTypeAsortReducer,

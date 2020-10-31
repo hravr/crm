@@ -30,26 +30,26 @@ const Workers = ({
 
   return (
     <div className={s.main}>
-      <div className={s.title__container}>
-        <span className={s.title}>Працівники</span>
-        <hr></hr>
-      </div>
-      <div className={s.filter__container}>
-        <div className={s.search__container}>
-          <Input
-            label="Пошук працівника"
-            onChange={({ target }) =>
-              setDataForFilter({ ...dataForFilter, search: target.value })
-            }
-          />
-          <Button
-            title="Пошук"
-            onClick={async () => {
-              await searchWorkers(dataForFilter);
-            }}
-          />
+      <div className={s.top__container}>
+        <div className={s.title__container}>
+          <span className={s.title}>Працівники</span>
         </div>
-
+        <div className={s.filter__container}>
+          <div className={s.search__container}>
+            <Input
+              label="Пошук працівника"
+              onChange={({ target }) =>
+                setDataForFilter({ ...dataForFilter, search: target.value })
+              }
+            />
+            <Button
+              title="Пошук"
+              onClick={async () => {
+                await searchWorkers(dataForFilter);
+              }}
+            />
+          </div>
+        </div>
         <div>
           <Link to="create-worker" className={s.create__worker}>
             <Button title="Створити працівника" />

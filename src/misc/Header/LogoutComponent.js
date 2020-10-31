@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { logoutAction } from "../../store/actions/profileActions";
-import Button from "../Button/Button";
-// import s from './Logout.module.css';
+import s from "./Header.module.css";
 
 const LogoutComponent = ({ logout }) => {
   const h = useHistory();
@@ -13,7 +12,9 @@ const LogoutComponent = ({ logout }) => {
   };
   return (
     <div>
-      <Button title="Logout" onClick={Logout} />
+      <button className={s.logoutbtn} onClick={Logout}>
+        Вийти
+      </button>
     </div>
   );
 };

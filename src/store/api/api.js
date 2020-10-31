@@ -53,6 +53,161 @@ export const deleteSklad1 = (id, token) => {
     },
   });
 };
+export const fetchSklad2 = (token) => {
+  return _axios.get("/sklad2", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchFilteredSklad2 = (from, to, search, token) => {
+  let baseUrl = "/sklad2?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createSklad2 = (sklad2, token) => {
+  return _axios.post("/sklad2", sklad2, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchSklad2 = (sklad2, id, token) => {
+  return _axios.patch(`/sklad2/${id}`, sklad2, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteSklad2 = (id, token) => {
+  return _axios.delete(`/sklad2/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSklad3 = (token) => {
+  return _axios.get("/sklad3", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchFilteredSklad3 = (from, to, search, token) => {
+  let baseUrl = "/sklad3?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createSklad3 = (sklad3, token) => {
+  return _axios.post("/sklad3", sklad3, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchSklad3 = (sklad3, id, token) => {
+  return _axios.patch(`/sklad3/${id}`, sklad3, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteSklad3 = (id, token) => {
+  return _axios.delete(`/sklad3/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchSklad4 = (token) => {
+  return _axios.get("/sklad4", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchFilteredSklad4 = (from, to, search, token) => {
+  let baseUrl = "/sklad4?";
+  if (search) {
+    baseUrl += `search=${search}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createSklad4 = (sklad4, token) => {
+  return _axios.post("/sklad4", sklad4, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchSklad4 = (sklad4, id, token) => {
+  return _axios.patch(`/sklad3/${id}`, sklad4, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteSklad4 = (id, token) => {
+  return _axios.delete(`/sklad4/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSklad1to2 = (token) => {
+  return _axios.get("/sklad1_2", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const fetchWorkers = (token) => {
   return _axios.get("/workers", {
@@ -1582,8 +1737,8 @@ export const deleteZvituRozxid = (id, token) => {
   });
 };
 
-export const fetchZvituZalushok = (token) => {
-  return _axios.get("/zvitu_zalushok", {
+export const fetchZvituZalushok = (token, day) => {
+  return _axios.get(`/zvitu_zalushok?day=${day || "2020-10-29"}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

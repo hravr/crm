@@ -1,9 +1,9 @@
 .form__submit__button {
-  width: 300px;
-  height: 50px;
+  width: 100px;
+  height: 20px;
   border: none;
   background-color: #4caf50;
-  font-size: 20px;
+  font-size: 15px;
   color: #fff;
   cursor: pointer;
   transition: 0.2s linear;
@@ -19,6 +19,7 @@
 .btn {
   display: flex;
   justify-content: center;
+  text-decoration: none;
 }
 button:focus {
   outline: none;

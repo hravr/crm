@@ -1,5 +1,5 @@
 .title__container {
-  text-align: center;
+  text-align: left;
   padding-top: 20px;
   border-bottom: black;
 }
@@ -47,4 +47,13 @@ tr:nth-child(even) {
 }
 .create__worker {
   text-decoration: none;
+}
+.table__flex {
+  display: flex;
+  flex-direction: column;
+}
+.table__fl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

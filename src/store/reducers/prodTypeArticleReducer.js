@@ -3,6 +3,7 @@ import {
   DELETE_PROD_ARTICLE,
   SET_FILTERED_PROD_ARTICLE,
   SET_PROD_ARTICLE,
+  SET_SINGLE_PROD_ARTICLE,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -18,7 +19,8 @@ export default (state = initialState, action) => {
         ...state,
         prodArticle: action.prodArticle,
       };
-
+    case SET_SINGLE_PROD_ARTICLE:
+      return { ...state, single: action.singleProdArticle };
     case SET_FILTERED_PROD_ARTICLE:
       return {
         ...state,

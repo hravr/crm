@@ -26,6 +26,16 @@ export const getProdArticleAction = () => {
   };
 };
 
+export const getSingleProdArticleAction = (id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSingleProdArticle(id, token);
+    dispatch({
+      type: SET_SINGLE_PROD_ARTICLE,
+      singleProdArticle: response.data,
+    });
+  };
+};
 export const filterProdArticleAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
@@ -52,6 +62,15 @@ export const createProdArticleAction = (prodArticle) => {
       dispatch({ type: ADD_PROD_ARTICLE, token, prodArticle: response.data });
       return true;
     }
+  };
+};
+
+export const editProdArticleAction = (prodArticle, id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await patchProdArticle(id, token, prodArticle);
+    dispatch({ type: ADD_PROD_ARTICLE, token, prodArticle: response.data });
+    return response.status === 200;
   };
 };
 

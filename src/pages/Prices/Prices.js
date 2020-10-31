@@ -57,13 +57,17 @@ const Prices = ({
         <table>
           <tr>
             <th>Назва</th>
-            <th>Початок</th>
-            <th>Завершення</th>
+            <div className={s.table__flex}>
+              <th>Початок</th>
+              <th>Завершення</th>
+            </div>
             <th>Ціна</th>
             <th>ID Обладнання</th>
             <th>ID операції</th>
-            <th>Тип</th>
-            <th>Колір</th>
+            <div className={s.table__flex}>
+              <th>Тип</th>
+              <th>Колір</th>
+            </div>
             <th>Асортимент</th>
             <th>Клас</th>
             <th>Сезон</th>
@@ -80,22 +84,26 @@ const Prices = ({
                 return (
                   <tr key={roztsinka._id}>
                     <td>{roztsinka.name}</td>
-                    <td>{roztsinka.startDate?.slice(0, 10)}</td>
-                    <td>{roztsinka.endDate?.slice(0, 10)}</td>
+                    <div className={s.table__fl}>
+                      <td>{roztsinka.startDate?.slice(0, 10)}</td>
+                      <td>{roztsinka.endDate?.slice(0, 10)}</td>
+                    </div>
                     <td>{roztsinka.price}</td>
-                    <td>{roztsinka.machineId?.name || "err==="}</td>
-                    <td>{roztsinka.operationId?.name}</td>
-                    <td>{roztsinka.typeId?.name || "err==="}</td>
-                    <td>{roztsinka.colorId?.name || "err==="}</td>
-                    <td>{roztsinka.asortument?.name || "err==="}</td>
-                    <td>{roztsinka.classId?.name || "err==="}</td>
-                    <td>{roztsinka.seasonId?.name || "err==="}</td>
-                    <td>{roztsinka.imageId?.name || "err==="}</td>
-                    <td>{roztsinka.sizeId?.name || "err==="}</td>
-                    <td>{roztsinka.articleId?.name || "err==="}</td>
-                    <td>{roztsinka.gatynok || "err==="}</td>
-                    <td>{roztsinka.changesId?.firstName || "err==="}</td>
-                    <div className={s.table__btn}>
+                    <td>{roztsinka.machineId?.name || "Всі"}</td>
+                    <td>{roztsinka.operationId?.name || "Всі"}</td>
+                    <div className={s.table__fl}>
+                      <td>{roztsinka.typeId?.name || "Всі"}</td>
+                      <td>{roztsinka.colorId?.name || "Всі"}</td>
+                    </div>
+                    <td>{roztsinka.asortument?.name || "Всі"}</td>
+                    <td>{roztsinka.classId?.name || "Всі"}</td>
+                    <td>{roztsinka.seasonId?.name || "Всі"}</td>
+                    <td>{roztsinka.imageId?.name || "Всі"}</td>
+                    <td>{roztsinka.sizeId?.name || "Всі"}</td>
+                    <td>{roztsinka.articleId?.name || "Всі"}</td>
+                    <td>{roztsinka.gatynok || "Всі"}</td>
+                    <td>{roztsinka.changesId?.firstName || "Всі"}</td>
+                    <div className={s.table__fl}>
                       <button
                         className={s.del}
                         onClick={() => h.push(`/edit-price/${roztsinka._id}`)}
@@ -114,23 +122,26 @@ const Prices = ({
                 return (
                   <tr>
                     <td>{filter.name}</td>
-                    <td>{filter.startDate?.slice(0, 10)}</td>
-                    <td>{filter.endDate?.slice(0, 10)}</td>
+                    <div className={s.table__fl}>
+                      <td>{filter.startDate?.slice(0, 10)}</td>
+                      <td>{filter.endDate?.slice(0, 10)}</td>
+                    </div>
                     <td>{filter.price}</td>
-                    <td>{filter.machineId?.name || "err==="}</td>
+                    <td>{filter.machineId?.name || "Всі"}</td>
                     <td>{filter.operationId?.name}</td>
-                    <td>{filter.typeId?.name || "err==="}</td>
-                    <td>{filter.colorId?.name || "err==="}</td>
-                    <td>{filter.asortument?.name || "err==="}</td>
-                    <td>{filter.classId?.name || "err==="}</td>
-                    <td>{filter.seasonId?.name || "err==="}</td>
-                    <td>{filter.imageId?.name || "err==="}</td>
-                    <td>{filter.sizeId?.name || "err==="}</td>
-                    <td>{filter.articleId?.name || "err==="}</td>
-                    <td>{filter.gatynok || "err==="}</td>
-                    <td>{filter.changesId.fName?.name || "err==="}</td>
-
-                    <div className={s.table__btn}>
+                    <div className={s.table__fl}>
+                      <td>{filter.typeId?.name || "Всі"}</td>
+                      <td>{filter.colorId?.name || "Всі"}</td>
+                    </div>
+                    <td>{filter.asortument?.name || "Всі"}</td>
+                    <td>{filter.classId?.name || "Всі"}</td>
+                    <td>{filter.seasonId?.name || "Всі"}</td>
+                    <td>{filter.imageId?.name || "Всі"}</td>
+                    <td>{filter.sizeId?.name || "Всі"}</td>
+                    <td>{filter.articleId?.name || "Всі"}</td>
+                    <td>{filter.gatynok || "Всі"}</td>
+                    <td>{filter.changesId.fName?.name || "Всі"}</td>
+                    <div className={s.table__fl}>
                       <button
                         className={s.del}
                         onClick={() => h.push(`/edit-price/${filter._id}`)}

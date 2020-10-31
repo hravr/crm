@@ -33,6 +33,11 @@ import CreateZvitu from "./pages/CreateZvitu/CreateZvitu";
 import CreateZvituRozxid from "./pages/CreateZvituRozxid/CreateZvituRozxid";
 import EditZvitu from "./pages/EditZvitu/EditZvitu";
 import EditZvituRozxid from "./pages/EditZvituRozxid/EditZvituRozxid";
+import CreateProdArticle from "./pages/CreateProdArticle/CreateProdArticle";
+import EditProdArticle from "./pages/EditProdArticle/EditProdArticle";
+import Sklad2 from "./pages/Sklad2/Sklad2";
+import CreatePakType from "./pages/CreatePakType/CreatePakType";
+import CreateParamsValue from "./pages/CreateParamsValue/CreateParamsValue";
 
 function App(props) {
   // const Route = ({
@@ -67,6 +72,7 @@ function App(props) {
           <Route path="/pak_materials" component={PakMaterials} />
           <Route path="/edit" component={Edit} />
           <Route path="/sklad_1" component={Sklad1} />
+          <Route path="/sklad_2" component={Sklad2} />
           <Route path="/zp-sklad1" component={ZpSklad1} />
           <Route path="/productcia" component={Productcia} />
           <Route path="/operations" component={Operations} />
@@ -81,6 +87,10 @@ function App(props) {
           <Route path="/create-zvitu-rozxid" component={CreateZvituRozxid} />
           <Route path="/edit-zvitu/:id" component={EditZvitu} />
           <Route path="/edit-zvitu-rozxid/:id" component={EditZvituRozxid} />
+          <Route path="/create-prod-article" component={CreateProdArticle} />
+          <Route path="/edit-prod-article/:id" component={EditProdArticle} />
+          <Route path="/create-paktype" component={CreatePakType} />
+          <Route path="/create-pak-paramsvalue" component={CreateParamsValue} />
         </Switch>
       </div>
     </Router>

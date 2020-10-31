@@ -1,7 +1,9 @@
 .title__container {
-  text-align: center;
+  text-align: left;
   padding-top: 20px;
-  border-bottom: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .title {
   font-size: 36px;
@@ -63,7 +65,7 @@ tr:nth-child(even) {
   flex-wrap: wrap;
   justify-content: center;
   font-family: "Roboto", sans-serif;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .i {
   border: none;
@@ -73,7 +75,19 @@ tr:nth-child(even) {
   flex-direction: column;
 }
 
-
 .exel__wrapper {
   margin-bottom: 20px;
+}
+.gatynok {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.table__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.border {
+  border-bottom: 0.5 solid;
 }
