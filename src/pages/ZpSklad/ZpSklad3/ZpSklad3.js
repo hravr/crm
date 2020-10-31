@@ -1,28 +1,28 @@
 import React, {useEffect} from "react";
-import s from "./ZpSklad1.module.css";
+import s from "./ZpSklad3.module.css";
 import {connect} from "react-redux";
-import {getZpSklad1Action} from "../../../store/actions/zpSklad1Actions";
 import {getWorkersAction} from "../../../store/actions/workersActions";
+import {getZpSklad3Action} from "../../../store/actions/zpSklad3Actions";
 
-const ZpSklad1 = ({getZpSklad1, getWorkers, zpsklad1, workers}) => {
+const ZpSklad3 = ({getZpSklad3, getWorkers, zpsklad1, workers}) => {
     const arrayOfWorkers = zpsklad1 && Object.keys(zpsklad1);
 
     useEffect(() => {
         (async () => {
-            await getZpSklad1();
+            await getZpSklad3();
             await getWorkers();
         })();
     }, []);
+
     const filteredWorker = workers?.filter(id =>
         arrayOfWorkers?.filter(worker =>
             worker._id === id
         )
     )
-
     return (
         <div className={s.main}>
             <div className={s.title__container}>
-                <span className={s.title}>Зарплата склад 1</span>
+                <span className={s.title}>Зарплата склад 3</span>
                 <hr></hr>
             </div>
             <div className={s.table}>
@@ -54,15 +54,16 @@ const ZpSklad1 = ({getZpSklad1, getWorkers, zpsklad1, workers}) => {
 };
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        zpsklad1: state.zpsklad1.zpsklad1.zp_sklad1,
+        zpsklad1: state.zpsklad3.zpsklad3.zp_sklad3,
         workers: state.workers.workers
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        getZpSklad1: () => dispatch(getZpSklad1Action()),
+        getZpSklad3: () => dispatch(getZpSklad3Action()),
         getWorkers: () => dispatch(getWorkersAction())
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ZpSklad1);
+export default connect(mapStateToProps, mapDispatchToProps)(ZpSklad3);

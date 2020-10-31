@@ -38,6 +38,9 @@ import EditProdArticle from "./pages/EditProdArticle/EditProdArticle";
 import Sklad2 from "./pages/Sklad2/Sklad2";
 import CreatePakType from "./pages/CreatePakType/CreatePakType";
 import CreateParamsValue from "./pages/CreateParamsValue/CreateParamsValue";
+import ZpSklad2 from "./pages/ZpSklad/ZpSklad2/ZpSklad2";
+import ZpSklad3 from "./pages/ZpSklad/ZpSklad3/ZpSklad3";
+import ZpSklad4 from "./pages/ZpSklad/ZpSklad4/ZpSklad4";
 
 function App(props) {
   // const Route = ({
@@ -74,6 +77,9 @@ function App(props) {
           <Route path="/sklad_1" component={Sklad1} />
           <Route path="/sklad_2" component={Sklad2} />
           <Route path="/zp-sklad1" component={ZpSklad1} />
+          <Route path="/zp-sklad2" component={ZpSklad2} />
+          <Route path="/zp-sklad3" component={ZpSklad3} />
+          <Route path="/zp-sklad4" component={ZpSklad4} />
           <Route path="/productcia" component={Productcia} />
           <Route path="/operations" component={Operations} />
           <Route path="/zvitu" component={Zvitu} />

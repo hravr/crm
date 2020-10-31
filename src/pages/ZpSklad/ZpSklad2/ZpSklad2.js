@@ -1,15 +1,15 @@
 import React, {useEffect} from "react";
-import s from "./ZpSklad1.module.css";
+import s from "./ZpSklad2.module.css";
 import {connect} from "react-redux";
-import {getZpSklad1Action} from "../../../store/actions/zpSklad1Actions";
 import {getWorkersAction} from "../../../store/actions/workersActions";
+import {getZpSklad2Action} from "../../../store/actions/zpSklad2Actions";
 
-const ZpSklad1 = ({getZpSklad1, getWorkers, zpsklad1, workers}) => {
+const ZpSklad2 = ({getZpSklad2, getWorkers, zpsklad1, workers}) => {
     const arrayOfWorkers = zpsklad1 && Object.keys(zpsklad1);
 
     useEffect(() => {
         (async () => {
-            await getZpSklad1();
+            await getZpSklad2();
             await getWorkers();
         })();
     }, []);
@@ -18,11 +18,10 @@ const ZpSklad1 = ({getZpSklad1, getWorkers, zpsklad1, workers}) => {
             worker._id === id
         )
     )
-
     return (
         <div className={s.main}>
             <div className={s.title__container}>
-                <span className={s.title}>Зарплата склад 1</span>
+                <span className={s.title}>Зарплата склад 2</span>
                 <hr></hr>
             </div>
             <div className={s.table}>
@@ -54,15 +53,16 @@ const ZpSklad1 = ({getZpSklad1, getWorkers, zpsklad1, workers}) => {
 };
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        zpsklad1: state.zpsklad1.zpsklad1.zp_sklad1,
+        zpsklad1: state.zpsklad2.zpsklad2.zp_sklad2,
         workers: state.workers.workers
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        getZpSklad1: () => dispatch(getZpSklad1Action()),
+        getZpSklad2: () => dispatch(getZpSklad2Action()),
         getWorkers: () => dispatch(getWorkersAction())
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ZpSklad1);
+export default connect(mapStateToProps, mapDispatchToProps)(ZpSklad2);

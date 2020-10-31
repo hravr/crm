@@ -1,0 +1,80 @@
+.container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(165, 165, 165, 0.5);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+}
+
+.sub_container {
+    width: 50%;
+    height: 55%;
+    background: white;
+    border-radius: 50px;
+    padding: 50px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exit {
+    color: red;
+    font-size: 30px;
+}
+
+.sklad2 {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.data {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.select {
+    width: 100%;
+    padding: 20px 0;
+}
+
+input {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.btn {
+    background: green;
+    width: 100%;
+    border: 0;
+    padding: 20px 50px;
+    color: white;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    font-weight: bolder;
+    font-size: 20px;
+}

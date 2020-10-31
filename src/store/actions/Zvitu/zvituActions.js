@@ -25,10 +25,10 @@ export const getZvituAction = () => {
   };
 };
 
-export const filterZvituAction = ({ from, to, search }) => {
+export const filterZvituAction = ({ from, to, operationId }) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredZvitu(from, to, search, token);
+    const response = await fetchFilteredZvitu(from, to, operationId, token);
     if (response?.data) {
       dispatch({
         type: SET_FILTERED_ZVITU,
