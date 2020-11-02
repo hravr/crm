@@ -15,10 +15,10 @@ export const getZvituZalushokAction = (day) => {
   };
 };
 
-export const filterZvituZalushokAction = ({ from, to, search }) => {
+export const filterZvituZalushokAction = ({ day }) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredZvituZalushok(from, to, search, token);
+    const response = await fetchFilteredZvituZalushok(day, token);
     if (response?.data) {
       dispatch({
         type: SET_FILTERED_ZVITU_ZALUSHOK,

@@ -8,11 +8,12 @@ import {
   deleteSklad1Action,
   filterSklad1Action,
   getSklad1Action,
-  getSklad1to2Action,
 } from "../../store/actions/sklad1Actions.js";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ReactToExcel from "react-html-table-to-excel";
+import Modal from "../../misc/Modal/Modal";
+
 const Sklad1 = ({
   getSklad1,
   sklad1,
@@ -24,16 +25,26 @@ const Sklad1 = ({
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
+  const [modalData, setModalData] = useState();
+  const [skladToModal, setSklad] = useState();
+
   const h = useHistory();
 
   useEffect(() => {
     (async () => {
       await getSklad1();
-      await getSklad1to2();
+      // await getSklad1to2();
     })();
   }, []);
   return (
     <Tabs>
+      <Modal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        modalData={modalData}
+        sklad1={skladToModal}
+      />
       <div className={s.main}>
         <div className={s.title__container}>
           <span className={s.title}>Склад 1</span>
@@ -104,7 +115,7 @@ const Sklad1 = ({
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
                 <div className={s.table__column}>
-                  <th className={s.status__table}>Майстер </th>
+                  <th className={s.status__table}>Майстер</th>
                   <th className={s.status__table}>Вязальниця</th>
                 </div>
                 <th className={s.status__table}>Обладнання</th>
@@ -128,8 +139,18 @@ const Sklad1 = ({
                 ? sklad1 &&
                   sklad1.map((sklad) => {
                     return (
-                      <tr key={sklad1._id}>
-                        <td>{sklad.mishok?._id || "Всі"}</td>
+                      <tr key={sklad._id}>
+                        <td
+                          onClick={() => {
+                            setIsVisible(!isVisible);
+                            setModalData(sklad.mishok._id);
+                            setSklad(sklad._id);
+                            //todo here modal
+                            console.log("work");
+                          }}
+                        >
+                          {sklad.mishok._id || "Всі"}
+                        </td>
                         <td>{sklad?.date_prixod?.slice(0, 10) || "Всі"}</td>
                         <div className={s.gatynok}>
                           <td>
@@ -237,9 +258,7 @@ const Sklad1 = ({
                           <div className={s.table__btn}>
                             <button
                               className={s.del}
-                              onClick={() =>
-                                h.push(`/edit-sklad1/${filtered._id}`)
-                              }
+                              onClick={() => h.push("/edit")}
                             >
                               Редагувати
                             </button>
@@ -327,7 +346,7 @@ const Sklad1 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>Майстер </th>
+                <th className={s.status__table}>Майстер</th>
                 <th className={s.status__table}>Вязальниця</th>
                 <th className={s.status__table}>Обладнання</th>
                 <th className={s.status__table}>Артикул</th>
@@ -338,7 +357,7 @@ const Sklad1 = ({
                 <th className={s.status__table}>Асортимент</th>
                 <th className={s.status__table}>Тип</th>
                 <th className={s.status__table}>Гатунок 1</th>
-                <th className={s.status__table}>Гатунок 2 </th>
+                <th className={s.status__table}>Гатунок 2</th>
                 <th className={s.status__table}>Гатунок 3</th>
                 <th className={s.status__table}>Гатунок разом</th>
                 <th className={s.status__table}> ID юзера</th>
@@ -396,7 +415,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getSklad1: (searchValue) => dispatch(getSklad1Action(searchValue)),
-    getSklad1to2: () => dispatch(getSklad1to2Action()),
+    // getSklad1to2: () => dispatch(getSklad1to2Action()),
     filterSklad1: (data) => dispatch(filterSklad1Action(data)),
     deleteSklad1: (id) => dispatch(deleteSklad1Action(id)),
   };

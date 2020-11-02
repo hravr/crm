@@ -63,7 +63,7 @@ export const createSklad2Action = (sklad2) => {
   };
 };
 
-export const editSklad2ction = (sklad2, id) => {
+export const editSklad2Action = (sklad2, id) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await patchSklad2(sklad2, token, id);

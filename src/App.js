@@ -41,6 +41,12 @@ import CreateParamsValue from "./pages/CreateParamsValue/CreateParamsValue";
 import EditPramsValue from "./pages/EditPramsValue/EditPramsValue";
 import EditPakType from "./pages/EditPakType/EditPakType";
 import EditSklad1 from "./pages/EditSklad/EditSklad1";
+import ZpSklad2 from "./pages/ZpSklad/ZpSklad2/ZpSklad2";
+import ZpSklad3 from "./pages/ZpSklad/ZpSklad3/ZpSklad3";
+import ZpSklad4 from "./pages/ZpSklad/ZpSklad4/ZpSklad4";
+import EditSklad2 from "./pages/EditSklad/EditSklad2";
+import EditSklad3 from "./pages/EditSklad/EditSklad3";
+import EditSklad4 from "./pages/EditSklad/EditSklad4";
 
 function App(props) {
   // const Route = ({
@@ -77,6 +83,9 @@ function App(props) {
           <Route path="/sklad_1" component={Sklad1} />
           <Route path="/sklad_2" component={Sklad2} />
           <Route path="/zp-sklad1" component={ZpSklad1} />
+          <Route path="/zp-sklad2" component={ZpSklad2} />
+          <Route path="/zp-sklad3" component={ZpSklad3} />
+          <Route path="/zp-sklad4" component={ZpSklad4} />
           <Route path="/productcia" component={Productcia} />
           <Route path="/operations" component={Operations} />
           <Route path="/zvitu" component={Zvitu} />
@@ -97,6 +106,9 @@ function App(props) {
           <Route path="/edit-pak-paramsvalue/:id" component={EditPramsValue} />
           <Route path="/edit-paktype/:id" component={EditPakType} />
           <Route path="/edit-sklad1/:id" component={EditSklad1} />
+          <Route path="/edit-sklad2/:id" component={EditSklad2} />
+          <Route path="/edit-sklad3/:id" component={EditSklad3} />
+          <Route path="/edit-sklad4/:id" component={EditSklad4} />
         </Switch>
       </div>
     </Router>

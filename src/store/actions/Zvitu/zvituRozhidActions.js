@@ -25,10 +25,10 @@ export const getZvituRozxidAction = () => {
   };
 };
 
-export const filterZvituRozxidAction = ({ from, to, search }) => {
+export const filterZvituRozxidAction = ({ from, to, operationId }) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredZvituRozxid(from, to, search, token);
+    const response = await fetchFilteredZvituRozxid(from, to, operationId, token);
     if (response?.data) {
       dispatch({
         type: SET_FILTERED_ZVITU_ROZXID,

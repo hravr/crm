@@ -6,15 +6,17 @@ import {
   fetchSingleSklad1,
   fetchSklad1,
   fetchSklad1to2,
+  fetchSklad1to3,
+  fetchSklad1to4,
   patchSklad1,
 } from "../api/api";
 import {
-  SET_SKLAD1,
-  SET_FILTERED_SKLAD1,
   ADD_SKLAD1,
   DELETE_SKLAD1,
-  SET_SKLAD1_TO2,
+  SET_FILTERED_SKLAD1,
   SET_SINGLE_SKLAD1,
+  SET_SKLAD1,
+  SET_SKLAD1_TO2,
 } from "./actionTypes";
 
 export const getSklad1Action = () => {
@@ -23,6 +25,16 @@ export const getSklad1Action = () => {
     const response = await fetchSklad1(token);
     if (response.status === 200) {
       dispatch({ type: SET_SKLAD1, sklad1: response.data });
+    }
+    return response.status === 200;
+  };
+};
+export const postSklad1to2Action = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSklad1to2(token, data);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
     }
     return response.status === 200;
   };
@@ -38,6 +50,27 @@ export const getSklad1to2Action = () => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSklad1to2(token);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
+    }
+    return response.status === 200;
+  };
+};
+export const postSklad1to3Action = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSklad1to3(token, data);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
+    }
+    return response.status === 200;
+  };
+};
+
+export const postSklad1to4Action = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSklad1to4(token, data);
     if (response.status === 200) {
       dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
     }

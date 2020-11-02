@@ -35,6 +35,9 @@ import sklad1Reducer from "./sklad1Reducer";
 import sklad2Reducer from "./sklad2Reducer";
 import sklad3Reducer from "./sklad3Reducer";
 import sklad4Reducer from "./sklad4Reducer";
+import zpSklad2Reducer from "./zpSklad2Reducer";
+import zpSklad3Reducer from "./zpSklad3Reducer";
+import zpSklad4Reducer from "./zpSklad4Reducer";
 
 export default combineReducers({
   profile: profilleReducer,
@@ -73,4 +76,7 @@ export default combineReducers({
   zvituRozxid: zvituRozxidReducer,
   zvituZalushok: zvituZalushokReducer,
   zpsklad1: zpSklad1Reducer,
+  zpsklad2: zpSklad2Reducer,
+  zpsklad3: zpSklad3Reducer,
+  zpsklad4: zpSklad4Reducer,
 });

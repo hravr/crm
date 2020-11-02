@@ -43,8 +43,6 @@ const CreatePruhid2 = ({
   fetchMachine,
   machineId,
   getSklad2,
-  sortId,
-  shveyId,
   articleId,
   fetchProdArticle,
   errors,
@@ -98,8 +96,8 @@ const CreatePruhid2 = ({
     setValues({ ...values, articleId: articleId.value });
   };
 
-  const vyazalSelect = (shveyId) => {
-    setValues({ ...values, shveyId: shveyId.value });
+  const vyazalSelect = (shveyaId) => {
+    setValues({ ...values, shveyaId: shveyaId.value });
   };
 
   const masterSelect = (sortId) => {
@@ -275,8 +273,8 @@ const CreatePruhid2 = ({
             </div>
             <Select
               options={operationsOptions["Швея"]}
-              value={values.shveyId.label}
-              name="shveyId"
+              value={values.shveyaId.label}
+              name="shveyaId"
               onChange={vyazalSelect}
             />
           </div>
@@ -404,7 +402,7 @@ const formikHOC = withFormik({
     colorId: {},
     machineId: {},
     sortId: {},
-    shveyId: {},
+    shveyaId: {},
     articleId: {},
     date_prixod: "",
     gatynok1: "",
@@ -425,7 +423,7 @@ const formikHOC = withFormik({
       !values.articleId ||
       !values.machineId ||
       !values.sortId ||
-      !values.shveyId ||
+      !values.shveyaId ||
       !values.gatynok1 ||
       !values.gatynok2 ||
       !values.gatynok3
@@ -450,7 +448,7 @@ const formikHOC = withFormik({
       gatynok3: values.gatynok3,
       machineId: values.machineId,
       sortId: values.sortId,
-      shveyId: values.shveyId,
+      shveyaId: values.shveyaId,
       articleId: values.articleId,
     };
     const isSuccess = await createPruhid2(pruhudToSubmit);
@@ -473,8 +471,8 @@ const mapStateToProps = (state) => {
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
     machineId: state.machines.machines,
-    sortId: state.sklad1.sklad1,
-    shveyId: state.sklad1.sklad1,
+    sortId: state.sklad2.sklad2,
+    shveyaId: state.sklad2.sklad2,
     operations: state.operations.operations,
     workers: state.workers.workers,
   };

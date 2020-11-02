@@ -14,12 +14,12 @@ import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
 import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
 import { getMachineAction } from "../../store/actions/Machine/machineActions";
 import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import {
-  createSklad2Action,
-  getSklad2Action,
-} from "../../store/actions/sklad2Actions";
 import { getOperationsAction } from "../../store/actions/operationsAction";
 import { getWorkersAction } from "../../store/actions/workersActions";
+import {
+  createSklad4Action,
+  getSklad4Action,
+} from "../../store/actions/sklad4Actions";
 
 const CreatePruhid4 = ({
   values,
@@ -42,7 +42,7 @@ const CreatePruhid4 = ({
   colorId,
   fetchMachine,
   machineId,
-  getSklad2,
+  getSklad4,
   articleId,
   fetchProdArticle,
   errors,
@@ -213,7 +213,7 @@ const CreatePruhid4 = ({
 
   useEffect(() => {
     (async () => {
-      await getSklad2();
+      await getSklad4();
       await fetchMachine();
       await fetchProdAsortument();
       await fetchProdSezon();
@@ -424,7 +424,7 @@ const formikHOC = withFormik({
 
     return errors;
   },
-  handleSubmit: async (values, { props: { createPruhid2, history } }) => {
+  handleSubmit: async (values, { props: { createPruhid4, history } }) => {
     const pruhudToSubmit = {
       asortument: values.asortument,
       typeId: values.typeId,
@@ -441,7 +441,7 @@ const formikHOC = withFormik({
       packId: values.packId,
       articleId: values.articleId,
     };
-    const isSuccess = await createPruhid2(pruhudToSubmit);
+    const isSuccess = await createPruhid4(pruhudToSubmit);
     if (isSuccess) {
       alert("Створено") || history.push("/sklad_1");
     } else {
@@ -461,15 +461,15 @@ const mapStateToProps = (state) => {
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
     machineId: state.machines.machines,
-    packId: state.sklad1.sklad1,
+    packId: state.sklad4.sklad4,
     operations: state.operations.operations,
     workers: state.workers.workers,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    createPruhid2: (sklad2) => dispatch(createSklad2Action(sklad2)),
-    getSklad2: () => dispatch(getSklad2Action()),
+    createPruhid4: (sklad4) => dispatch(createSklad4Action(sklad4)),
+    getSklad4: () => dispatch(getSklad4Action()),
     fetchProdType: () => dispatch(getProdTypeAction()),
     fetchProdSize: () => dispatch(getProdSizeAction()),
     fetchProdSezon: () => dispatch(getProdSezonAction()),

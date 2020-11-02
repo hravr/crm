@@ -99,14 +99,6 @@ const EditSklad1 = ({
     return temp;
   }, [operationsObject]);
 
-  const articleSelect = (articleId) => {
-    setValues({
-      ...values,
-      articleId: articleId.value,
-      articleName: articleId.label,
-    });
-  };
-
   const vyazalSelect = (vyazalId) => {
     setValues({
       ...values,
@@ -123,6 +115,14 @@ const EditSklad1 = ({
     });
   };
 
+  const articleSelect = (articleId) => {
+    setValues({
+      ...values,
+      articleId: articleId.value,
+      articleName: articleId.label,
+    });
+  };
+
   const asortumentSelect = (asortument) => {
     setValues({
       ...values,
@@ -130,6 +130,7 @@ const EditSklad1 = ({
       asortumentName: asortument.label,
     });
   };
+
   const classSelect = (classId) => {
     setValues({ ...values, classId: classId.value, cName: classId.label });
   };
@@ -270,33 +271,37 @@ const EditSklad1 = ({
       articleId,
       asortument,
       classId,
+      mishok,
       _id,
     } = singleSklad1;
     if (singleSklad1._id) {
       setValues({
         ...values,
         seasonId,
-        seasonName: seasonId?.name,
+        seasonName: mishok.seasonId?.name,
         typeId,
-        typeName: typeId?.name,
+        typeName: mishok.typeId?.name,
         sizeId,
-        sizeName: sizeId?.name,
+        sizeName: mishok.sizeId?.name,
         imageId,
-        imageName: imageId?.name,
+        imageName: mishok.imageId?.name,
         colorId,
-        colorName: colorId?.name,
+        colorName: mishok.colorId?.name,
         classId,
-        cName: classId?.name,
+        cName: mishok.classId?.name,
         machineId,
         machineName: machineId?.name,
         masterId,
-        masterName: masterId?.name,
+        masterName: masterId?.fName + " " + masterId?.sName,
         vyazalId,
-        vyazalName: vyazalId?.name,
+        vyazalName: vyazalId?.fName + " " + vyazalId?.sName,
         articleId,
-        articleName: articleId?.name,
+        articleName: mishok.articleId?.name,
         asortument,
-        asortumentName: asortument?.name,
+        asortumentName: mishok.asortument?.name,
+        gatynok1: mishok.gatynok1,
+        gatynok2: mishok.gatynok2,
+        gatynok3: mishok.gatynok3,
         _id,
       });
     }
@@ -463,7 +468,7 @@ const EditSklad1 = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Створити" onClick={handleSubmit} />
+        <Button title="Змінити" onClick={handleSubmit} />
       </div>
     </div>
   );
@@ -537,7 +542,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    createPruhid1: (sklad1) => dispatch(createSklad1Action(sklad1)),
     getSklad1: () => dispatch(getSklad1Action()),
     fetchProdType: () => dispatch(getProdTypeAction()),
     fetchProdSize: () => dispatch(getProdSizeAction()),
