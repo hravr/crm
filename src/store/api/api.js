@@ -11,6 +11,13 @@ export const fetchSklad1 = (token) => {
         },
     });
 };
+export const fetchSklad1Zalushok = (token, day) => {
+    return _axios.get(`/sklad1_zalushok?day=${day}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
 
 export const fetchFilteredSklad1 = (from, to, search, token) => {
     let baseUrl = "/sklad1?";

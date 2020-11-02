@@ -4,16 +4,23 @@ import classnames from "classnames";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import {deleteSklad1Action, filterSklad1Action, getSklad1Action,} from "../../store/actions/sklad1Actions.js";
-import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import ReactToExcel from "react-html-table-to-excel";
 import Modal from "../../misc/Modal/Modal";
+import {
+    deleteSklad1Action,
+    filterSklad1Action,
+    getSklad1Action,
+    getSklad1ZalushokAction
+} from "../../store/actions/sklad1Actions";
+import {connect} from "react-redux";
 
 
 const Sklad1 = ({
                     getSklad1,
                     sklad1,
+                    getZalushok,
+                    zalushok,
                     filterSklad1,
                     filteredSklad1,
                     deleteSklad1,
@@ -31,7 +38,7 @@ const Sklad1 = ({
     useEffect(() => {
         (async () => {
             await getSklad1();
-            // await getSklad1to2();
+            await getZalushok();
         })();
     }, []);
     return (
@@ -279,42 +286,28 @@ const Sklad1 = ({
                                 <th className={s.status__table}>ID швеї</th>
                                 <th className={s.status__table}>ID сортувальниці</th>
                             </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Alfreds Futterkiste</td>
-                                <td>
-                                    Germany
-                                    <div className={s.table__btn}>
-                                        <button className={s.del}>Редагувати</button>
-                                        <button>Видалити</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Berglunds snabbkop</td>
-                                <td>Berglunds snabbkop</td>
-                                <td>Berglunds snabbkop</td>
-                                <td>
-                                    Sweden
-                                    <div className={s.table__btn}>
-                                        <button className={s.del}>Редагувати</button>
-                                        <button>Видалити</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Island Trading</td>
-                                <td>Island Trading</td>
-                                <td>Island Trading</td>
-                                <td>
-                                    UK
-                                    <div className={s.table__btn}>
-                                        <button className={s.del}>Редагувати</button>
-                                        <button>Видалити</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            {
+                                sklad1 &&
+                                sklad1.map((sklad) => {
+                                        if (sklad.date_rozsxodu) {
+                                            return (
+                                                <tr>
+                                                    <td>{sklad.mishok._id}</td>
+                                                    <td>{sklad.date_rozsxodu}</td>
+                                                    <td>{sklad.vyazalId.fName}</td>
+                                                    <td>{sklad.masterId.fName}</td>
+                                                    <td>
+                                                        <div className={s.table__btn}>
+                                                            <button className={s.del}>Редагувати</button>
+                                                            <button>Видалити</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        }
+                                    }
+                                )
+                            }
                         </table>
                     </div>
                 </TabPanel>
@@ -348,6 +341,21 @@ const Sklad1 = ({
                                 <th className={s.status__table}>Гатунок разом</th>
                                 <th className={s.status__table}> ID юзера</th>
                             </tr>
+                            {
+                                zalushok?.map(zal => {
+                                    return <tr>
+                                        <td>{zal.vyazalId.fName}</td>
+                                        <td>{zal.masterId.fName}</td>
+                                        <td>{zal.mishok._id}</td>
+                                        <td>{zal.gatynok1}</td>
+                                        <td>{zal.gatynok2}</td>
+                                        <td>{zal.gatynok3}</td>
+                                        <td>{zal.vyazalId.fName}</td>
+                                        <td>{zal.vyazalId.fName}</td>
+                                        <td>{zal.vyazalId.fName}</td>
+                                    </tr>
+                                })
+                            }
                             <tr>
                                 <td>Alfreds Futterkiste</td>
                                 <td>Alfreds Futterkiste</td>
@@ -392,14 +400,17 @@ const Sklad1 = ({
     );
 };
 const mapStateToProps = (state) => {
+    console.log(state.sklad1)
     return {
         sklad1: state.sklad1.sklad1,
+        zalushok: state.sklad1.sklad1_zalushok,
         sklad1to2: state.sklad1.sklad1to2,
         filteredSklad1: state.sklad1.filtered,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
+        getZalushok: () => dispatch(getSklad1ZalushokAction()),
         getSklad1: (searchValue) => dispatch(getSklad1Action(searchValue)),
         // getSklad1to2: () => dispatch(getSklad1to2Action()),
         filterSklad1: (data) => dispatch(filterSklad1Action(data)),

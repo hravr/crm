@@ -36,14 +36,16 @@ const ZpSklad2 = ({getZpSklad2, getWorkers, zpsklad1, workers}) => {
                     </thead>
                     <tbody>
                     {filteredWorker?.map((info) => {
-                        return (
-                            <tr key={info._id}>
-                                <td>{info.fName + ' ' + info.sName}</td>
-                                <td>{zpsklad1[info._id].zp}</td>
-                                <td>{zpsklad1[info._id].zminu}</td>
-                                <td>{zpsklad1[info._id].prod_quantity}</td>
-                            </tr>
-                        );
+                        if (zpsklad1[info._id]) {
+                            return (
+                                <tr key={info._id}>
+                                    <td>{info.fName + ' ' + info.sName}</td>
+                                    <td>{zpsklad1[info._id].zp}</td>
+                                    <td>{zpsklad1[info._id].zminu}</td>
+                                    <td>{zpsklad1[info._id].prod_quantity}</td>
+                                </tr>
+                            );
+                        }
                     })}
                     </tbody>
                 </table>
@@ -53,7 +55,6 @@ const ZpSklad2 = ({getZpSklad2, getWorkers, zpsklad1, workers}) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         zpsklad1: state.zpsklad2.zpsklad2.zp_sklad2,
         workers: state.workers.workers

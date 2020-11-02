@@ -36,15 +36,17 @@ const ZpSklad1 = ({getZpSklad1, getWorkers, zpsklad1, workers}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {filteredWorker?.map((info) => {
-                        return (
-                            <tr key={info._id}>
-                                <td>{info.fName + ' ' + info.sName}</td>
-                                <td>{zpsklad1[info._id].zp}</td>
-                                <td>{zpsklad1[info._id].zminu}</td>
-                                <td>{zpsklad1[info._id].prod_quantity}</td>
-                            </tr>
-                        );
+                    {filteredWorker?.filter(Boolean).map((info) => {
+                        if (zpsklad1[info._id]) {
+                            return (
+                                <tr key={info._id}>
+                                    <td>{info.fName + ' ' + info.sName}</td>
+                                    <td>{zpsklad1[info._id].zp}</td>
+                                    <td>{zpsklad1[info._id].zminu}</td>
+                                    <td>{zpsklad1[info._id].prod_quantity}</td>
+                                </tr>
+                            );
+                        }
                     })}
                     </tbody>
                 </table>

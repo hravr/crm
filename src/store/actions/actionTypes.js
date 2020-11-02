@@ -1,6 +1,7 @@
 export const SET_PROFILE = "SET_PROFILE";
 export const LOGOUT = "LOGOUT";
 export const SET_SKLAD1 = "SET_SKLAD1";
+export const SET_SKLAD1_ZALUSHOK = "SET_SKLAD1_ZALUSHOK";
 export const SET_SKLAD1_TO2 = " SET_SKLAD1_TO2";
 export const SET_FILTERED_SKLAD1 = "SET_FILTERED_SKLAD1";
 export const ADD_SKLAD1 = "ADD_SKLAD1";
