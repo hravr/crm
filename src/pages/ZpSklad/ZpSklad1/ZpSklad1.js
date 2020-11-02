@@ -17,38 +17,40 @@ const ZpSklad1 = ({ getZpSklad1, getWorkers, zpsklad1, workers }) => {
     arrayOfWorkers?.filter((worker) => worker._id === id)
   );
 
-  return (
-    <div className={s.main}>
-      <div className={s.title__container}>
-        <span className={s.title}>Зарплата склад 1</span>
-        <hr></hr>
-      </div>
-      <div className={s.table}>
-        <table>
-          <thead>
-            <tr>
-              <th className={s.status__table}>Ім'я</th>
-              <th className={s.status__table}>Зарплата</th>
-              <th className={s.status__table}>Кількість змін</th>
-              <th className={s.status__table}>Кількість продукції</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredWorker?.map((info) => {
-              return (
-                <tr key={info._id}>
-                  <td>{info.fName + " " + info.sName}</td>
-                  <td>{zpsklad1[info._id]?.zp}</td>
-                  <td>{zpsklad1[info._id]?.zminu}</td>
-                  <td>{zpsklad1[info._id]?.prod_quantity}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+    return (
+        <div className={s.main}>
+            <div className={s.title__container}>
+                <span className={s.title}>Зарплата склад 1</span>
+                <hr></hr>
+            </div>
+            <div className={s.table}>
+                <table>
+                    <thead>
+                    <tr>
+                        <th className={s.status__table}>Ім'я</th>
+                        <th className={s.status__table}>Зарплата</th>
+                        <th className={s.status__table}>Кількість змін</th>
+                        <th className={s.status__table}>Кількість продукції</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {filteredWorker?.filter(Boolean).map((info) => {
+                        if (zpsklad1[info._id]) {
+                            return (
+                                <tr key={info._id}>
+                                    <td>{info.fName + ' ' + info.sName}</td>
+                                    <td>{zpsklad1[info._id].zp}</td>
+                                    <td>{zpsklad1[info._id].zminu}</td>
+                                    <td>{zpsklad1[info._id].prod_quantity}</td>
+                                </tr>
+                            );
+                        }
+                    })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 };
 
 const mapStateToProps = (state) => {

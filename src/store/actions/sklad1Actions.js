@@ -8,6 +8,7 @@ import {
   fetchSklad1to2,
   fetchSklad1to3,
   fetchSklad1to4,
+  fetchSklad1Zalushok,
   patchSklad1,
 } from "../api/api";
 import {
@@ -17,7 +18,20 @@ import {
   SET_SINGLE_SKLAD1,
   SET_SKLAD1,
   SET_SKLAD1_TO2,
+  SET_SKLAD1_ZALUSHOK,
 } from "./actionTypes";
+
+export const getSklad1ZalushokAction = () => {
+  return async (dispatch) => {
+    const token = getToken();
+    const day = new Date();
+    const response = await fetchSklad1Zalushok(token, day);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data });
+    }
+    return response.status === 200;
+  };
+};
 
 export const getSklad1Action = () => {
   return async (dispatch) => {

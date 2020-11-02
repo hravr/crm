@@ -16,6 +16,7 @@ const Modal = ({
             await getWorkers();
         })();
     }, []);
+
     const variables = [
         {
             label: "Склад 2",
@@ -30,21 +31,22 @@ const Modal = ({
             value: 'склад4',
         }
     ];
+
     const [selected, setSelected] = useState();
     const [dataToSubmit, setDataToSubmit] = useState({mishok: modalData, skladId: sklad1});
 
     const handleSelected = (e) => {
         if (e.value === "склад2") {
             setSelected(2)
-            setDataToSubmit({...dataToSubmit, mishok: modalData})
+            setDataToSubmit({...dataToSubmit, mishok: modalData, skladId: sklad1})
         }
         if (e.value === "склад3") {
             setSelected(3)
-            setDataToSubmit({...dataToSubmit, mishok: modalData})
+            setDataToSubmit({...dataToSubmit, mishok: modalData, skladId: sklad1})
         }
         if (e.value === "склад4") {
             setSelected(4)
-            setDataToSubmit({...dataToSubmit, mishok: modalData})
+            setDataToSubmit({...dataToSubmit, mishok: modalData, skladId: sklad1})
         }
     }
 
@@ -59,14 +61,32 @@ const Modal = ({
             }
         }
         if (selected === 3) {
-            // rozxidToSklad3(dataToSubmit);
+            if (dataToSubmit.mishok && dataToSubmit.form && dataToSubmit.date_rozsxodu) {
+                rozxidToSklad3(dataToSubmit);
+                setSelected(0)
+                console.log(dataToSubmit)
+            } else {
+                alert('Заповніть всі дані !!!')
+            }
         }
         if (selected === 4) {
-            // rozxidToSklad4(dataToSubmit);
+            if (dataToSubmit.mishok && dataToSubmit.packId && dataToSubmit.date_rozsxodu) {
+                rozxidToSklad4(dataToSubmit).then(res => res && setIsVisible(false));
+                setSelected(0)
+                console.log(dataToSubmit)
+            } else {
+                alert('Заповніть всі дані !!!')
+            }
         }
     };
     const handleDate = ({target}) => {
         setDataToSubmit({...dataToSubmit, date_rozsxodu: target.value})
+    };
+    const handleForm = (e) => {
+        setDataToSubmit({...dataToSubmit, formId: e.value})
+    };
+    const handlePack = (e) => {
+        setDataToSubmit({...dataToSubmit, packId: e.value})
     };
     const handleShveya = (e) => {
         setDataToSubmit({...dataToSubmit, shveyaId: e.value})
@@ -156,7 +176,7 @@ const Modal = ({
                         <Select
                             defaultValue={variables[0].label}
                             options={operationsOptions["Формувальниця"]}
-                            onChange={handleShveya}
+                            onChange={handleForm}
                         />
                     </div>
                     <label className={s.data}>
@@ -172,7 +192,7 @@ const Modal = ({
                         <Select
                             defaultValue={variables[0].label}
                             options={operationsOptions["Пакувальниця"]}
-                            onChange={handleShveya}
+                            onChange={handlePack}
                         />
                     </div>
                     <label className={s.data}>

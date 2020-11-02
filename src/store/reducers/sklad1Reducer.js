@@ -5,6 +5,7 @@ import {
   SET_SINGLE_SKLAD1,
   SET_SKLAD1,
   SET_SKLAD1_TO2,
+  SET_SKLAD1_ZALUSHOK,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -41,6 +42,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         sklad1: state.sklad1.filter((sklad1) => sklad1._id !== action._id),
+      };
+    case SET_SKLAD1_ZALUSHOK:
+      return {
+        ...state,
+        sklad1_zalushok: action.sklad1_zalushok,
       };
     default:
       return state;
