@@ -1856,3 +1856,61 @@ export const fetchFilteredZvituZalushok = (day, token) => {
     },
   });
 };
+
+export const fetchMaterials = (token) => {
+  return _axios.get("/materials", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleMaterials = (id, token) => {
+  return _axios.get(`/materials/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchFilteredMaterials = (from, to, operationId, token) => {
+  let baseUrl = "/materials?";
+  if (operationId) {
+    baseUrl += `operationId=${operationId}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createMaterials = (zvitu, token) => {
+  return _axios.post("/materials", zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterials = (id, token, zvitu) => {
+  return _axios.patch(`/materials/${id}`, zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterials = (id, token) => {
+  return _axios.delete(`/materials/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

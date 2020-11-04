@@ -44,6 +44,7 @@ import EditSklad3 from "./pages/EditSklad/EditSklad3";
 import EditSklad4 from "./pages/EditSklad/EditSklad4";
 import Sklad3 from "./pages/Sklad3/Sklad3";
 import Sklad4 from "./pages/Sklad4/Sklad4";
+import Materials from "./pages/Materials/Materials";
 
 function App(props) {
   // const Route = ({
@@ -76,12 +77,13 @@ function App(props) {
           <Route path="/equipment" component={Equipment}/>
           <Route path="/praja" component={Praja}/>
           <Route path="/pak_materials" component={PakMaterials}/>
+          <Route path="/materials" component={Materials}/>
+          {/*<Route path="/priaga" component={Priaga}/>*/}
           <Route path="/edit" component={Edit}/>
           <Route path="/sklad_1" component={Sklad1}/>
           <Route path="/sklad_2" component={Sklad2}/>
           <Route path="/sklad_3" component={Sklad3}/>
           <Route path="/sklad_4" component={Sklad4}/>
-          {/*<Route path="/sklad_2" component={Sklad2} />*/}
           <Route path="/zp-sklad1" component={ZpSklad1}/>
           <Route path="/zp-sklad2" component={ZpSklad2}/>
           <Route path="/zp-sklad3" component={ZpSklad3}/>

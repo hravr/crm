@@ -44,6 +44,30 @@ const Header = ({ history: h }) => {
             </div>
           </div>
           <div className={s.dropdown}>
+            <button className={s.dropbtn}>Пак матеріали</button>
+            <div className={s.dropdown_content}>
+              <Link to="/materials">Пак матеріали</Link>
+              <Link to="/create-materials" className={s.create__worker}>
+                Створити прихід
+              </Link>
+              <Link to="/create-materials-rozxid" className={s.create__worker}>
+                Створити розхід
+              </Link>
+            </div>
+          </div>
+          <div className={s.dropdown}>
+            <button className={s.dropbtn}>Пряжа</button>
+            <div className={s.dropdown_content}>
+              <Link to="/priaga">Пряжа</Link>
+              <Link to="/create-priaga" className={s.create__worker}>
+                Створити прихід
+              </Link>
+              <Link to="/create-priaga-rozxid" className={s.create__worker}>
+                Створити розхід
+              </Link>
+            </div>
+          </div>
+          <div className={s.dropdown}>
             <button className={s.dropbtn}>Довідник</button>
             <div className={s.dropdown_content}>
               <Link to="/workers">Працівники</Link>

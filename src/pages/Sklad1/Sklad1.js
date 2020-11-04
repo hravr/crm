@@ -431,16 +431,16 @@ const Sklad1 = ({
                       {zal.vyazalId.fName}
                     </td>
                     <td>{zal.machineId.name || 'Всі'}</td>
-                    <td>{zal.mishok.articleId.name || 'Всі'}</td>
-                    <td>{zal.mishok.classId.name || 'Всі'}</td>
+                    <td>{zal.mishok.articleId?.name || 'Всі'}</td>
+                    <td>{zal.mishok.classId?.name || 'Всі'}</td>
                     <td>
-                      <span>{zal.mishok.sizeId.name || 'Всі'} | </span>
-                      {zal.mishok.imageId.name || 'Всі'}
+                      <span>{zal.mishok.sizeId?.name || 'Всі'} | </span>
+                      {zal.mishok.imageId?.name || 'Всі'}
                     </td>
-                    <td>{zal.mishok.colorId.name || 'Всі'}</td>
+                    <td>{zal.mishok.colorId?.name || 'Всі'}</td>
                     <td>
                       <span>{zal.mishok?.asortumentId?.name || 'Всі'} | </span>
-                      {zal.mishok.typeId.name || 'Всі'}
+                      {zal.mishok.typeId?.name || 'Всі'}
                     </td>
                     <td>{zal.mishok.gatynok1 + zal.mishok.gatynok2 + zal.mishok.gatynok3 || 'Всі'}</td>
                     <td>{zal.mishok.gatynok1 || 'Всі'}
