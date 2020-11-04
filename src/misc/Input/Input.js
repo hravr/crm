@@ -14,7 +14,6 @@ const Input = ({
   return (
     <div className={s.input__container}>
       {!!label && <span className={s.label}>{label}</span>}
-      {/* <label className={s.label}>123</label> */}
       <input
         className={s.input}
         {...{ type }}

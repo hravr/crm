@@ -515,9 +515,9 @@ const formikHOC = withFormik({
     }
   },
 })(EditSklad2);
+
 const mapStateToProps = (state) => {
   return {
-    operations: state.operations.operations,
     articleId: state.prod.prodArticle,
     typeId: state.prodType.prodType,
     sizeId: state.prodSize.prodSize,

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Header from "./misc/Header/Header";
@@ -17,8 +12,9 @@ import Equipment from "./pages/Equipment/Equipment";
 import Praja from "./pages/Praja/Praja";
 import PakMaterials from "./pages/PakMaterials/PakMaterials";
 import Sklad1 from "./pages/Sklad1/Sklad1";
+import Sklad2 from "./pages/Sklad2/Sklad2";
 import Edit from "./pages/Edit/Edit";
-import { getToken } from "./utils/utils";
+import {getToken} from "./utils/utils";
 import ZpSklad1 from "./pages/ZpSklad/ZpSklad1/ZpSklad1";
 import Productcia from "./pages/Productcia/Productcia";
 import Operations from "./pages/Operations/Operations";
@@ -35,7 +31,6 @@ import EditZvitu from "./pages/EditZvitu/EditZvitu";
 import EditZvituRozxid from "./pages/EditZvituRozxid/EditZvituRozxid";
 import CreateProdArticle from "./pages/CreateProdArticle/CreateProdArticle";
 import EditProdArticle from "./pages/EditProdArticle/EditProdArticle";
-import Sklad2 from "./pages/Sklad2/Sklad2";
 import CreatePakType from "./pages/CreatePakType/CreatePakType";
 import CreateParamsValue from "./pages/CreateParamsValue/CreateParamsValue";
 import EditPramsValue from "./pages/EditPramsValue/EditPramsValue";
@@ -67,48 +62,49 @@ function App(props) {
   const token = getToken();
   return (
     <Router>
-      <Header />
-      <div style={{ padding: 10 }}>
+      <Header/>
+      <div style={{padding: 10}}>
         <Switch>
-          <Route path="/" component={Home} exact />
-          <Route path="/login" component={Login} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/create-pruhid" component={CreatePruhid} />
-          <Route path="/workers" component={Workers} />
-          <Route path="/prices" component={Prices} />
-          <Route path="/equipment" component={Equipment} />
-          <Route path="/praja" component={Praja} />
-          <Route path="/pak_materials" component={PakMaterials} />
-          <Route path="/edit" component={Edit} />
-          <Route path="/sklad_1" component={Sklad1} />
-          <Route path="/sklad_2" component={Sklad2} />
-          <Route path="/zp-sklad1" component={ZpSklad1} />
-          <Route path="/zp-sklad2" component={ZpSklad2} />
-          <Route path="/zp-sklad3" component={ZpSklad3} />
-          <Route path="/zp-sklad4" component={ZpSklad4} />
-          <Route path="/productcia" component={Productcia} />
-          <Route path="/operations" component={Operations} />
-          <Route path="/zvitu" component={Zvitu} />
-          <Route path="/create-worker" component={CreateWorker} />
-          <Route path="/create-prices" component={CreatePrices} />
-          <Route path="/edit-worker/:id" component={EditWorker} />
-          <Route path="/edit-price/:id" component={EditPrice} />
-          <Route path="/create-machine" component={CreateMachine} />
-          <Route path="/edit-machine/:id" component={EditMachine} />
-          <Route path="/create-zvitu" component={CreateZvitu} />
-          <Route path="/create-zvitu-rozxid" component={CreateZvituRozxid} />
-          <Route path="/edit-zvitu/:id" component={EditZvitu} />
-          <Route path="/edit-zvitu-rozxid/:id" component={EditZvituRozxid} />
-          <Route path="/create-prod-article" component={CreateProdArticle} />
-          <Route path="/edit-prod-article/:id" component={EditProdArticle} />
-          <Route path="/create-paktype" component={CreatePakType} />
-          <Route path="/create-pak-paramsvalue" component={CreateParamsValue} />
-          <Route path="/edit-pak-paramsvalue/:id" component={EditPramsValue} />
-          <Route path="/edit-paktype/:id" component={EditPakType} />
-          <Route path="/edit-sklad1/:id" component={EditSklad1} />
-          <Route path="/edit-sklad2/:id" component={EditSklad2} />
-          <Route path="/edit-sklad3/:id" component={EditSklad3} />
-          <Route path="/edit-sklad4/:id" component={EditSklad4} />
+          <Route path="/" component={Home} exact/>
+          <Route path="/login" component={Login}/>
+          <Route path="/profile" component={Profile}/>
+          <Route path="/create-pruhid" component={CreatePruhid}/>
+          <Route path="/workers" component={Workers}/>
+          <Route path="/prices" component={Prices}/>
+          <Route path="/equipment" component={Equipment}/>
+          <Route path="/praja" component={Praja}/>
+          <Route path="/pak_materials" component={PakMaterials}/>
+          <Route path="/edit" component={Edit}/>
+          <Route path="/sklad_1" component={Sklad1}/>
+          <Route path="/sklad_2" component={Sklad2}/>
+          {/*<Route path="/sklad_2" component={Sklad2} />*/}
+          <Route path="/zp-sklad1" component={ZpSklad1}/>
+          <Route path="/zp-sklad2" component={ZpSklad2}/>
+          <Route path="/zp-sklad3" component={ZpSklad3}/>
+          <Route path="/zp-sklad4" component={ZpSklad4}/>
+          <Route path="/productcia" component={Productcia}/>
+          <Route path="/operations" component={Operations}/>
+          <Route path="/zvitu" component={Zvitu}/>
+          <Route path="/create-worker" component={CreateWorker}/>
+          <Route path="/create-prices" component={CreatePrices}/>
+          <Route path="/edit-worker/:id" component={EditWorker}/>
+          <Route path="/edit-price/:id" component={EditPrice}/>
+          <Route path="/create-machine" component={CreateMachine}/>
+          <Route path="/edit-machine/:id" component={EditMachine}/>
+          <Route path="/create-zvitu" component={CreateZvitu}/>
+          <Route path="/create-zvitu-rozxid" component={CreateZvituRozxid}/>
+          <Route path="/edit-zvitu/:id" component={EditZvitu}/>
+          <Route path="/edit-zvitu-rozxid/:id" component={EditZvituRozxid}/>
+          <Route path="/create-prod-article" component={CreateProdArticle}/>
+          <Route path="/edit-prod-article/:id" component={EditProdArticle}/>
+          <Route path="/create-paktype" component={CreatePakType}/>
+          <Route path="/create-pak-paramsvalue" component={CreateParamsValue}/>
+          <Route path="/edit-pak-paramsvalue/:id" component={EditPramsValue}/>
+          <Route path="/edit-paktype/:id" component={EditPakType}/>
+          <Route path="/edit-sklad1/:id" component={EditSklad1}/>
+          <Route path="/edit-sklad2/:id" component={EditSklad2}/>
+          <Route path="/edit-sklad3/:id" component={EditSklad3}/>
+          <Route path="/edit-sklad4/:id" component={EditSklad4}/>
         </Switch>
       </div>
     </Router>

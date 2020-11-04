@@ -53,18 +53,16 @@ const Modal = ({
     const handleSubmit = () => {
         if (selected === 2) {
             if (dataToSubmit.mishok && dataToSubmit.shveyaId && dataToSubmit.sortId && dataToSubmit.date_rozsxodu) {
-                rozxidToSklad2(dataToSubmit);
+                rozxidToSklad2(dataToSubmit).then(res => res && setIsVisible(false));
                 setSelected(0)
-                console.log(dataToSubmit)
             } else {
                 alert('Заповніть всі дані !!!')
             }
         }
         if (selected === 3) {
-            if (dataToSubmit.mishok && dataToSubmit.form && dataToSubmit.date_rozsxodu) {
-                rozxidToSklad3(dataToSubmit);
+            if (dataToSubmit.mishok && dataToSubmit.formId && dataToSubmit.date_rozsxodu) {
+                rozxidToSklad3(dataToSubmit).then(res => res && setIsVisible(false));
                 setSelected(0)
-                console.log(dataToSubmit)
             } else {
                 alert('Заповніть всі дані !!!')
             }
@@ -73,7 +71,6 @@ const Modal = ({
             if (dataToSubmit.mishok && dataToSubmit.packId && dataToSubmit.date_rozsxodu) {
                 rozxidToSklad4(dataToSubmit).then(res => res && setIsVisible(false));
                 setSelected(0)
-                console.log(dataToSubmit)
             } else {
                 alert('Заповніть всі дані !!!')
             }
