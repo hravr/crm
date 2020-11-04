@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import s from "./Sklad3.module.css";
+import s from "./Sklad4.module.css";
 import classnames from "classnames";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import Input from "../../misc/Input/Input";
@@ -8,14 +8,14 @@ import {useHistory} from "react-router-dom";
 import Modal from "../../misc/Modal/Modal";
 import ReactToExcel from "react-html-table-to-excel/";
 import {
-  deleteSklad3Action,
-  filterSklad3Action,
-  getSklad3Action,
-  getSklad3ZalushokAction
-} from "../../store/actions/sklad3Actions";
+  deleteSklad4Action,
+  filterSklad4Action,
+  getSklad4Action,
+  getSklad4ZalushokAction
+} from "../../store/actions/sklad4Actions";
 import {connect} from "react-redux";
 
-const Sklad3 = ({
+const Sklad4 = ({
                   getSklad1,
                   sklad1,
                   getZalushok,
@@ -48,7 +48,7 @@ const Sklad3 = ({
       />
       <div className={s.main}>
         <div className={s.title__container}>
-          <span className={s.title}>Склад 3</span>
+          <span className={s.title}>Склад 4</span>
           <TabList className={s.tabs}>
             {["Прихід", "Розхід", "Залишок"].map((item, i) => (
               <Tab
@@ -139,7 +139,7 @@ const Sklad3 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>Формувальниця</th>
+                <th className={s.status__table}>Пакувальниця</th>
                 <th className={s.status__table}>Артикул</th>
                 <th className={s.status__table}>Клас</th>
                 <div className={s.table__column}>
@@ -173,9 +173,9 @@ const Sklad3 = ({
                         </td>
                         <td>{sklad?.date_prixod?.slice(0, 10) || "Всі"}</td>
                         <td>
-                            <span>{sklad?.formId?.fName +
+                            <span>{sklad?.packId?.fName +
                             " " +
-                            sklad?.formId?.sName || "Всі"}</span>
+                            sklad?.packId?.sName || "Всі"}</span>
                         </td>
                         <td>{sklad?.mishok?.articleId?.name || "Всі"}</td>
                         <td>{sklad?.mishok?.classId?.name || "Всі"}</td>
@@ -221,9 +221,9 @@ const Sklad3 = ({
                       <td>{filtered.mishok.barcode || "Всі"}</td>
                       <td>{filtered.createdAt.slice(0, 10) || "Всі"}</td>
                       <td>
-                        {filtered?.formId?.fName +
+                        {filtered?.packId?.fName +
                         " " +
-                        filtered?.formId?.sName || "Всі"}
+                        filtered?.packId?.sName || "Всі"}
                       </td>
                       <td>{filtered?.mishok?.articleId?.name || "Всі"}</td>
                       <td>{filtered?.mishok?.classId?.name || "Всі"}</td>
@@ -273,7 +273,7 @@ const Sklad3 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>Формувальниця</th>
+                <th className={s.status__table}>Пакувальниця</th>
                 <th className={s.status__table}>Артикул</th>
                 <th className={s.status__table}>Клас</th>
                 <div className={s.table__column}>
@@ -298,7 +298,7 @@ const Sklad3 = ({
                         <td>{sklad.mishok.barcode}</td>
                         <td>{sklad.date_rozsxodu.split('T')[0]}</td>
                         <td>
-                          <span>{sklad.formId?.fName}</span>
+                          <span>{sklad.packId.fName}</span>
                         </td>
                         <td>{sklad.mishok.articleId.name || 'Всі'}</td>
                         <td>{sklad.mishok.classId.name || 'Всі'}</td>
@@ -333,7 +333,7 @@ const Sklad3 = ({
                         <td>{sklad.mishok.barcode}</td>
                         <td>{sklad.date_rozsxodu.split('T')[0]}</td>
                         <td>
-                          <span>{sklad.formId.fName}</span>
+                          <span>{sklad.packId.fName}</span>
                         </td>
                         <td>{sklad.mishok.articleId.name || 'Всі'}</td>
                         <td>{sklad.mishok.classId.name || 'Всі'}</td>
@@ -370,7 +370,7 @@ const Sklad3 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>Формувальниця</th>
+                <th className={s.status__table}>Пакувальниця</th>
                 <th className={s.status__table}>Артикул</th>
                 <th className={s.status__table}>Клас</th>
                 <div className={s.table__column}>
@@ -393,7 +393,7 @@ const Sklad3 = ({
                     <td>{zal.mishok.barcode}</td>
                     <td>{zal?.date_rozsxodu?.split('T')[0] || 'Всі'}</td>
                     <td>
-                      <span>{zal.formId?.fName}</span>
+                      <span>{zal.packId.fName}</span>
                     </td>
                     <td>{zal.mishok.articleId.name || 'Всі'}</td>
                     <td>{zal.mishok.classId.name || 'Всі'}</td>
@@ -428,20 +428,20 @@ const Sklad3 = ({
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state.sklad3)
+  console.log(state.sklad4)
   return {
-    sklad1: state.sklad3.sklad3,
-    zalushok: state.sklad3.sklad1_zalushok,
-    filteredSklad1: state.sklad3.filtered,
-    filteredRozxodSklad1: state.sklad3.filteredRozxod,
+    sklad1: state.sklad4.sklad4,
+    zalushok: state.sklad4.sklad1_zalushok,
+    filteredSklad1: state.sklad4.filtered,
+    filteredRozxodSklad1: state.sklad4.filteredRozxod,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getZalushok: (day) => dispatch(getSklad3ZalushokAction(day)),
-    getSklad1: (searchValue) => dispatch(getSklad3Action(searchValue)),
-    filterSklad1: (data) => dispatch(filterSklad3Action(data)),
-    deleteSklad1: (id) => dispatch(deleteSklad3Action(id)),
+    getZalushok: (day) => dispatch(getSklad4ZalushokAction(day)),
+    getSklad1: (searchValue) => dispatch(getSklad4Action(searchValue)),
+    filterSklad1: (data) => dispatch(filterSklad4Action(data)),
+    deleteSklad1: (id) => dispatch(deleteSklad4Action(id)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Sklad3);
+export default connect(mapStateToProps, mapDispatchToProps)(Sklad4);
