@@ -20,7 +20,10 @@ export const getSklad2Action = () => {
     const token = getToken();
     const response = await fetchSklad2(token);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD2, sklad2: response.data });
+      dispatch({
+        type: SET_SKLAD2,
+        sklad2: response.data,
+      });
     }
     return response.status === 200;
   };
@@ -38,10 +41,10 @@ export const filterSklad2Action = ({ sort, from, to, search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchFilteredSklad2(sort, from, to, search, token);
-    if (response?.data?.history) {
+    if (response?.data) {
       dispatch({
         type: SET_FILTERED_SKLAD2,
-        filtered: response.data.history,
+        filtered: response.data,
       });
     } else {
       dispatch({

@@ -197,9 +197,7 @@ const Sklad1 = ({
                           <div className={s.table__btn}>
                             <button
                               className={s.del}
-                              onClick={() =>
-                                h.push(`/edit-sklad1/${sklad._id}`)
-                              }
+                              onClick={() => h.push("/edit")}
                             >
                               Редагувати
                             </button>
@@ -261,9 +259,7 @@ const Sklad1 = ({
                           <div className={s.table__btn}>
                             <button
                               className={s.del}
-                              onClick={() =>
-                                h.push(`/edit-sklad1/${filtered._id}`)
-                              }
+                              onClick={() => h.push("/edit")}
                             >
                               Редагувати
                             </button>

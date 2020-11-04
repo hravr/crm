@@ -10,13 +10,11 @@ export const loginAction = (data) => {
       dispatch({
         type: SET_PROFILE,
         token: response.data.token,
-        // user: { ...response.data.user }
       });
     } else {
       dispatch({
         type: SET_PROFILE,
         token: "",
-        // user: {}
       });
     }
     return response.status === 200;

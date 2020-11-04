@@ -96,10 +96,10 @@ export const filterSklad1Action = ({ sort, from, to, search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchFilteredSklad1(sort, from, to, search, token);
-    if (response?.data?.history) {
+    if (response?.data) {
       dispatch({
         type: SET_FILTERED_SKLAD1,
-        filtered: response.data.history,
+        filtered: response.data,
       });
     } else {
       dispatch({

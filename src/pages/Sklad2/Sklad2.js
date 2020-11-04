@@ -92,8 +92,27 @@ const Sklad2 = ({ getSklad2, sklad2, filterSklad2, filteredSklad2 }) => {
             <table id="table-to-xls">
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
-                <th className={s.status__table}>Ділянки розходу</th>
-                <th className={s.status__table}>ID працівника</th>
+                <th className={s.status__table}>Дата</th>
+                <div className={s.table__column}>
+                  <th className={s.status__table}>Швея</th>
+                  <th className={s.status__table}>Сортувальниця</th>
+                </div>
+                <th className={s.status__table}>Обладнання</th>
+                <th className={s.status__table}>Артикул</th>
+                <th className={s.status__table}>Клас</th>
+                <div className={s.table__column}>
+                  <th className={s.status__table}>Розмір</th>
+                  <th className={s.status__table}>Маюнок</th>
+                </div>
+                <th className={s.status__table}>Колір</th>
+                <div className={s.table__column}>
+                  <th className={s.status__table}>Асортимент</th>
+                  <th className={s.status__table}>Тип</th>
+                </div>
+                <th className={s.status__table}>Гатунок разом</th>
+                <th className={s.status__table}>Гатунок 1/2/3</th>
+                <th className={s.status__table}> ID юзера</th>
+                <th></th>
                 <th></th>
               </tr>
               {!filteredSklad2.length
@@ -101,9 +120,9 @@ const Sklad2 = ({ getSklad2, sklad2, filterSklad2, filteredSklad2 }) => {
                   sklad2.map((sklad) => {
                     return (
                       <tr key={sklad2._id}>
-                        <td>{sklad.mishok._id}</td>
-                        <td>{sklad.mishok._id}</td>
-                        <td>{sklad?.shveyaId}</td>
+                        <td>{sklad?.mishok._id}</td>
+                        {/* <td>{sklad?.mishok._id}</td>
+                        <td>{sklad?.shveyaId}</td> */}
                       </tr>
                     );
                   })
