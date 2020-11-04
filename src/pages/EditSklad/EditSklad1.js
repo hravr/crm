@@ -65,6 +65,7 @@ const EditSklad1 = ({
   const [machinesOptions, setMachinesOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
   const { id } = useParams();
+  console.log(values)
   const operationsObject = useMemo(() => {
     const temp = {};
     operations.forEach((operation) => {
@@ -497,7 +498,7 @@ const formikHOC = withFormik({
     { props: { editSklad1, history, singleSklad1 } }
   ) => {
     const pruhudToSubmit = {
-      asortument: values.asortument,
+      asortumentId: values.asortument,
       typeId: values.typeId,
       sizeId: values.sizeId,
       seasonId: values.seasonId,
@@ -535,7 +536,6 @@ const mapStateToProps = (state) => {
     machineId: state.machines.machines,
     masterId: state.sklad1.sklad1,
     vyazalId: state.sklad1.sklad1,
-    operations: state.operations.operations,
     workers: state.workers.workers,
     singleSklad1: state.sklad1.single,
   };

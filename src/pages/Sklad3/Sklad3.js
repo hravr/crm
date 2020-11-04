@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import s from "./Sklad1.module.css";
+import s from "./Sklad3.module.css";
 import classnames from "classnames";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import Input from "../../misc/Input/Input";
@@ -8,14 +8,14 @@ import {useHistory} from "react-router-dom";
 import Modal from "../../misc/Modal/Modal";
 import ReactToExcel from "react-html-table-to-excel/";
 import {
-  deleteSklad1Action,
-  filterSklad1Action,
-  getSklad1Action,
-  getSklad1ZalushokAction
-} from "../../store/actions/sklad1Actions";
+  deleteSklad3Action,
+  filterSklad3Action,
+  getSklad3Action,
+  getSklad3ZalushokAction
+} from "../../store/actions/sklad3Actions";
 import {connect} from "react-redux";
 
-const Sklad1 = ({
+const Sklad3 = ({
                   getSklad1,
                   sklad1,
                   getZalushok,
@@ -48,7 +48,7 @@ const Sklad1 = ({
       />
       <div className={s.main}>
         <div className={s.title__container}>
-          <span className={s.title}>Склад 1</span>
+          <span className={s.title}>Склад 3</span>
           <TabList className={s.tabs}>
             {["Прихід", "Розхід", "Залишок"].map((item, i) => (
               <Tab
@@ -139,11 +139,7 @@ const Sklad1 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <div className={s.table__column}>
-                  <th className={s.status__table}>Майстер</th>
-                  <th className={s.status__table}>Вязальниця</th>
-                </div>
-                <th className={s.status__table}>Обладнання</th>
+                <th className={s.status__table}>Формувальниця</th>
                 <th className={s.status__table}>Артикул</th>
                 <th className={s.status__table}>Клас</th>
                 <div className={s.table__column}>
@@ -177,14 +173,10 @@ const Sklad1 = ({
                         </td>
                         <td>{sklad?.date_prixod?.slice(0, 10) || "Всі"}</td>
                         <td>
-                            <span>{sklad?.masterId?.fName +
+                            <span>{sklad?.formId?.fName +
                             " " +
-                            sklad?.masterId?.sName || "Всі"} | </span>
-                          {sklad?.vyazalId?.fName +
-                          " " +
-                          sklad?.vyazalId?.sName || "Всі"}
+                            sklad?.formId?.sName || "Всі"}</span>
                         </td>
-                        <td>{sklad?.machineId?.name || "Всі"}</td>
                         <td>{sklad?.mishok?.articleId?.name || "Всі"}</td>
                         <td>{sklad?.mishok?.classId?.name || "Всі"}</td>
                         <td>
@@ -228,45 +220,31 @@ const Sklad1 = ({
                     <tr key={filtered._id}>
                       <td>{filtered.mishok.barcode || "Всі"}</td>
                       <td>{filtered.createdAt.slice(0, 10) || "Всі"}</td>
-                      <div className={s.gatynok}>
-                        <td>
-                          {filtered?.masterId?.fName +
-                          " " +
-                          filtered?.masterId?.sName || "Всі"}
-                        </td>
-
-                        <td>
-                          {filtered?.vyazalId?.fName +
-                          " " +
-                          filtered?.vyazalId?.sName || "Всі"}
-                        </td>
-                      </div>
-                      <td>{filtered?.machineId?.name || "Всі"}</td>
+                      <td>
+                        {filtered?.formId?.fName +
+                        " " +
+                        filtered?.formId?.sName || "Всі"}
+                      </td>
                       <td>{filtered?.mishok?.articleId?.name || "Всі"}</td>
                       <td>{filtered?.mishok?.classId?.name || "Всі"}</td>
-                      <div className={s.gatynok}>
-                        <td>{filtered?.mishok?.sizeId?.name || "Всі"}</td>
-
-                        <td>{filtered?.mishok?.imageId?.name || "Всі"}</td>
-                      </div>
+                      <td>
+                        <span>
+                            {filtered?.mishok?.sizeId?.name || "Всі"} | </span>
+                        {filtered?.mishok?.imageId?.name || "Всі"}</td>
                       <td>{filtered?.mishok?.colorId?.name || "Всі"}</td>
-                      <div className={s.gatynok}>
-                        <td>
-                          {filtered?.mishok?.asortumentId?.name || "Всі"}
-                        </td>
-
-                        <td>{filtered?.mishok?.typeId?.name || "Всі"}</td>
-                      </div>
+                      <td>
+                        <span> {filtered?.mishok?.asortumentId?.name || "Всі"} | </span>
+                        {filtered?.mishok?.typeId?.name || "Всі"}</td>
                       <td>
                         {filtered.mishok.gatynok1 +
                         filtered.mishok.gatynok2 +
                         filtered.mishok.gatynok3 || "Всі"}
                       </td>
-                      <div className={s.gatynok}>
-                        <td>{filtered.mishok.gatynok1 || "Всі"}
-                          {" /" + filtered.mishok.gatynok2 || "Всі"}
-                          {" /" + filtered.mishok.gatynok3 || "Всі"}</td>
-                      </div>
+                      <td>
+                        {filtered.mishok.gatynok1 || "Всі"}
+                        {" /" + filtered.mishok.gatynok2 || "Всі"}
+                        {" /" + filtered.mishok.gatynok3 || "Всі"}
+                      </td>
                       <td>{filtered?.changesId?.firstName || "Всі"}</td>
                       <td className={s.btn}>
                         <div className={s.table__btn}>
@@ -295,11 +273,7 @@ const Sklad1 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <div className={s.table__column}>
-                  <th className={s.status__table}>Майстер</th>
-                  <th className={s.status__table}>Вязальниця</th>
-                </div>
-                <th className={s.status__table}>Обладнання</th>
+                <th className={s.status__table}>Формувальниця</th>
                 <th className={s.status__table}>Артикул</th>
                 <th className={s.status__table}>Клас</th>
                 <div className={s.table__column}>
@@ -324,10 +298,8 @@ const Sklad1 = ({
                         <td>{sklad.mishok.barcode}</td>
                         <td>{sklad.date_rozsxodu.split('T')[0]}</td>
                         <td>
-                          <span>{sklad.masterId.fName} | </span>
-                          {sklad.vyazalId.fName}
+                          <span>{sklad.formId.fName}</span>
                         </td>
-                        <td>{sklad.machineId.name || 'Всі'}</td>
                         <td>{sklad.mishok.articleId.name || 'Всі'}</td>
                         <td>{sklad.mishok.classId.name || 'Всі'}</td>
                         <td>
@@ -361,10 +333,8 @@ const Sklad1 = ({
                         <td>{sklad.mishok.barcode}</td>
                         <td>{sklad.date_rozsxodu.split('T')[0]}</td>
                         <td>
-                          <span>{sklad.masterId.fName} | </span>
-                          {sklad.vyazalId.fName}
+                          <span>{sklad.formId.fName}</span>
                         </td>
-                        <td>{sklad.machineId.name || 'Всі'}</td>
                         <td>{sklad.mishok.articleId.name || 'Всі'}</td>
                         <td>{sklad.mishok.classId.name || 'Всі'}</td>
                         <td>
@@ -400,11 +370,7 @@ const Sklad1 = ({
               <tr>
                 <th className={s.status__table}>ID Мішка</th>
                 <th className={s.status__table}>Дата</th>
-                <div className={s.table__column}>
-                  <th className={s.status__table}>Майстер</th>
-                  <th className={s.status__table}>Вязальниця</th>
-                </div>
-                <th className={s.status__table}>Обладнання</th>
+                <th className={s.status__table}>Формувальниця</th>
                 <th className={s.status__table}>Артикул</th>
                 <th className={s.status__table}>Клас</th>
                 <div className={s.table__column}>
@@ -427,10 +393,8 @@ const Sklad1 = ({
                     <td>{zal.mishok.barcode}</td>
                     <td>{zal?.date_rozsxodu?.split('T')[0] || 'Всі'}</td>
                     <td>
-                      <span>{zal.masterId.fName} | </span>
-                      {zal.vyazalId.fName}
+                      <span>{zal.formId.fName}</span>
                     </td>
-                    <td>{zal.machineId.name || 'Всі'}</td>
                     <td>{zal.mishok.articleId.name || 'Всі'}</td>
                     <td>{zal.mishok.classId.name || 'Всі'}</td>
                     <td>
@@ -464,19 +428,20 @@ const Sklad1 = ({
   );
 };
 const mapStateToProps = (state) => {
+  console.log(state.sklad3)
   return {
-    sklad1: state.sklad1.sklad1,
-    zalushok: state.sklad1.sklad1_zalushok,
-    filteredSklad1: state.sklad1.filtered,
-    filteredRozxodSklad1: state.sklad1.filteredRozxod,
+    sklad1: state.sklad3.sklad3,
+    zalushok: state.sklad3.sklad1_zalushok,
+    filteredSklad1: state.sklad3.filtered,
+    filteredRozxodSklad1: state.sklad3.filteredRozxod,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getZalushok: (day) => dispatch(getSklad1ZalushokAction(day)),
-    getSklad1: (searchValue) => dispatch(getSklad1Action(searchValue)),
-    filterSklad1: (data) => dispatch(filterSklad1Action(data)),
-    deleteSklad1: (id) => dispatch(deleteSklad1Action(id)),
+    getZalushok: (day) => dispatch(getSklad3ZalushokAction(day)),
+    getSklad1: (searchValue) => dispatch(getSklad3Action(searchValue)),
+    filterSklad1: (data) => dispatch(filterSklad3Action(data)),
+    deleteSklad1: (id) => dispatch(deleteSklad3Action(id)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Sklad1);
+export default connect(mapStateToProps, mapDispatchToProps)(Sklad3);

@@ -53,6 +53,13 @@ export const fetchSklad2Zalushok = (token, day) => {
     },
   });
 };
+export const fetchSklad3Zalushok = (token, day) => {
+  return _axios.get(`/sklad3_zalushok?day=${day}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const fetchFilteredSklad1 = ({from, to, search, token, fromRozxod, toRozxod}) => {
   let baseUrl = "/sklad1?";
@@ -163,7 +170,8 @@ export const fetchSklad3 = (token) => {
   });
 };
 
-export const fetchFilteredSklad3 = (from, to, search, token) => {
+export const fetchFilteredSklad3 = ({from, to, search, token, fromRozxod, toRozxod}) => {
+  console.log(from,to,fromRozxod,toRozxod)
   let baseUrl = "/sklad3?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -173,6 +181,12 @@ export const fetchFilteredSklad3 = (from, to, search, token) => {
   }
   if (to) {
     baseUrl += `&to=${to}`;
+  }
+  if (toRozxod) {
+    baseUrl += `&toRozxod=${toRozxod}`;
+  }
+  if (fromRozxod) {
+    baseUrl += `&fromRozxod=${fromRozxod}`;
   }
   return _axios.get(baseUrl, {
     headers: {

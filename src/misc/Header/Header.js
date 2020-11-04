@@ -17,6 +17,8 @@ const Header = ({ history: h }) => {
             <div className={s.dropdown_content}>
               <Link to="/sklad_1">Склад 1</Link>
               <Link to="/sklad_2">Склад 2</Link>
+              <Link to="/sklad_3">Склад 3</Link>
+              <Link to="/sklad_4">Склад 4</Link>
               <Link to="/create-pruhid">Створити прихід</Link>
             </div>
           </div>
