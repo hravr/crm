@@ -43,7 +43,6 @@ const EditSklad2 = ({
   fetchProdColor,
   colorId,
   fetchMachine,
-  machineId,
   getSklad2,
   articleId,
   fetchProdArticle,
@@ -59,7 +58,6 @@ const EditSklad2 = ({
   const [imageOptions, setImageOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
-  const [machinesOptions, setMachinesOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
 
   const operationsObject = useMemo(() => {
@@ -148,14 +146,6 @@ const EditSklad2 = ({
     setValues({ ...values, typeId: typeId.value, typeName: typeId.label });
   };
 
-  const machinesSelect = (machineId) => {
-    setValues({
-      ...values,
-      machineId: machineId.value,
-      machineName: machineId.label,
-    });
-  };
-
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
@@ -164,15 +154,6 @@ const EditSklad2 = ({
         })
     );
   }, [articleId]);
-
-  useEffect(() => {
-    setMachinesOptions(
-      machineId.length &&
-        machineId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
-    );
-  }, [machineId]);
 
   useEffect(() => {
     setAsortumenOptions(
@@ -242,7 +223,6 @@ const EditSklad2 = ({
       sizeId,
       imageId,
       colorId,
-      machineId,
       shveyaId,
       sortId,
       articleId,
@@ -266,8 +246,6 @@ const EditSklad2 = ({
         colorName: mishok.colorId?.name,
         classId,
         cName: mishok.classId?.name,
-        machineId,
-        machineName: machineId?.name,
         shveyaId,
         shveyaName: shveyaId?.fName + " " + shveyaId?.sName,
         sortId,
@@ -311,8 +289,8 @@ const EditSklad2 = ({
         <div className={s.left}>
           <Input
             type="date"
-            value={values.date_prixod}
-            name="date_prixod"
+            value={values.date_rozsxodu}
+            name="date_rozsxodu"
             label="Дата"
             onChange={handleChange}
           />
@@ -337,17 +315,6 @@ const EditSklad2 = ({
             name="gatynok3"
             onChange={handleChange}
           />
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Обладнання</span>
-            </div>
-            <Select
-              options={machinesOptions}
-              value={{ label: values.machineName, value: values.machineId }}
-              name="machineId"
-              onChange={machinesSelect}
-            />
-          </div>
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Швея</span>
@@ -444,7 +411,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={sezonOptions}
-              value={{ label: values.imageOptions, value: values.seasonId }}
+              value={{ label: values.seasonName, value: values.seasonId }}
               name="seasonId"
               onChange={sezonSelect}
             />
@@ -477,11 +444,10 @@ const formikHOC = withFormik({
     imageId: "",
     classId: "",
     colorId: "",
-    machineId: "",
     sortId: "",
     shveyaId: "",
     articleId: "",
-    date_prixod: "",
+    date_rozsxodu: "",
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
@@ -498,11 +464,10 @@ const formikHOC = withFormik({
       classId: values.classId,
       imageId: values.imageId,
       colorId: values.colorId,
-      date_prixod: values.date_prixod,
+      date_rozsxodu: values.date_rozsxodu,
       gatynok1: values.gatynok1,
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
-      machineId: values.machineId,
       sortId: values.sortId,
       shveyaId: values.shveyaId,
       articleId: values.articleId,
@@ -515,9 +480,9 @@ const formikHOC = withFormik({
     }
   },
 })(EditSklad2);
+
 const mapStateToProps = (state) => {
   return {
-    operations: state.operations.operations,
     articleId: state.prod.prodArticle,
     typeId: state.prodType.prodType,
     sizeId: state.prodSize.prodSize,
@@ -526,7 +491,6 @@ const mapStateToProps = (state) => {
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
-    machineId: state.machines.machines,
     sortId: state.sklad2.sklad2,
     shveyaId: state.sklad2.sklad2,
     operations: state.operations.operations,

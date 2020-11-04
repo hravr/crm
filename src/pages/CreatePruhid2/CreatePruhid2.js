@@ -12,7 +12,6 @@ import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortAction
 import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
 import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
 import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
-import { getMachineAction } from "../../store/actions/Machine/machineActions";
 import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
 import {
   createSklad2Action,
@@ -40,8 +39,6 @@ const CreatePruhid2 = ({
   classId,
   fetchProdColor,
   colorId,
-  fetchMachine,
-  machineId,
   getSklad2,
   articleId,
   fetchProdArticle,
@@ -56,7 +53,6 @@ const CreatePruhid2 = ({
   const [imageOptions, setImageOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
-  const [machinesOptions, setMachinesOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
   const operationsObject = useMemo(() => {
     const temp = {};
@@ -127,9 +123,6 @@ const CreatePruhid2 = ({
     setValues({ ...values, typeId: typeId.value });
   };
 
-  const machinesSelect = (machineId) => {
-    setValues({ ...values, machineId: machineId.value });
-  };
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
@@ -138,15 +131,6 @@ const CreatePruhid2 = ({
         })
     );
   }, [articleId]);
-
-  useEffect(() => {
-    setMachinesOptions(
-      machineId.length &&
-        machineId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
-    );
-  }, [machineId]);
 
   useEffect(() => {
     setAsortumenOptions(
@@ -212,7 +196,6 @@ const CreatePruhid2 = ({
   useEffect(() => {
     (async () => {
       await getSklad2();
-      await fetchMachine();
       await fetchProdAsortument();
       await fetchProdSezon();
       await fetchProdSize();
@@ -230,8 +213,8 @@ const CreatePruhid2 = ({
         <div className={s.left}>
           <Input
             type="date"
-            value={values.date_prixod}
-            name="date_prixod"
+            value={values.date_rozsxodu}
+            name="date_rozsxodu"
             label="Дата"
             onChange={handleChange}
           />
@@ -256,17 +239,6 @@ const CreatePruhid2 = ({
             name="gatynok3"
             onChange={handleChange}
           />
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Обладнання</span>
-            </div>
-            <Select
-              options={machinesOptions}
-              value={values.machineId.label}
-              name="machineId"
-              onChange={machinesSelect}
-            />
-          </div>
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Швея</span>
@@ -400,11 +372,10 @@ const formikHOC = withFormik({
     imageId: {},
     classId: {},
     colorId: {},
-    machineId: {},
     sortId: {},
     shveyaId: {},
     articleId: {},
-    date_prixod: "",
+    date_rozsxodu: "",
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
@@ -419,9 +390,8 @@ const formikHOC = withFormik({
       !values.imageId ||
       !values.classId ||
       !values.colorId ||
-      !values.date_prixod ||
+      !values.date_rozsxodu ||
       !values.articleId ||
-      !values.machineId ||
       !values.sortId ||
       !values.shveyaId ||
       !values.gatynok1 ||
@@ -442,11 +412,10 @@ const formikHOC = withFormik({
       classId: values.classId,
       imageId: values.imageId,
       colorId: values.colorId,
-      date_prixod: values.date_prixod,
+      date_rozsxodu: values.date_rozsxodu,
       gatynok1: values.gatynok1,
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
-      machineId: values.machineId,
       sortId: values.sortId,
       shveyaId: values.shveyaId,
       articleId: values.articleId,
@@ -470,7 +439,6 @@ const mapStateToProps = (state) => {
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
-    machineId: state.machines.machines,
     sortId: state.sklad2.sklad2,
     shveyaId: state.sklad2.sklad2,
     operations: state.operations.operations,
@@ -488,7 +456,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchProdClass: () => dispatch(getProdClassAction()),
     fetchProdColor: () => dispatch(getProdColorAction()),
     fetchProdImage: () => dispatch(getProdImageAction()),
-    fetchMachine: () => dispatch(getMachineAction()),
     fetchProdArticle: () => dispatch(getProdArticleAction()),
     getOperations: () => dispatch(getOperationsAction()),
     getWorkers: () => dispatch(getWorkersAction()),

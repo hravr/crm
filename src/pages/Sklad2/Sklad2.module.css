@@ -88,10 +88,6 @@ tr:nth-child(even) {
   flex-direction: column;
 }
 
-/* .border {
+.border {
   border-bottom: 0.5 solid;
-} */
-.table__column {
-  display: flex;
-  flex-direction: column;
 }

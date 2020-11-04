@@ -1,6 +1,6 @@
 import {
   ADD_SKLAD1,
-  DELETE_SKLAD1,
+  DELETE_SKLAD1, SET_FILTERED_ROZXOD_SKLAD1,
   SET_FILTERED_SKLAD1,
   SET_SINGLE_SKLAD1,
   SET_SKLAD1,
@@ -11,6 +11,7 @@ import {
 const initialState = {
   sklad1: "",
   filtered: [],
+  filteredRozxod: [],
   single: {},
 };
 
@@ -32,6 +33,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         filtered: action.filtered,
+      };
+      case SET_FILTERED_ROZXOD_SKLAD1:
+      return {
+        ...state,
+        filteredRozxod: action.filteredRozxod,
       };
     case ADD_SKLAD1:
       return {

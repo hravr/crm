@@ -12,7 +12,6 @@ import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortAction
 import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
 import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
 import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
-import { getMachineAction } from "../../store/actions/Machine/machineActions";
 import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
 import { getOperationsAction } from "../../store/actions/operationsAction";
 import { getWorkersAction } from "../../store/actions/workersActions";
@@ -40,8 +39,6 @@ const CreatePruhid3 = ({
   classId,
   fetchProdColor,
   colorId,
-  fetchMachine,
-  machineId,
   getSklad3,
   articleId,
   fetchProdArticle,
@@ -58,7 +55,6 @@ const CreatePruhid3 = ({
   const [imageOptions, setImageOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
-  const [machinesOptions, setMachinesOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
 
   const operationsObject = useMemo(() => {
@@ -126,9 +122,6 @@ const CreatePruhid3 = ({
     setValues({ ...values, typeId: typeId.value });
   };
 
-  const machinesSelect = (machineId) => {
-    setValues({ ...values, machineId: machineId.value });
-  };
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
@@ -137,14 +130,6 @@ const CreatePruhid3 = ({
         })
     );
   }, [articleId]);
-  useEffect(() => {
-    setMachinesOptions(
-      machineId.length &&
-        machineId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
-    );
-  }, [machineId]);
 
   useEffect(() => {
     setAsortumenOptions(
@@ -210,7 +195,6 @@ const CreatePruhid3 = ({
   useEffect(() => {
     (async () => {
       await getSklad3();
-      await fetchMachine();
       await fetchProdAsortument();
       await fetchProdSezon();
       await fetchProdSize();
@@ -230,8 +214,8 @@ const CreatePruhid3 = ({
         <div className={s.left}>
           <Input
             type="date"
-            value={values.date_prixod}
-            name="date_prixod"
+            value={values.date_rozsxodu}
+            name="date_rozsxodu"
             label="Дата"
             onChange={handleChange}
           />
@@ -256,17 +240,6 @@ const CreatePruhid3 = ({
             name="gatynok3"
             onChange={handleChange}
           />
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Обладнання</span>
-            </div>
-            <Select
-              options={machinesOptions}
-              value={values.machineId.label}
-              name="machineId"
-              onChange={machinesSelect}
-            />
-          </div>
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Формувальниця</span>
@@ -389,10 +362,9 @@ const formikHOC = withFormik({
     imageId: {},
     classId: {},
     colorId: {},
-    machineId: {},
     formId: {},
     articleId: {},
-    date_prixod: "",
+    date_rozsxodu: "",
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
@@ -407,9 +379,8 @@ const formikHOC = withFormik({
       !values.imageId ||
       !values.classId ||
       !values.colorId ||
-      !values.date_prixod ||
+      !values.date_rozsxodu ||
       !values.articleId ||
-      !values.machineId ||
       !values.formId ||
       !values.gatynok1 ||
       !values.gatynok2 ||
@@ -429,11 +400,10 @@ const formikHOC = withFormik({
       classId: values.classId,
       imageId: values.imageId,
       colorId: values.colorId,
-      date_prixod: values.date_prixod,
+      date_rozsxodu: values.date_rozsxodu,
       gatynok1: values.gatynok1,
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
-      machineId: values.machineId,
       formId: values.formId,
       articleId: values.articleId,
     };
@@ -456,7 +426,6 @@ const mapStateToProps = (state) => {
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
-    machineId: state.machines.machines,
     formId: state.sklad3.sklad3,
     operations: state.operations.operations,
     workers: state.workers.workers,
@@ -473,7 +442,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchProdClass: () => dispatch(getProdClassAction()),
     fetchProdColor: () => dispatch(getProdColorAction()),
     fetchProdImage: () => dispatch(getProdImageAction()),
-    fetchMachine: () => dispatch(getMachineAction()),
     fetchProdArticle: () => dispatch(getProdArticleAction()),
     getOperations: () => dispatch(getOperationsAction()),
     getWorkers: () => dispatch(getWorkersAction()),

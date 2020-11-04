@@ -14,7 +14,6 @@ import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
 import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
 import { getMachineAction } from "../../store/actions/Machine/machineActions";
 import {
-  createSklad1Action,
   editSklad1ction,
   getSingleSklad1Action,
   getSklad1Action,
@@ -36,7 +35,7 @@ const EditSklad1 = ({
   fetchProdSezon,
   seasonId,
   fetchProdAsortument,
-  asortument,
+  asortumentId,
   fetchProdImage,
   imageId,
   fetchProdClass,
@@ -123,11 +122,11 @@ const EditSklad1 = ({
     });
   };
 
-  const asortumentSelect = (asortument) => {
+  const asortumentSelect = (asortumentId) => {
     setValues({
       ...values,
-      asortument: asortument.value,
-      asortumentName: asortument.label,
+      asortumentId: asortumentId.value,
+      asortumentName: asortumentId.label,
     });
   };
 
@@ -182,12 +181,12 @@ const EditSklad1 = ({
 
   useEffect(() => {
     setAsortumenOptions(
-      asortument.length &&
-        asortument.map((asort) => {
+      asortumentId.length &&
+        asortumentId.map((asort) => {
           return { label: asort.name, value: asort._id };
         })
     );
-  }, [asortument]);
+  }, [asortumentId]);
 
   useEffect(() => {
     setClassOptions(
@@ -269,7 +268,7 @@ const EditSklad1 = ({
       masterId,
       vyazalId,
       articleId,
-      asortument,
+      asortumentId,
       classId,
       mishok,
       _id,
@@ -278,27 +277,27 @@ const EditSklad1 = ({
       setValues({
         ...values,
         seasonId,
-        seasonName: mishok.seasonId?.name,
+        seasonName: mishok.seasonId?.name || "Всі",
         typeId,
-        typeName: mishok.typeId?.name,
+        typeName: mishok.typeId?.name || "Всі",
         sizeId,
-        sizeName: mishok.sizeId?.name,
+        sizeName: mishok.sizeId?.name || "Всі",
         imageId,
-        imageName: mishok.imageId?.name,
+        imageName: mishok.imageId?.name || "Всі",
         colorId,
-        colorName: mishok.colorId?.name,
+        colorName: mishok.colorId?.name || "Всі",
         classId,
-        cName: mishok.classId?.name,
+        cName: mishok.classId?.name || "Всі",
         machineId,
-        machineName: machineId?.name,
+        machineName: machineId?.name || "Всі",
         masterId,
         masterName: masterId?.fName + " " + masterId?.sName,
         vyazalId,
         vyazalName: vyazalId?.fName + " " + vyazalId?.sName,
         articleId,
-        articleName: mishok.articleId?.name,
-        asortument,
-        asortumentName: mishok.asortument?.name,
+        articleName: mishok.articleId?.name || "Всі",
+        asortumentId,
+        asortumentName: mishok.asortumentId?.name || "Всі",
         gatynok1: mishok.gatynok1,
         gatynok2: mishok.gatynok2,
         gatynok3: mishok.gatynok3,
@@ -427,8 +426,11 @@ const EditSklad1 = ({
             </div>
             <Select
               options={asortumenOptions}
-              value={{ label: values.asortumentName, value: values.asortument }}
-              name="asortument"
+              value={{
+                label: values.asortumentName,
+                value: values.asortumentId,
+              }}
+              name="asortumentId"
               onChange={asortumentSelect}
             />
           </div>
@@ -449,7 +451,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={sezonOptions}
-              value={{ label: values.imageOptions, value: values.seasonId }}
+              value={{ label: values.seasonName, value: values.seasonId }}
               name="seasonId"
               onChange={sezonSelect}
             />
@@ -475,7 +477,7 @@ const EditSklad1 = ({
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
-    asortument: "",
+    asortumentId: "",
     typeId: "",
     sizeId: "",
     seasonId: "",
@@ -497,7 +499,7 @@ const formikHOC = withFormik({
     { props: { editSklad1, history, singleSklad1 } }
   ) => {
     const pruhudToSubmit = {
-      asortument: values.asortument,
+      asortumentId: values.asortumentId,
       typeId: values.typeId,
       sizeId: values.sizeId,
       seasonId: values.seasonId,
@@ -509,8 +511,8 @@ const formikHOC = withFormik({
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
       machineId: values.machineId,
-      masterId: values.masterId,
-      vyazalId: values.vyazalId,
+      masterId: values.masterId._id,
+      vyazalId: values.vyazalId._id,
       articleId: values.articleId,
     };
     const isSuccess = await editSklad1(pruhudToSubmit, singleSklad1._id);
@@ -528,7 +530,7 @@ const mapStateToProps = (state) => {
     typeId: state.prodType.prodType,
     sizeId: state.prodSize.prodSize,
     seasonId: state.prodSezon.prodSezon,
-    asortument: state.prodAsortument.prodAsortument,
+    asortumentId: state.prodAsortument.prodAsortument,
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,

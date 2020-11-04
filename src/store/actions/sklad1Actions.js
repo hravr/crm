@@ -14,6 +14,7 @@ import {
 import {
   ADD_SKLAD1,
   DELETE_SKLAD1,
+  SET_FILTERED_ROZXOD_SKLAD1,
   SET_FILTERED_SKLAD1,
   SET_SINGLE_SKLAD1,
   SET_SKLAD1,
@@ -21,15 +22,23 @@ import {
   SET_SKLAD1_ZALUSHOK,
 } from "./actionTypes";
 
-export const getSklad1ZalushokAction = () => {
+export const getSklad1ZalushokAction = (data) => {
   return async (dispatch) => {
     const token = getToken();
     const day = new Date();
-    const response = await fetchSklad1Zalushok(token, day);
-    if (response.status === 200) {
-      dispatch({ type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data });
+    if (data) {
+      const response = await fetchSklad1Zalushok(token, data);
+      if (response.status === 200) {
+        dispatch({ type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data });
+      }
+      return response.status === 200;
+    } else {
+      const response = await fetchSklad1Zalushok(token, day);
+      if (response.status === 200) {
+        dispatch({ type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data });
+      }
+      return response.status === 200;
     }
-    return response.status === 200;
   };
 };
 
@@ -92,20 +101,47 @@ export const postSklad1to4Action = (data) => {
   };
 };
 
-export const filterSklad1Action = ({ sort, from, to, search }) => {
+export const filterSklad1Action = ({
+  sort,
+  from,
+  fromRozxod,
+  toRozxod,
+  to,
+  search,
+}) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredSklad1(sort, from, to, search, token);
-    if (response?.data) {
-      dispatch({
-        type: SET_FILTERED_SKLAD1,
-        filtered: response.data,
+    if (from && to) {
+      const response = await fetchFilteredSklad1({ from, to, search, token });
+      if (response?.data) {
+        dispatch({
+          type: SET_FILTERED_SKLAD1,
+          filtered: response.data,
+        });
+      } else {
+        dispatch({
+          type: SET_FILTERED_SKLAD1,
+          filtered: [],
+        });
+      }
+    } else if (fromRozxod && toRozxod) {
+      const response = await fetchFilteredSklad1({
+        fromRozxod,
+        toRozxod,
+        search,
+        token,
       });
-    } else {
-      dispatch({
-        type: SET_FILTERED_SKLAD1,
-        filtered: [],
-      });
+      if (response?.data) {
+        dispatch({
+          type: SET_FILTERED_ROZXOD_SKLAD1,
+          filteredRozxod: response.data,
+        });
+      } else {
+        dispatch({
+          type: SET_FILTERED_ROZXOD_SKLAD1,
+          filteredRozxod: [],
+        });
+      }
     }
   };
 };

@@ -473,7 +473,7 @@ const formikHOC = withFormik({
   },
   handleSubmit: async (values, { props: { createPruhid1, history } }) => {
     const pruhudToSubmit = {
-      asortument: values.asortument,
+      asortumentId: values.asortument,
       typeId: values.typeId,
       sizeId: values.sizeId,
       seasonId: values.seasonId,
@@ -511,7 +511,6 @@ const mapStateToProps = (state) => {
     machineId: state.machines.machines,
     masterId: state.sklad1.sklad1,
     vyazalId: state.sklad1.sklad1,
-    operations: state.operations.operations,
     workers: state.workers.workers,
   };
 };
