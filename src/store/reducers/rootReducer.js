@@ -38,6 +38,9 @@ import sklad4Reducer from "./sklad4Reducer";
 import zpSklad2Reducer from "./zpSklad2Reducer";
 import zpSklad3Reducer from "./zpSklad3Reducer";
 import zpSklad4Reducer from "./zpSklad4Reducer";
+import materialsReducer from "./Materials/materialsReducer";
+import materialsRozxidReducer from "./Materials/materialsRozxidReducer";
+import materialsZalushokReducer from "./Materials/materialsZalushokReducer";
 
 export default combineReducers({
   profile: profilleReducer,
@@ -75,6 +78,9 @@ export default combineReducers({
   zvitu: zvituReducer,
   zvituRozxid: zvituRozxidReducer,
   zvituZalushok: zvituZalushokReducer,
+  materials: materialsReducer,
+  materialsRozxid: materialsRozxidReducer,
+  materialsZalushok: materialsZalushokReducer,
   zpsklad1: zpSklad1Reducer,
   zpsklad2: zpSklad2Reducer,
   zpsklad3: zpSklad3Reducer,

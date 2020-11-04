@@ -53,6 +53,13 @@ export const fetchSklad2Zalushok = (token, day) => {
     },
   });
 };
+export const fetchSklad3Zalushok = (token, day) => {
+  return _axios.get(`/sklad3_zalushok?day=${day}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const fetchFilteredSklad1 = ({
   from,
@@ -177,7 +184,8 @@ export const fetchSklad3 = (token) => {
   });
 };
 
-export const fetchFilteredSklad3 = (from, to, search, token) => {
+export const fetchFilteredSklad3 = ({from, to, search, token, fromRozxod, toRozxod}) => {
+  console.log(from, to, fromRozxod, toRozxod)
   let baseUrl = "/sklad3?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -187,6 +195,12 @@ export const fetchFilteredSklad3 = (from, to, search, token) => {
   }
   if (to) {
     baseUrl += `&to=${to}`;
+  }
+  if (toRozxod) {
+    baseUrl += `&toRozxod=${toRozxod}`;
+  }
+  if (fromRozxod) {
+    baseUrl += `&fromRozxod=${fromRozxod}`;
   }
   return _axios.get(baseUrl, {
     headers: {
@@ -226,7 +240,8 @@ export const fetchSklad4 = (token) => {
   });
 };
 
-export const fetchFilteredSklad4 = (from, to, search, token) => {
+export const fetchFilteredSklad4 = ({from, to, search, token, fromRozxod, toRozxod}) => {
+  console.log(from, to, fromRozxod, toRozxod)
   let baseUrl = "/sklad4?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -237,7 +252,21 @@ export const fetchFilteredSklad4 = (from, to, search, token) => {
   if (to) {
     baseUrl += `&to=${to}`;
   }
+  if (toRozxod) {
+    baseUrl += `&toRozxod=${toRozxod}`;
+  }
+  if (fromRozxod) {
+    baseUrl += `&fromRozxod=${fromRozxod}`;
+  }
   return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSklad4Zalushok = (token, day) => {
+  return _axios.get(`/sklad4_zalushok?day=${day}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1836,6 +1865,64 @@ export const fetchFilteredZvituZalushok = (day, token) => {
     baseUrl += `day=${day}`;
   }
   return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchMaterials = (token) => {
+  return _axios.get("/materials", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSingleMaterials = (id, token) => {
+  return _axios.get(`/materials/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchFilteredMaterials = (from, to, operationId, token) => {
+  let baseUrl = "/materials?";
+  if (operationId) {
+    baseUrl += `operationId=${operationId}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createMaterials = (zvitu, token) => {
+  return _axios.post("/materials", zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchMaterials = (id, token, zvitu) => {
+  return _axios.patch(`/materials/${id}`, zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteMaterials = (id, token) => {
+  return _axios.delete(`/materials/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

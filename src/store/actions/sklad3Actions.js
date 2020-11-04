@@ -1,19 +1,39 @@
 import { getToken } from "../../utils/utils";
 import {
   createSklad3,
-  deleteSklad3,
+  deleteSklad3, fetchFilteredSklad1,
   fetchFilteredSklad3,
   fetchSingleSklad3,
-  fetchSklad3,
+  fetchSklad3, fetchSklad3Zalushok,
   patchSklad3,
 } from "../api/api";
 import {
   ADD_SKLAD3,
-  DELETE_SKLAD3,
+  DELETE_SKLAD3, SET_FILTERED_ROZXOD_SKLAD1, SET_FILTERED_ROZXOD_SKLAD3, SET_FILTERED_SKLAD1,
   SET_FILTERED_SKLAD3,
   SET_SINGLE_SKLAD3,
-  SET_SKLAD3,
+  SET_SKLAD3, SET_SKLAD3_ZALUSHOK,
 } from "./actionTypes";
+
+export const getSklad3ZalushokAction = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const day = new Date();
+    if (data) {
+      const response = await fetchSklad3Zalushok(token, data);
+      if (response.status === 200) {
+        dispatch({type: SET_SKLAD3_ZALUSHOK, sklad1_zalushok: response.data});
+      }
+      return response.status === 200;
+    } else {
+      const response = await fetchSklad3Zalushok(token, day);
+      if (response.status === 200) {
+        dispatch({type: SET_SKLAD3_ZALUSHOK, sklad1_zalushok: response.data});
+      }
+      return response.status === 200;
+    }
+  };
+};
 
 export const getSklad3Action = () => {
   return async (dispatch) => {
@@ -25,6 +45,7 @@ export const getSklad3Action = () => {
     return response.status === 200;
   };
 };
+
 export const getSingleSklad3Action = (id) => {
   return async (dispatch) => {
     const token = getToken();
@@ -32,20 +53,36 @@ export const getSingleSklad3Action = (id) => {
     dispatch({ type: SET_SINGLE_SKLAD3, singleSklad3: response.data });
   };
 };
-export const filterSklad3Action = ({ sort, from, to, search }) => {
+
+export const filterSklad3Action = ({sort, from, fromRozxod, toRozxod, to, search}) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredSklad3(sort, from, to, search, token);
-    if (response?.data?.history) {
-      dispatch({
-        type: SET_FILTERED_SKLAD3,
-        filtered: response.data.history,
-      });
-    } else {
-      dispatch({
-        type: SET_FILTERED_SKLAD3,
-        filtered: [],
-      });
+    if (from && to) {
+      const response = await fetchFilteredSklad3({from, to, search, token});
+      if (response?.data) {
+        dispatch({
+          type: SET_FILTERED_SKLAD3,
+          filtered: response.data,
+        });
+      } else {
+        dispatch({
+          type: SET_FILTERED_SKLAD3,
+          filtered: [],
+        });
+      }
+    } else if (fromRozxod && toRozxod) {
+      const response = await fetchFilteredSklad3({fromRozxod, toRozxod, search, token});
+      if (response?.data) {
+        dispatch({
+          type: SET_FILTERED_ROZXOD_SKLAD3,
+          filteredRozxod: response.data,
+        });
+      } else {
+        dispatch({
+          type: SET_FILTERED_ROZXOD_SKLAD3,
+          filteredRozxod: [],
+        });
+      }
     }
   };
 };

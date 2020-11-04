@@ -4,15 +4,15 @@ import {
   deleteSklad4,
   fetchFilteredSklad4,
   fetchSingleSklad4,
-  fetchSklad4,
+  fetchSklad4, fetchSklad4Zalushok,
   patchSklad4,
 } from "../api/api";
 import {
   ADD_SKLAD4,
-  DELETE_SKLAD4,
+  DELETE_SKLAD4,  SET_FILTERED_ROZXOD_SKLAD4,
   SET_FILTERED_SKLAD4,
   SET_SINGLE_SKLAD4,
-  SET_SKLAD4,
+  SET_SKLAD4, SET_SKLAD4_ZALUSHOK,
 } from "./actionTypes";
 
 export const getSklad4Action = () => {
@@ -34,20 +34,35 @@ export const getSingleSklad4Action = (id) => {
   };
 };
 
-export const filterSklad4Action = ({ sort, from, to, search }) => {
+export const filterSklad4Action = ({sort, from, fromRozxod, toRozxod, to, search}) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredSklad4(sort, from, to, search, token);
-    if (response?.data?.history) {
-      dispatch({
-        type: SET_FILTERED_SKLAD4,
-        filtered: response.data.history,
-      });
-    } else {
-      dispatch({
-        type: SET_FILTERED_SKLAD4,
-        filtered: [],
-      });
+    if (from && to) {
+      const response = await fetchFilteredSklad4({from, to, search, token});
+      if (response?.data) {
+        dispatch({
+          type: SET_FILTERED_SKLAD4,
+          filtered: response.data,
+        });
+      } else {
+        dispatch({
+          type: SET_FILTERED_SKLAD4,
+          filtered: [],
+        });
+      }
+    } else if (fromRozxod && toRozxod) {
+      const response = await fetchFilteredSklad4({fromRozxod, toRozxod, search, token});
+      if (response?.data) {
+        dispatch({
+          type: SET_FILTERED_ROZXOD_SKLAD4,
+          filteredRozxod: response.data,
+        });
+      } else {
+        dispatch({
+          type: SET_FILTERED_ROZXOD_SKLAD4,
+          filteredRozxod: [],
+        });
+      }
     }
   };
 };
@@ -80,5 +95,24 @@ export const deleteSklad4Action = (id) => {
       dispatch({ type: DELETE_SKLAD4, id });
     }
     return responce.status === 200;
+  };
+};
+export const getSklad4ZalushokAction = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const day = new Date();
+    if (data) {
+      const response = await fetchSklad4Zalushok(token, data);
+      if (response.status === 200) {
+        dispatch({type: SET_SKLAD4_ZALUSHOK, sklad1_zalushok: response.data});
+      }
+      return response.status === 200;
+    } else {
+      const response = await fetchSklad4Zalushok(token, day);
+      if (response.status === 200) {
+        dispatch({type: SET_SKLAD4_ZALUSHOK, sklad1_zalushok: response.data});
+      }
+      return response.status === 200;
+    }
   };
 };

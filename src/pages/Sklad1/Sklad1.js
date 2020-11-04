@@ -30,14 +30,6 @@ const Sklad1 = ({
   const [isVisible, setIsVisible] = useState(false);
   const [modalData, setModalData] = useState();
   const [skladToModal, setSklad] = useState();
-  const dayNow =
-    new Date().getFullYear() +
-    "-" +
-    new Date().getMonth() +
-    "-" +
-    (new Date().getDate() < 10
-      ? "0" + new Date().getDate()
-      : new Date().getDate());
   const h = useHistory();
 
   useEffect(() => {
@@ -158,7 +150,6 @@ const Sklad1 = ({
                   <Input
                     label="На дату"
                     type="date"
-                    value={dayNow}
                     onChange={({ target }) => {
                       setDataForFilter({ day: target.value });
                     }}
@@ -408,6 +399,7 @@ const Sklad1 = ({
                           <td>{sklad.changesId.firstName || "Всі"}</td>
                           <td className={s.btn}>
                             <div className={s.table__btn}>
+                              <button className={s.del}>Редагувати</button>
                               <button>Видалити</button>
                             </div>
                           </td>
@@ -452,6 +444,7 @@ const Sklad1 = ({
                           <td>{sklad.changesId.firstName || "Всі"}</td>
                           <td className={s.btn}>
                             <div className={s.table__btn}>
+                              <button className={s.del}>Редагувати</button>
                               <button>Видалити</button>
                             </div>
                           </td>
@@ -489,7 +482,7 @@ const Sklad1 = ({
                 <th className={s.status__table}> ID юзера</th>
                 <th></th>
               </tr>
-              {/* {zalushok?.map((zal) => {
+              {zalushok?.map((zal) => {
                 return (
                   <tr>
                     <td>{zal.mishok.barcode}</td>
@@ -508,7 +501,7 @@ const Sklad1 = ({
                     <td>{zal.mishok.colorId?.name || "Всі"}</td>
                     <td>
                       <span>{zal.mishok?.asortumentId?.name || "Всі"} | </span>
-                      {zal.mishok.typeId.name || "Всі"}
+                      {zal.mishok.typeId?.name || "Всі"}
                     </td>
                     <td>
                       {zal.mishok.gatynok1 +
@@ -523,12 +516,13 @@ const Sklad1 = ({
                     <td>{zal.changesId.firstName || "Всі"}</td>
                     <td className={s.btn}>
                       <div className={s.table__btn}>
+                        <button className={s.del}>Редагувати</button>
                         <button>Видалити</button>
                       </div>
                     </td>
                   </tr>
-                ); 
-              })}*/}
+                );
+              })}
             </table>
           </div>
         </TabPanel>
@@ -540,7 +534,6 @@ const mapStateToProps = (state) => {
   return {
     sklad1: state.sklad1.sklad1,
     zalushok: state.sklad1.sklad1_zalushok,
-    sklad1to2: state.sklad1.sklad1to2,
     filteredSklad1: state.sklad1.filtered,
     filteredRozxodSklad1: state.sklad1.filteredRozxod,
   };
