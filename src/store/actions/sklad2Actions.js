@@ -6,15 +6,16 @@ import {
   fetchSingleSklad2,
   fetchSklad2,
   patchSklad2,
-  fetchSklad2Zalushok
+  fetchSklad2Zalushok,
 } from "../api/api";
 import {
   ADD_SKLAD2,
-  DELETE_SKLAD2, SET_FILTERED_ROZXOD_SKLAD2,
+  DELETE_SKLAD2,
+  SET_FILTERED_ROZXOD_SKLAD2,
   SET_FILTERED_SKLAD2,
   SET_SINGLE_SKLAD2,
   SET_SKLAD2,
-  SET_SKLAD2_ZALUSHOK
+  SET_SKLAD2_ZALUSHOK,
 } from "./actionTypes";
 
 export const getSklad2ZalushokAction = (data) => {
@@ -24,26 +25,28 @@ export const getSklad2ZalushokAction = (data) => {
     if (data) {
       const response = await fetchSklad2Zalushok(token, data);
       if (response.status === 200) {
-        dispatch({type: SET_SKLAD2_ZALUSHOK, sklad2_zalushok: response.data});
+        dispatch({ type: SET_SKLAD2_ZALUSHOK, sklad2_zalushok: response.data });
       }
       return response.status === 200;
     } else {
       const response = await fetchSklad2Zalushok(token, day);
       if (response.status === 200) {
-        dispatch({type: SET_SKLAD2_ZALUSHOK, sklad2_zalushok: response.data});
+        dispatch({ type: SET_SKLAD2_ZALUSHOK, sklad2_zalushok: response.data });
       }
       return response.status === 200;
     }
   };
 };
 
-
 export const getSklad2Action = () => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSklad2(token);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD2, sklad2: response.data });
+      dispatch({
+        type: SET_SKLAD2,
+        sklad2: response.data,
+      });
     }
     return response.status === 200;
   };
@@ -57,11 +60,18 @@ export const getSingleSklad2Action = (id) => {
   };
 };
 
-export const filterSklad2Action = ({sort, from, fromRozxod, toRozxod, to, search}) => {
+export const filterSklad2Action = ({
+  sort,
+  from,
+  fromRozxod,
+  toRozxod,
+  to,
+  search,
+}) => {
   return async (dispatch) => {
     const token = getToken();
     if (from && to) {
-      const response = await fetchFilteredSklad2({from, to, search, token});
+      const response = await fetchFilteredSklad2({ from, to, search, token });
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_SKLAD2,
@@ -74,7 +84,12 @@ export const filterSklad2Action = ({sort, from, fromRozxod, toRozxod, to, search
         });
       }
     } else if (fromRozxod && toRozxod) {
-      const response = await fetchFilteredSklad2({fromRozxod, toRozxod, search, token});
+      const response = await fetchFilteredSklad2({
+        fromRozxod,
+        toRozxod,
+        search,
+        token,
+      });
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_ROZXOD_SKLAD2,
@@ -104,7 +119,7 @@ export const editSklad2Action = (sklad2, id) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await patchSklad2(sklad2, token, id);
-    dispatch({ type: ADD_SKLAD2, token });
+    dispatch({ type: ADD_SKLAD2, token, sklad2: response.data });
     return response.status === 200;
   };
 };

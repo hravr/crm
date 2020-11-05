@@ -61,7 +61,14 @@ export const fetchSklad3Zalushok = (token, day) => {
   });
 };
 
-export const fetchFilteredSklad1 = ({from, to, search, token, fromRozxod, toRozxod}) => {
+export const fetchFilteredSklad1 = ({
+  from,
+  to,
+  search,
+  token,
+  fromRozxod,
+  toRozxod,
+}) => {
   let baseUrl = "/sklad1?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -93,7 +100,7 @@ export const createSklad1 = (sklad1, token) => {
   });
 };
 
-export const patchSklad1 = (sklad1, id, token) => {
+export const patchSklad1 = (sklad1, token, id) => {
   return _axios.patch(`/sklad1/${id}`, sklad1, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -116,7 +123,14 @@ export const fetchSklad2 = (token) => {
   });
 };
 
-export const fetchFilteredSklad2 = ({from, to, search, token, fromRozxod, toRozxod}) => {
+export const fetchFilteredSklad2 = ({
+  from,
+  to,
+  search,
+  token,
+  fromRozxod,
+  toRozxod,
+}) => {
   let baseUrl = "/sklad2?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -147,7 +161,7 @@ export const createSklad2 = (sklad2, token) => {
   });
 };
 
-export const patchSklad2 = (sklad2, id, token) => {
+export const patchSklad2 = (sklad2, token, id) => {
   return _axios.patch(`/sklad2/${id}`, sklad2, {
     headers: {
       Authorization: `Bearer ${token}`,

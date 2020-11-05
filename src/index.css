@@ -32,3 +32,11 @@ code {
 .exel :focus {
   outline: none;
 }
+
+tr {
+  font-size: 10px;
+}
+
+button {
+  font-size: x-small;
+}

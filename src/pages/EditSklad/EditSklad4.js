@@ -303,8 +303,8 @@ const EditSklad4 = ({
         <div className={s.left}>
           <Input
             type="date"
-            value={values.date_prixod}
-            name="date_prixod"
+            value={values.date_rozsxodu}
+            name="date_rozsxodu"
             label="Дата"
             onChange={handleChange}
           />
@@ -461,7 +461,7 @@ const formikHOC = withFormik({
     machineId: "",
     packId: "",
     articleId: "",
-    date_prixod: "",
+    date_rozsxodu: "",
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
@@ -478,7 +478,7 @@ const formikHOC = withFormik({
       classId: values.classId,
       imageId: values.imageId,
       colorId: values.colorId,
-      date_prixod: values.date_prixod,
+      date_rozsxodu: values.date_rozsxodu,
       gatynok1: values.gatynok1,
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
