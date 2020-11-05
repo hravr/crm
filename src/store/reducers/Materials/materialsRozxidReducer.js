@@ -1,41 +1,44 @@
 import {
-  ADD_ZVITU_ROZXID,
-  DELETE_ZVITU_ROZXID,
-  SET_FILTERED_ZVITU_ROZXID,
-  SET_SINGLE_ZVITU_ROZXID,
-  SET_ZVITU_ROZXID,
+  ADD_MATERIALS_ROZXID, DELETE_MATERIALS_ROZXID, SET_FILTERED_MATERIALS_ROZXID,
+  SET_MATERIALS_ROZXID, SET_SINGLE_MATERIALS_ROZXID
+
 } from "../../actions/actionTypes";
 
 const initialState = {
-  zvituRozxid: "",
+  materialRozxid: "",
   filtered: [],
   single: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_ZVITU_ROZXID:
+    case SET_MATERIALS_ROZXID:
       return {
         ...state,
-        zvituRozxid: action.zvituRozxid,
+        materialRozxid: action.materialRozxid,
       };
-    case SET_SINGLE_ZVITU_ROZXID:
-      return { ...state, single: action.singleZvituRozxid };
-    case ADD_ZVITU_ROZXID:
+    case SET_SINGLE_MATERIALS_ROZXID:
+      return { ...state, single: action.singleMaterialRozxid };
+    case ADD_MATERIALS_ROZXID:
       return {
         ...state,
-        zvituRozxid: [...state.zvituRozxid, action.zvituRozxid],
+        materialRozxid: [...state.materialRozxid, action.materialRozxid],
       };
-    case SET_FILTERED_ZVITU_ROZXID:
+    case SET_FILTERED_MATERIALS_ROZXID:
       return {
         ...state,
         filtered: action.filtered,
       };
-    case DELETE_ZVITU_ROZXID:
+    case DELETE_MATERIALS_ROZXID:
       return {
         ...state,
+<<<<<<< HEAD
         zvituRozxid: state.zvituRozxid.filter(
           (zvituRozxid) => zvituRozxid._id !== action.id
+=======
+        materialRozxid: state.materialRozxid.filter(
+          (zvituRozxid) => zvituRozxid._id !== action._id
+>>>>>>> 45163a2ca38226ea5acfb7d7a5b5eb0fca9185c2
         ),
       };
 

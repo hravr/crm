@@ -116,3 +116,6 @@ tr:nth-child(even) {
 .border {
     border-bottom: 1px solid;
 }
+ .sent {
+     margin-left: 5px;
+ }

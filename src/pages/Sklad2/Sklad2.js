@@ -468,7 +468,7 @@ const Sklad2 = ({
                       <span>{zal.shveyaId.fName} | </span>
                       {zal.sortId.fName}
                     </td>
-                    <td>{zal.mishok.articleId.name || "Всі"}</td>
+                    <td>{zal.mishok.articleId?.name || "Всі"}</td>
                     <td>{zal.mishok.classId.name || "Всі"}</td>
                     <td>
                       <span>{zal.mishok.sizeId.name || "Всі"} | </span>

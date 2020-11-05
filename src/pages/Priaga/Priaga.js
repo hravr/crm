@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import s from "./Materials.module.css";
+import s from "./Priaga.module.css";
 import classnames from "classnames";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import Input from "../../misc/Input/Input";
@@ -8,23 +8,16 @@ import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import ReactToExcel from "react-html-table-to-excel";
 import {
-  deleteZvituRozxidAction,
-  filterZvituRozxidAction,
-  getZvituRozxidAction,
-} from "../../store/actions/Zvitu/zvituRozhidActions";
-import {filterZvituZalushokAction, getZvituZalushokAction,} from "../../store/actions/Zvitu/zvituZalushokActions";
-// import Select from "react-select";
+  deletePriagaAction,
+  filterPriagaAction,
+  getPriagaAction
+} from "../../store/actions/Priaga/priagaActions";
 import {
-  deleteMaterialsAction,
-  filterMaterialsAction,
-  getMaterialsAction
-} from "../../store/actions/Materials/materialsActions";
-import {
-  filterMaterialsZalushokAction,
-  getMaterialsZalushokAction
-} from "../../store/actions/Materials/materialsZalushokActions";
+  filterPriagaZalushokAction,
+  getPriagaZalushokAction
+} from "../../store/actions/Priaga/priagaZalushokActions";
 
-const Materials = ({
+const Priaga = ({
                      getZvitu,
                      filterZvitu,
                      deleteZvitu,
@@ -45,15 +38,10 @@ const Materials = ({
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState([]);
   const h = useHistory();
-  const operationsSelect = operations.map(operation => {
-    return {label: operation.name, value: operation._id}
-  });
-  console.log(zvitu)
 
   useEffect(() => {
     (async () => {
       await getZvitu();
-      // await getZvituRozxid();
       await getZvituZalushok();
     })();
   }, []);
@@ -61,7 +49,7 @@ const Materials = ({
     <Tabs>
       <div className={s.main}>
         <div className={s.title__container}>
-          <span className={s.title}>Матеріали</span>
+          <span className={s.title}>Пряжа</span>
           <TabList className={s.tabs}>
             {["Прихід", "Розхід", "Залишок"].map((item, i) => (
               <Tab
@@ -78,14 +66,6 @@ const Materials = ({
           {activeTabIndex === 0 &&
           <div className={s.filter__container}>
             <div className={s.search__container}>
-              {/*<Select*/}
-              {/*  options={operationsSelect}*/}
-              {/*  name="operationId"*/}
-              {/*  defaultValue={dataForFilter.operationLabel}*/}
-              {/*  onChange={(e) => {*/}
-              {/*    setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})*/}
-              {/*  }}*/}
-              {/*/>*/}
             </div>
             <div className={s.search__container}>
               <Input
@@ -125,14 +105,6 @@ const Materials = ({
           </div>
           || activeTabIndex === 1 && (<>
               <div className={s.search__container}>
-                {/*<Select*/}
-                {/*  options={operationsSelect}*/}
-                {/*  name="operationId"*/}
-                {/*  defaultValue={dataForFilter.operationLabel}*/}
-                {/*  onChange={(e) => {*/}
-                {/*    setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})*/}
-                {/*  }}*/}
-                {/*/>*/}
               </div>
               <div className={s.search__container}>
                 <Input
@@ -165,8 +137,7 @@ const Materials = ({
                 <Button
                   title="Пошук"
                   onClick={async () => {
-                    console.log('click here')
-                    await filterZvituRozxid(dataForFilter);
+                    await filterZvitu(dataForFilter);
                   }}
                 />
               </div>
@@ -174,14 +145,6 @@ const Materials = ({
           ) || activeTabIndex === 2 && (<>
             <div className={s.filter__container}>
               <div className={s.search__container}>
-                {/*<Select*/}
-                {/*  options={operationsSelect}*/}
-                {/*  name="operationId"*/}
-                {/*  defaultValue={dataForFilter.operationLabel}*/}
-                {/*  onChange={(e) => {*/}
-                {/*    setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})*/}
-                {/*  }}*/}
-                {/*/>*/}
               </div>
               <div className={s.search__container}>
               </div>
@@ -220,13 +183,14 @@ const Materials = ({
           <div className={s.table}>
             <table id="table-to-xls">
               <tr>
-                <th className={s.status__table}>ID Матеріалу</th>
-                <th className={s.status__table}>Параметри</th>
-                <th className={s.status__table}>Значення параметру</th>
-                <th className={s.status__table}>К-сть</th>
-                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>ID Пряжі</th>
+                <th className={s.status__table}>Тип</th>
+                <th className={s.status__table}>Товщина</th>
                 <th className={s.status__table}>Постачальник</th>
-                {/*<th className={s.status__table}>Змінено</th>*/}
+                <th className={s.status__table}>Ділянка</th>
+                <th className={s.status__table}>Колір</th>
+                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>К-сть</th>
                 <th className={s.status__table}></th>
                 <th></th>
               </tr>
@@ -237,18 +201,20 @@ const Materials = ({
                     return (
                       <tr key={zvit._id}>
                         <td>{zvit._id}</td>
-                        <td>{zvit.param || 'Всі'}</td>
-                        <td>{zvit.param_value || 'Всі'}</td>
-                        <td>{zvit.quantity || 'Всі'}</td>
+                        <td>{zvit.typeId?._id || 'Всі'}</td>
+                        <td>{zvit.tovtshinaId?._id || 'Всі'}</td>
+                        <td>{zvit.vendorId?._id || 'Всі'}</td>
                         <td>
-                          {zvit.price || 'Всі'}
+                          {zvit.dilankaRozxodyId?._id || 'Всі'}
                         </td>
-                        <td>{zvit.vendor || 'Всі'}</td>
+                        <td>{zvit.colorId?._id || 'Всі'}</td>
+                        <td>{zvit.price || 'Всі'}</td>
+                        <td>{zvit.quantity || 'Всі'}</td>
                         <td>
                           <div className={s.table__btn}>
                             <button
                               className={s.del}
-                              onClick={() => h.push(`/edit-zvitu/${zvit._id}`)}
+                              onClick={() => h.push(`/edit-priaga/${zvit._id}`)}
                             >
                               Редагувати
                             </button>
@@ -267,13 +233,15 @@ const Materials = ({
                     return (
                       <tr key={filter._id}>
                         <td>{filter._id}</td>
-                        <td>{filter.paramsId?.name}</td>
-                        <td>{filter.paramsValueId?.name}</td>
-                        <td>{filter.quantity}</td>
+                        <td>{filter.typeId?._id || 'Всі'}</td>
+                        <td>{filter.tovtshinaId?._id || 'Всі'}</td>
+                        <td>{filter.vendorId?._id || 'Всі'}</td>
                         <td>
-                          {filter.price}
+                          {filter.dilankaRozxodyId?._id || 'Всі'}
                         </td>
-                        <td>{filter.vendorId?.name}</td>
+                        <td>{filter.colorId?._id || 'Всі'}</td>
+                        <td>{filter.price || 'Всі'}</td>
+                        <td>{filter.quantity || 'Всі'}</td>
                         <td>
                           <div className={s.table__btn}>
                             <button
@@ -302,13 +270,14 @@ const Materials = ({
           <div className={s.table}>
             <table id="table-to-xls">
               <tr>
-                <th className={s.status__table}>ID Матеріалу</th>
-                <th className={s.status__table}>Параметри</th>
-                <th className={s.status__table}>Значення параметру</th>
-                <th className={s.status__table}>К-сть</th>
-                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>ID Пряжі</th>
+                <th className={s.status__table}>Тип</th>
+                <th className={s.status__table}>Товщина</th>
                 <th className={s.status__table}>Постачальник</th>
-                {/*<th className={s.status__table}>Змінено</th>*/}
+                <th className={s.status__table}>Ділянка</th>
+                <th className={s.status__table}>Колір</th>
+                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>К-сть</th>
                 <th className={s.status__table}></th>
                 <th></th>
               </tr>
@@ -319,13 +288,15 @@ const Materials = ({
                     return (
                       <tr key={zvitRozxid._id}>
                         <td>{zvitRozxid._id}</td>
-                        <td>{zvitRozxid.paramsId?.name}</td>
-                        <td>{zvitRozxid.paramsValueId?.name}</td>
-                        <td>{zvitRozxid.quantity}</td>
+                        <td>{zvitRozxid.typeId?._id || 'Всі'}</td>
+                        <td>{zvitRozxid.tovtshinaId?._id || 'Всі'}</td>
+                        <td>{zvitRozxid.vendorId?._id || 'Всі'}</td>
                         <td>
-                          {zvitRozxid.price}
+                          {zvitRozxid.dilankaRozxodyId?._id || 'Всі'}
                         </td>
-                        <td>{zvitRozxid.vendorId?.name}</td>
+                        <td>{zvitRozxid.colorId?._id || 'Всі'}</td>
+                        <td>{zvitRozxid.price || 'Всі'}</td>
+                        <td>{zvitRozxid.quantity || 'Всі'}</td>
                         <td>
                           <div className={s.table__btn}>
 
@@ -346,13 +317,15 @@ const Materials = ({
                     return (
                       <tr key={filter._id}>
                         <td>{filter._id}</td>
-                        <td>{filter.paramsId?.name}</td>
-                        <td>{filter.paramsValueId?.name}</td>
-                        <td>{filter.quantity}</td>
+                        <td>{filter.typeId?._id || 'Всі'}</td>
+                        <td>{filter.tovtshinaId?._id || 'Всі'}</td>
+                        <td>{filter.vendorId?._id || 'Всі'}</td>
                         <td>
-                          {filter.price}
+                          {filter.dilankaRozxodyId?._id || 'Всі'}
                         </td>
-                        <td>{filter.vendorId?.name}</td>
+                        <td>{filter.colorId?._id || 'Всі'}</td>
+                        <td>{filter.price || 'Всі'}</td>
+                        <td>{filter.quantity || 'Всі'}</td>
                         <td>
                           <div className={s.table__btn}>
                             <button
@@ -381,13 +354,14 @@ const Materials = ({
           <div className={s.table}>
             <table id="table-to-xls">
               <tr>
-                <th className={s.status__table}>ID Матеріалу</th>
-                <th className={s.status__table}>Параметри</th>
-                <th className={s.status__table}>Значення параметру</th>
-                <th className={s.status__table}>К-сть</th>
-                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>ID Пряжі</th>
+                <th className={s.status__table}>Тип</th>
+                <th className={s.status__table}>Товщина</th>
                 <th className={s.status__table}>Постачальник</th>
-                {/*<th className={s.status__table}>Змінено</th>*/}
+                <th className={s.status__table}>Ділянка</th>
+                <th className={s.status__table}>Колір</th>
+                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>К-сть</th>
                 <th className={s.status__table}></th>
                 <th></th>
               </tr>
@@ -397,13 +371,15 @@ const Materials = ({
                   return (
                     <tr key={zvitz._id}>
                       <td>{zvitz._id}</td>
-                      <td>{zvitz.paramsId?.name}</td>
-                      <td>{zvitz.paramsValueId?.name}</td>
-                      <td>{zvitz.quantity}</td>
+                      <td>{zvitz.typeId?._id || 'Всі'}</td>
+                      <td>{zvitz.tovtshinaId?._id || 'Всі'}</td>
+                      <td>{zvitz.vendorId?._id || 'Всі'}</td>
                       <td>
-                        {zvitz.price}
+                        {zvitz.dilankaRozxodyId?._id || 'Всі'}
                       </td>
-                      <td>{zvitz.vendorId?.name}</td>
+                      <td>{zvitz.colorId?._id || 'Всі'}</td>
+                      <td>{zvitz.price || 'Всі'}</td>
+                      <td>{zvitz.quantity || 'Всі'}</td>
                       <td>
                         <div className={s.table__btn}>
                           <button
@@ -427,13 +403,15 @@ const Materials = ({
                   return (
                     <tr key={filter._id}>
                       <td>{filter._id}</td>
-                      <td>{filter.paramsId?.name}</td>
-                      <td>{filter.paramsValueId?.name}</td>
-                      <td>{filter.quantity}</td>
+                      <td>{filter.typeId?._id || 'Всі'}</td>
+                      <td>{filter.tovtshinaId?._id || 'Всі'}</td>
+                      <td>{filter.vendorId?._id || 'Всі'}</td>
                       <td>
-                        {filter.price}
+                        {filter.dilankaRozxodyId?._id || 'Всі'}
                       </td>
-                      <td>{filter.vendorId?.name}</td>
+                      <td>{filter.colorId?._id || 'Всі'}</td>
+                      <td>{filter.price || 'Всі'}</td>
+                      <td>{filter.quantity || 'Всі'}</td>
                       <td>
                         <div className={s.table__btn}>
                           <button
@@ -460,28 +438,26 @@ const Materials = ({
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-    zvitu: state.materials.materials,
-    operations: state.operations.operations,
-    filteredZvitu: state.materials.filtered,
-    zvituZalushok: state.materialsZalushok.zvituZalushok,
-    filteredZvituZalushok: state.materialsZalushok.filtered,
+    zvitu: state.priaga.materials,
+    filteredZvitu: state.priaga.filtered,
+    zvituZalushok: state.priagaZalushok.zvituZalushok,
+    filteredZvituZalushok: state.priagaZalushok.filtered,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getZvitu: () => dispatch(getMaterialsAction()),
-    filterZvitu: (data) => dispatch(filterMaterialsAction(data)),
-    deleteZvitu: (id) => dispatch(deleteMaterialsAction(id)),
-    deleteZvituRozxid: (id) => dispatch(deleteZvituRozxidAction(id)),
+    getZvitu: () => dispatch(getPriagaAction()),
+    filterZvitu: (data) => dispatch(filterPriagaAction(data)),
+    deleteZvitu: (id) => dispatch(deletePriagaAction(id)),
+    // deleteZvituRozxid: (id) => dispatch(deleteZvituRozxidAction(id)),
     // getZvituZalushok: (data) => dispatch(getZvituZalushokAction(data)),
     // filterZvituZalushok: (data) => dispatch(filterZvituZalushokAction(data)),
     // getZvituRozxid: () => dispatch(getMaterialsRozxidAction()),
-    // filterZvituRozxid: (data) => dispatch(filterMaterialsRozxidAction(data)),
+    // filterZvituRozxid: (data) => dispatch(filterPriagaRozxidAction(data)),
     // deleteZvituRozxid: (id) => dispatch(deleteMaterialsRozxidAction(id)),
-    getZvituZalushok: (data) => dispatch(getMaterialsZalushokAction(data)),
-    filterZvituZalushok: (data) => dispatch(filterMaterialsZalushokAction(data)),
+    getZvituZalushok: (data) => dispatch(getPriagaZalushokAction(data)),
+    filterZvituZalushok: (data) => dispatch(filterPriagaZalushokAction(data)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Materials);
+export default connect(mapStateToProps, mapDispatchToProps)(Priaga);

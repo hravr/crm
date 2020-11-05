@@ -300,7 +300,7 @@ const Sklad4 = ({
                         <td>
                           <span>{sklad.packId.fName}</span>
                         </td>
-                        <td>{sklad.mishok.articleId.name || 'Всі'}</td>
+                        <td>{sklad.mishok.articleId?.name || 'Всі'}</td>
                         <td>{sklad.mishok.classId.name || 'Всі'}</td>
                         <td>
                           <span>{sklad.mishok.sizeId.name || 'Всі'} | </span>
@@ -395,7 +395,7 @@ const Sklad4 = ({
                     <td>
                       <span>{zal.packId.fName}</span>
                     </td>
-                    <td>{zal.mishok.articleId.name || 'Всі'}</td>
+                    <td>{zal.mishok.articleId?.name || 'Всі'}</td>
                     <td>{zal.mishok.classId.name || 'Всі'}</td>
                     <td>
                       <span>{zal.mishok.sizeId.name || 'Всі'} | </span>

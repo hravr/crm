@@ -1,32 +1,35 @@
 import { getToken } from "../../../utils/utils";
-import { fetchFilteredZvituZalushok, fetchZvituZalushok } from "../../api/api";
 import {
-  SET_FILTERED_ZVITU_ZALUSHOK,
-  SET_ZVITU_ZALUSHOK,
+  fetchFilteredMaterialsZalushok,
+  fetchMaterialsZalushok,
+} from "../../api/api";
+import {
+  SET_FILTERED_MATERIALS_ZALUSHOK,
+  SET_MATERIALS_ZALUSHOK
 } from "../actionTypes";
 
-export const getZvituZalushokAction = (day) => {
+export const getMaterialsZalushokAction = (day) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchZvituZalushok(token, day);
+    const response = await fetchMaterialsZalushok(token, day);
     if (response.status === 200) {
-      dispatch({ type: SET_ZVITU_ZALUSHOK, zvituZalushok: response.data });
+      dispatch({ type: SET_MATERIALS_ZALUSHOK, zvituZalushok: response.data });
     }
   };
 };
 
-export const filterZvituZalushokAction = ({ day }) => {
+export const filterMaterialsZalushokAction = ({ day }) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredZvituZalushok(day, token);
+    const response = await fetchFilteredMaterialsZalushok(day, token);
     if (response?.data) {
       dispatch({
-        type: SET_FILTERED_ZVITU_ZALUSHOK,
+        type: SET_FILTERED_MATERIALS_ZALUSHOK,
         filtered: response.data,
       });
     } else {
       dispatch({
-        type: SET_FILTERED_ZVITU_ZALUSHOK,
+        type: SET_FILTERED_MATERIALS_ZALUSHOK,
         filtered: [],
       });
     }

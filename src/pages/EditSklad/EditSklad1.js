@@ -1,59 +1,56 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./EditSklad.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
-import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
-import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
-import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortActions";
-import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
-import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
-import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
-import { getMachineAction } from "../../store/actions/Machine/machineActions";
-import {
-  editSklad1ction,
-  getSingleSklad1Action,
-  getSklad1Action,
-} from "../../store/actions/sklad1Actions";
-import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import { getOperationsAction } from "../../store/actions/operationsAction";
-import { getWorkersAction } from "../../store/actions/workersActions";
-import { useParams } from "react-router-dom";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {getProdTypeAction} from "../../store/actions/prodTypeTypeActions";
+import {getProdSizeAction} from "../../store/actions/prodTypeSizeActions";
+import {getProdSezonAction} from "../../store/actions/prodTypeSezonActions";
+import {getProdAsortumentAction} from "../../store/actions/prodTypeAsortActions";
+import {getProdClassAction} from "../../store/actions/prodTypeClassActions";
+import {getProdColorAction} from "../../store/actions/prodTypeColorActions";
+import {getProdImageAction} from "../../store/actions/prodTypeImageActions";
+import {getMachineAction} from "../../store/actions/Machine/machineActions";
+import {editSklad1ction, getSingleSklad1Action, getSklad1Action,} from "../../store/actions/sklad1Actions";
+import {getProdArticleAction} from "../../store/actions/prodTypeArticleActions";
+import {getOperationsAction} from "../../store/actions/operationsAction";
+import {getWorkersAction} from "../../store/actions/workersActions";
+import {useParams} from "react-router-dom";
 
 const EditSklad1 = ({
-  values,
-  handleChange,
-  handleSubmit,
-  setValues,
-  fetchProdType,
-  typeId,
-  fetchProdSize,
-  sizeId,
-  fetchProdSezon,
-  seasonId,
-  fetchProdAsortument,
-  asortumentId,
-  fetchProdImage,
-  imageId,
-  fetchProdClass,
-  classId,
-  fetchProdColor,
-  colorId,
-  fetchMachine,
-  machineId,
-  getSklad1,
-  articleId,
-  fetchProdArticle,
-  getWorkers,
-  getOperations,
-  operations,
-  workers,
-  singleSklad1,
-  getSingleSklad1,
-}) => {
+                      values,
+                      handleChange,
+                      handleSubmit,
+                      setValues,
+                      fetchProdType,
+                      typeId,
+                      fetchProdSize,
+                      sizeId,
+                      fetchProdSezon,
+                      seasonId,
+                      fetchProdAsortument,
+                      asortumentId,
+                      fetchProdImage,
+                      imageId,
+                      fetchProdClass,
+                      classId,
+                      fetchProdColor,
+                      colorId,
+                      fetchMachine,
+                      machineId,
+                      getSklad1,
+                      articleId,
+                      fetchProdArticle,
+                      getWorkers,
+                      getOperations,
+                      operations,
+                      workers,
+                      singleSklad1,
+                      getSingleSklad1,
+
+                    }) => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
   const [sezonOptions, setSezonOptions] = useState([]);
@@ -63,8 +60,10 @@ const EditSklad1 = ({
   const [colorOptions, setColorOptions] = useState([]);
   const [machinesOptions, setMachinesOptions] = useState([]);
   const [articleOptions, setArticleOptions] = useState([]);
-  const { id } = useParams();
-  console.log(values)
+  const {id} = useParams();
+
+  console.log("singleSklad1 === ", singleSklad1)
+
   const operationsObject = useMemo(() => {
     const temp = {};
     operations.forEach((operation) => {
@@ -83,12 +82,12 @@ const EditSklad1 = ({
     const temp = {};
     Object.entries(operationsObject).forEach(([key, value]) => {
       value.forEach((operation) => {
-        const isCorrect = !!operation.operationId.find(({ name }) => {
+        const isCorrect = !!operation.operationId.find(({name}) => {
           return name === key;
         });
         if (!isCorrect) return;
-        const { name, fName, sName } = operation;
-        const option = { label: `${fName} ${sName}`, value: operation._id };
+        const {name, fName, sName} = operation;
+        const option = {label: `${fName} ${sName}`, value: operation._id};
         if (!temp[key]) {
           temp[key] = [option];
           return;
@@ -132,16 +131,16 @@ const EditSklad1 = ({
   };
 
   const classSelect = (classId) => {
-    setValues({ ...values, classId: classId.value, cName: classId.label });
+    setValues({...values, classId: classId.value, cName: classId.label});
   };
   const colorSelect = (colorId) => {
-    setValues({ ...values, colorId: colorId.value, colorName: colorId.label });
+    setValues({...values, colorId: colorId.value, colorName: colorId.label});
   };
   const imageSelect = (imageId) => {
-    setValues({ ...values, imageId: imageId.value, imageName: imageId.label });
+    setValues({...values, imageId: imageId.value, imageName: imageId.label});
   };
   const sizeSelect = (sizeId) => {
-    setValues({ ...values, sizeId: sizeId.value, sizeName: sizeId.label });
+    setValues({...values, sizeId: sizeId.value, sizeName: sizeId.label});
   };
 
   const sezonSelect = (seasonId) => {
@@ -152,7 +151,7 @@ const EditSklad1 = ({
     });
   };
   const typeSelect = (typeId) => {
-    setValues({ ...values, typeId: typeId.value, typeName: typeId.label });
+    setValues({...values, typeId: typeId.value, typeName: typeId.label});
   };
 
   const machinesSelect = (machineId) => {
@@ -166,78 +165,78 @@ const EditSklad1 = ({
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
-        articleId.map((art) => {
-          return { label: art.name, value: art._id };
-        })
+      articleId.map((art) => {
+        return {label: art.name, value: art._id};
+      })
     );
   }, [articleId]);
   useEffect(() => {
     setMachinesOptions(
       machineId.length &&
-        machineId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
+      machineId.map((opt) => {
+        return {label: opt.name, value: opt._id};
+      })
     );
   }, [machineId]);
 
   useEffect(() => {
     setAsortumenOptions(
       asortumentId.length &&
-        asortumentId.map((asort) => {
-          return { label: asort.name, value: asort._id };
-        })
+      asortumentId.map((asort) => {
+        return {label: asort.name, value: asort._id};
+      })
     );
   }, [asortumentId]);
 
   useEffect(() => {
     setClassOptions(
       classId.length &&
-        classId.map((cls) => {
-          return { label: cls.name, value: cls._id };
-        })
+      classId.map((cls) => {
+        return {label: cls.name, value: cls._id};
+      })
     );
   }, [classId]);
   useEffect(() => {
     setColorOptions(
       colorId.length &&
-        colorId.map((col) => {
-          return { label: col.name, value: col._id };
-        })
+      colorId.map((col) => {
+        return {label: col.name, value: col._id};
+      })
     );
   }, [colorId]);
   useEffect(() => {
     setImageOptions(
       imageId.length &&
-        imageId.map((img) => {
-          return { label: img.name, value: img._id };
-        })
+      imageId.map((img) => {
+        return {label: img.name, value: img._id};
+      })
     );
   }, [imageId]);
 
   useEffect(() => {
     setSizeOptions(
       sizeId.length &&
-        sizeId.map((size) => {
-          return { label: size.name, value: size._id };
-        })
+      sizeId.map((size) => {
+        return {label: size.name, value: size._id};
+      })
     );
   }, [sizeId]);
 
   useEffect(() => {
     setSezonOptions(
       seasonId.length &&
-        seasonId.map((sez) => {
-          return { label: sez.name, value: sez._id };
-        })
+      seasonId.map((sez) => {
+        return {label: sez.name, value: sez._id};
+      })
     );
   }, [seasonId]);
 
   useEffect(() => {
     setTypeOptions(
       typeId.length &&
-        typeId.map((type) => {
-          return { label: type.name, value: type._id };
-        })
+      typeId.map((type) => {
+        return {label: type.name, value: type._id};
+      })
     );
   }, [typeId]);
 
@@ -348,7 +347,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={machinesOptions}
-              value={{ label: values.machineName, value: values.machineId }}
+              value={{label: values.machineName, value: values.machineId}}
               name="machineId"
               onChange={machinesSelect}
             />
@@ -359,7 +358,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={operationsOptions["В'язальниця"]}
-              value={{ label: values.vyazalName, value: values.vyazalId }}
+              value={{label: values.vyazalName, value: values.vyazalId}}
               name="vyazalId"
               onChange={vyazalSelect}
             />
@@ -370,7 +369,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={operationsOptions["Майстер"]}
-              value={{ label: values.masterName, value: values.masterId }}
+              value={{label: values.masterName, value: values.masterId}}
               name="masterId"
               onChange={masterSelect}
             />
@@ -381,7 +380,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={articleOptions}
-              value={{ label: values.articleName, value: values.articleId }}
+              value={{label: values.articleName, value: values.articleId}}
               name="articleId"
               onChange={articleSelect}
             />
@@ -394,7 +393,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={typeOptions}
-              value={{ label: values.typeName, value: values.typeId }}
+              value={{label: values.typeName, value: values.typeId}}
               name="typeId"
               onChange={typeSelect}
             />
@@ -405,7 +404,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={colorOptions}
-              value={{ label: values.colorName, value: values.colorId }}
+              value={{label: values.colorName, value: values.colorId}}
               name="colorId"
               onChange={colorSelect}
             />
@@ -416,7 +415,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={classOptions}
-              value={{ label: values.cName, value: values.classId }}
+              value={{label: values.cName, value: values.classId}}
               name="classId"
               onChange={classSelect}
             />
@@ -441,7 +440,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={imageOptions}
-              value={{ label: values.imageName, value: values.imageId }}
+              value={{label: values.imageName, value: values.imageId}}
               name="imageId"
               onChange={imageSelect}
             />
@@ -452,7 +451,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={sezonOptions}
-              value={{ label: values.seasonName, value: values.seasonId }}
+              value={{label: values.seasonName, value: values.seasonId}}
               name="seasonId"
               onChange={sezonSelect}
             />
@@ -463,7 +462,7 @@ const EditSklad1 = ({
             </div>
             <Select
               options={sizeOptions}
-              value={{ label: values.sizeName, value: values.sizeId }}
+              value={{label: values.sizeName, value: values.sizeId}}
               name="sizeId"
               onChange={sizeSelect}
             />
@@ -471,7 +470,7 @@ const EditSklad1 = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Змінити" onClick={handleSubmit} />
+        <Button title="Змінити" onClick={handleSubmit}/>
       </div>
     </div>
   );
@@ -497,25 +496,26 @@ const formikHOC = withFormik({
   }),
   handleSubmit: async (
     values,
-    { props: { editSklad1, history, singleSklad1 } }
+    {props: {editSklad1, history, singleSklad1}}
   ) => {
     const pruhudToSubmit = {
-      asortumentId: values.asortument,
-      typeId: values.typeId,
-      sizeId: values.sizeId,
-      seasonId: values.seasonId,
-      classId: values.classId,
-      imageId: values.imageId,
-      colorId: values.colorId,
+      asortumentId: !!values.asortumentId ? values.asortumentId : (singleSklad1.mishok.asortumentId?._id || null),
+      typeId: !!values.typeId ? values.typeId : (singleSklad1.mishok.typeId?._id || null),
+      sizeId: !!values.sizeId ? values.sizeId : (singleSklad1.mishok.sizeId?._id || null),
+      seasonId: !!values.seasonId ? values.seasonId : (singleSklad1.mishok.seasonId?._id || null),
+      classId: !!values.classId ? values.classId : (singleSklad1.mishok.classId?._id || null),
+      imageId: !!values.imageId ? values.imageId : (singleSklad1.mishok.imageId?._id || null),
+      colorId: !!values.colorId ? values.colorId : (singleSklad1.mishok.colorId?._id || null),
       date_prixod: values.date_prixod,
-      gatynok1: values.gatynok1,
-      gatynok2: values.gatynok2,
-      gatynok3: values.gatynok3,
-      machineId: values.machineId,
+      gatynok1: !!values.gatynok1 ? values.gatynok1 : (singleSklad1.mishok.gatynok1?._id || null),
+      gatynok2: !!values.gatynok2 ? values.gatynok2 : (singleSklad1.mishok.gatynok2?._id || null),
+      gatynok3: !!values.gatynok3 ? values.gatynok3 : (singleSklad1.mishok.gatynok3?._id || null),
+      machineId: values.machineId._id,
       masterId: values.masterId._id,
       vyazalId: values.vyazalId._id,
-      articleId: values.articleId,
+      articleId: !!values.articleId ? values.articleId : (singleSklad1.mishok.articleId?._id || null),
     };
+    console.log(values)
     const isSuccess = await editSklad1(pruhudToSubmit, singleSklad1._id);
     if (isSuccess) {
       alert("Змінено") || history.push("/sklad_1");

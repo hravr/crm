@@ -1,6 +1,6 @@
 import {
-  SET_FILTERED_MATERIALS_ZALUSHOK,
-  SET_MATERIALS_ZALUSHOK,
+  SET_FILTERED_PRIAGA_ZALUSHOK,
+  SET_PRIAGA_ZALUSHOK
 } from "../../actions/actionTypes";
 
 const initialState = {
@@ -10,12 +10,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_MATERIALS_ZALUSHOK:
+    case SET_PRIAGA_ZALUSHOK:
       return {
         ...state,
         zvituZalushok: action.zvituZalushok,
       };
-    case SET_FILTERED_MATERIALS_ZALUSHOK:
+    case SET_FILTERED_PRIAGA_ZALUSHOK:
       return {
         ...state,
         filtered: action.filtered,
