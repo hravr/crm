@@ -7,7 +7,6 @@ import Button from "../../misc/Button/Button";
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import ReactToExcel from "react-html-table-to-excel";
-import {deleteZvituAction, filterZvituAction, getZvituAction,} from "../../store/actions/Zvitu/zvituActions";
 import {
   deleteZvituRozxidAction,
   filterZvituRozxidAction,
@@ -20,6 +19,10 @@ import {
   filterMaterialsAction,
   getMaterialsAction
 } from "../../store/actions/Materials/materialsActions";
+import {
+  filterMaterialsZalushokAction,
+  getMaterialsZalushokAction
+} from "../../store/actions/Materials/materialsZalushokActions";
 
 const Materials = ({
                      getZvitu,
@@ -50,7 +53,7 @@ const Materials = ({
   useEffect(() => {
     (async () => {
       await getZvitu();
-      await getZvituRozxid();
+      // await getZvituRozxid();
       await getZvituZalushok();
     })();
   }, []);
@@ -72,150 +75,8 @@ const Materials = ({
               </Tab>
             ))}
           </TabList>
-            <div className={s.filter__container}>
-                <div className={s.search__container}>
-                    <Select
-                      options={operationsSelect}
-                      name="operationId"
-                      defaultValue={dataForFilter.operationLabel}
-                      onChange={(e) => {
-                          setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})
-                      }}
-                    />
-                </div>
-                <div className={s.search__container}>
-                    <Input
-                      label="Період з:"
-                      type="date"
-                      onChange={({target}) =>
-                        setDataForFilter({...dataForFilter, from: target.value})
-                      }
-                    />
-                </div>
-                <div className={s.search__container}>
-                    <Input
-                      label="до:"
-                      type="date"
-                      onChange={({target}) =>
-                        setDataForFilter({...dataForFilter, to: target.value})
-                      }
-                    />
-                </div>
-                <div className={s.create__worker}>
-                    <div className={s.exel__wrapper}>
-                        <ReactToExcel
-                          table="table-to-xls"
-                          filename="Sklad-1"
-                          sheet="sheet 1"
-                          buttonText="EXPORT"
-                          className="exel"
-                        />
-                    </div>
-                    <Button
-                      title="Пошук"
-                      onClick={async () => {
-                          await filterZvitu(dataForFilter);
-                      }}
-                    />
-                </div>
-            </div>
-        </div>
-
-        <TabPanel>
-
-          <div className={s.table}>
-            <table id="table-to-xls">
-              <tr>
-                <th className={s.status__table}>ID Матеріалу</th>
-                <th className={s.status__table}>Параметри</th>
-                <th className={s.status__table}>Значення параметру</th>
-                <th className={s.status__table}>К-сть</th>
-                <th className={s.status__table}>Ціна</th>
-                <th className={s.status__table}>Постачальник</th>
-                {/*<th className={s.status__table}>Змінено</th>*/}
-                <th className={s.status__table}></th>
-                <th></th>
-              </tr>
-              {!filteredZvitu.length
-                ? zvitu &&
-                zvitu.map((zvit) => {
-                  return (
-                    <tr key={zvit._id}>
-                      <td>{zvit._id}</td>
-                      <td>{zvit.param || 'Всі'}</td>
-                      <td>{zvit.param_value || 'Всі'}</td>
-                      <td>{zvit.quantity || 'Всі'}</td>
-                      <td>
-                        {zvit.price || 'Всі'}
-                      </td>
-                      <td>{zvit.vendor || 'Всі'}</td>
-                      <td>
-                        {zvit.changesId?.firstName +
-                        " " +
-                        zvit.changesId?.lastName}
-                      </td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button
-                            className={s.del}
-                            onClick={() => h.push(`/edit-zvitu/${zvit._id}`)}
-                          >
-                            Редагувати
-                          </button>
-                          <button onClick={() => deleteZvitu(zvit._id)}>
-                            Видалити
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-                : filteredZvitu.length &&
-                filteredZvitu.map((filter) => {
-                  return (
-                    <tr key={filter._id}>
-                      <td>{filter.operationId?.name}</td>
-                      <td>{filter.gatynok1}</td>
-                      <td>{filter.gatynok2}</td>
-                      <td>{filter.gatynok3}</td>
-                      <td>
-                        {filter.workerId?.fName +
-                        " " +
-                        filter.workerId?.sName}
-                      </td>
-                      <td>{filter.date_prixodu?.slice(0, 10)}</td>
-                      <td>
-                        {filter.changesId?.firstName +
-                        " " +
-                        filter.changesId?.lastName}
-                      </td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button
-                            className={s.del}
-                            onClick={() =>
-                              h.push(`/edit-zvitu/${filter._id}`)
-                            }
-                          >
-                            Редагувати
-                          </button>
-                          <button onClick={() => deleteZvitu(filter._id)}>
-                            Видалити
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </table>
-          </div>
-        </TabPanel>
-        <TabPanel>
+          {activeTabIndex === 0 &&
           <div className={s.filter__container}>
-            {/* <div className={s.barcode}>
-              <Barcode value="hey" />,
-            </div> */}
-
             <div className={s.search__container}>
               <Select
                 options={operationsSelect}
@@ -257,161 +118,277 @@ const Materials = ({
               <Button
                 title="Пошук"
                 onClick={async () => {
-                  console.log('click here')
-                  await filterZvituRozxid(dataForFilter);
+                  await filterZvitu(dataForFilter);
                 }}
               />
             </div>
           </div>
+          || activeTabIndex === 1 && (<>
+              <div className={s.search__container}>
+                <Select
+                  options={operationsSelect}
+                  name="operationId"
+                  defaultValue={dataForFilter.operationLabel}
+                  onChange={(e) => {
+                    setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})
+                  }}
+                />
+              </div>
+              <div className={s.search__container}>
+                <Input
+                  label="Період з:"
+                  type="date"
+                  onChange={({target}) =>
+                    setDataForFilter({...dataForFilter, fromRozxod: target.value})
+                  }
+                />
+              </div>
+              <div className={s.search__container}>
+                <Input
+                  label="до:"
+                  type="date"
+                  onChange={({target}) =>
+                    setDataForFilter({...dataForFilter, toRozxod: target.value})
+                  }
+                />
+              </div>
+              <div className={s.create__worker}>
+                <div className={s.exel__wrapper}>
+                  <ReactToExcel
+                    table="table-to-xls"
+                    filename="Sklad-1"
+                    sheet="sheet 1"
+                    buttonText="EXPORT"
+                    className="exel"
+                  />
+                </div>
+                <Button
+                  title="Пошук"
+                  onClick={async () => {
+                    console.log('click here')
+                    await filterZvituRozxid(dataForFilter);
+                  }}
+                />
+              </div>
+            </>
+          ) || activeTabIndex === 2 && (<>
+            <div className={s.filter__container}>
+              <div className={s.search__container}>
+                <Select
+                  options={operationsSelect}
+                  name="operationId"
+                  defaultValue={dataForFilter.operationLabel}
+                  onChange={(e) => {
+                    setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})
+                  }}
+                />
+              </div>
+              <div className={s.search__container}>
+              </div>
+              <div className={s.search__container}>
+                <Input
+                  label="На таку-то дату:"
+                  type="date"
+                  onChange={({target}) =>
+                    setDataForFilter({...dataForFilter, day: target.value})
+                  }
+                />
+              </div>
+              <div className={s.create__worker}>
+                <div className={s.exel__wrapper}>
+                  <ReactToExcel
+                    table="table-to-xls"
+                    filename="Sklad-1"
+                    sheet="sheet 1"
+                    buttonText="EXPORT"
+                    className="exel"
+                  />
+                </div>
+                <Button
+                  title="Пошук"
+                  onClick={async () => {
+                    await filterZvituZalushok(dataForFilter);
+                  }}
+                />
+              </div>
+            </div>
+          </>)}
+        </div>
+
+        <TabPanel>
+
           <div className={s.table}>
             <table id="table-to-xls">
               <tr>
-                <th className={s.status__table}>ID Операції</th>
-                <th className={s.status__table}>Гатунок 1</th>
-                <th className={s.status__table}>Гатунок 2</th>
-                <th className={s.status__table}>Гатунок 3</th>
-                <th className={s.status__table}>ID працівника</th>
-                <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>Змінено</th>
+                <th className={s.status__table}>ID Матеріалу</th>
+                <th className={s.status__table}>Параметри</th>
+                <th className={s.status__table}>Значення параметру</th>
+                <th className={s.status__table}>К-сть</th>
+                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>Постачальник</th>
+                {/*<th className={s.status__table}>Змінено</th>*/}
+                <th className={s.status__table}></th>
                 <th></th>
               </tr>
-              {!filteredZvituRozxid.length
-                ? zvituRozxid &&
-                zvituRozxid.map((zvitRozxid) => {
-                  return (
-                    <tr key={zvitRozxid._id}>
-                      <td>{zvitRozxid.operationId?.name}</td>
-                      <td>{zvitRozxid.gatynok1}</td>
-                      <td>{zvitRozxid.gatynok2}</td>
-                      <td>{zvitRozxid.gatynok3}</td>
-                      <td>
-                        {zvitRozxid.workerId?.fName +
-                        " " +
-                        zvitRozxid.workerId?.sName}
-                      </td>
-                      <td>{zvitRozxid.date_rozxodu?.slice(0, 10)}</td>
-                      <td>
-                        {zvitRozxid.changesId?.firstName +
-                        " " +
-                        zvitRozxid.changesId?.lastName}
-                      </td>
-                      <td>
-                        <div className={s.table__btn}>
-
-                          <button
-                            onClick={() => deleteZvituRozxid(zvitRozxid._id)}
-                          >
-                            Видалити
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
+              {!filteredZvitu.length
+                ? zvitu &&
+                zvitu.map((zvit) => {
+                  if (!zvit.date_rozxodu) {
+                    return (
+                      <tr key={zvit._id}>
+                        <td>{zvit._id}</td>
+                        <td>{zvit.param || 'Всі'}</td>
+                        <td>{zvit.param_value || 'Всі'}</td>
+                        <td>{zvit.quantity || 'Всі'}</td>
+                        <td>
+                          {zvit.price || 'Всі'}
+                        </td>
+                        <td>{zvit.vendor || 'Всі'}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button
+                              className={s.del}
+                              onClick={() => h.push(`/edit-zvitu/${zvit._id}`)}
+                            >
+                              Редагувати
+                            </button>
+                            <button onClick={() => deleteZvitu(zvit._id)}>
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  }
                 })
-                : filteredZvituRozxid.length &&
-                filteredZvituRozxid.map((filter) => {
-                  return (
-                    <tr key={filter._id}>
-                      <td>{filter.operationId?.name}</td>
-                      <td>{filter.gatynok1}</td>
-                      <td>{filter.gatynok2}</td>
-                      <td>{filter.gatynok3}</td>
-                      <td>
-                        {filter.workerId?.fName +
-                        " " +
-                        filter.workerId?.sName}
-                      </td>
-                      <td>{filter.date_rozxodu?.slice(0, 10)}</td>
-                      <td>
-                        {filter.changesId?.firstName +
-                        " " +
-                        filter.changesId?.lastName}
-                      </td>
-                      <td>
-                        <div className={s.table__btn}>
-                          <button
-                            className={s.del}
-                            onClick={() =>
-                              h.push(`/edit-zvitu-rozxid/${filter._id}`)
-                            }
-                          >
-                            Редагувати
-                          </button>
-                          <button
-                            onClick={() => deleteZvituRozxid(filter._id)}
-                          >
-                            Видалити
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
+                : filteredZvitu.length &&
+                filteredZvitu.map((filter) => {
+                  if (!filter.date_rozxodu) {
+                    return (
+                      <tr key={filter._id}>
+                        <td>{filter._id}</td>
+                        <td>{filter.paramsId?.name}</td>
+                        <td>{filter.paramsValueId?.name}</td>
+                        <td>{filter.quantity}</td>
+                        <td>
+                          {filter.price}
+                        </td>
+                        <td>{filter.vendorId?.name}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button
+                              className={s.del}
+                              onClick={() =>
+                                h.push(`/edit-zvitu/${filter._id}`)
+                              }
+                            >
+                              Редагувати
+                            </button>
+                            <button onClick={() => deleteZvitu(filter._id)}>
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  }
                 })}
             </table>
           </div>
         </TabPanel>
         <TabPanel>
           <div className={s.filter__container}>
-            {/* <div className={s.barcode}>
-              <Barcode value="hey" />,
-            </div> */}
-
-            <div className={s.search__container}>
-              <Select
-                options={operationsSelect}
-                name="operationId"
-                defaultValue={dataForFilter.operationLabel}
-                onChange={(e) => {
-                  setDataForFilter({...dataForFilter, operationId: e.value, operationLabel: e.label})
-                }}
-              />
-            </div>
-            <div className={s.search__container}>
-              {/*<Input*/}
-              {/*    label="Період з:"*/}
-              {/*    type="date"*/}
-              {/*    onChange={({target}) =>*/}
-              {/*        setDataForFilter({...dataForFilter, from: target.value})*/}
-              {/*    }*/}
-              {/*/>*/}
-            </div>
-            <div className={s.search__container}>
-              <Input
-                label="На таку-то дату:"
-                type="date"
-                onChange={({target}) =>
-                  setDataForFilter({...dataForFilter, day: target.value})
-                }
-              />
-            </div>
-            <div className={s.create__worker}>
-              <div className={s.exel__wrapper}>
-                <ReactToExcel
-                  table="table-to-xls"
-                  filename="Sklad-1"
-                  sheet="sheet 1"
-                  buttonText="EXPORT"
-                  className="exel"
-                />
-              </div>
-              <Button
-                title="Пошук"
-                onClick={async () => {
-                  await filterZvituZalushok(dataForFilter);
-                }}
-              />
-            </div>
           </div>
           <div className={s.table}>
             <table id="table-to-xls">
               <tr>
-                <th className={s.status__table}>ID Операції</th>
-                <th className={s.status__table}>Гатунок 1</th>
-                <th className={s.status__table}>Гатунок 2</th>
-                <th className={s.status__table}>Гатунок 3</th>
-                <th className={s.status__table}>ID працівника</th>
-                <th className={s.status__table}>Дата</th>
-                <th className={s.status__table}>Змінено</th>
+                <th className={s.status__table}>ID Матеріалу</th>
+                <th className={s.status__table}>Параметри</th>
+                <th className={s.status__table}>Значення параметру</th>
+                <th className={s.status__table}>К-сть</th>
+                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>Постачальник</th>
+                {/*<th className={s.status__table}>Змінено</th>*/}
+                <th className={s.status__table}></th>
+                <th></th>
+              </tr>
+              {!filteredZvitu.length
+                ? zvitu &&
+                zvitu.map((zvitRozxid) => {
+                  if (zvitRozxid.date_rozxodu) {
+                    return (
+                      <tr key={zvitRozxid._id}>
+                        <td>{zvitRozxid._id}</td>
+                        <td>{zvitRozxid.paramsId?.name}</td>
+                        <td>{zvitRozxid.paramsValueId?.name}</td>
+                        <td>{zvitRozxid.quantity}</td>
+                        <td>
+                          {zvitRozxid.price}
+                        </td>
+                        <td>{zvitRozxid.vendorId?.name}</td>
+                        <td>
+                          <div className={s.table__btn}>
+
+                            <button
+                              onClick={() => deleteZvituRozxid(zvitRozxid._id)}
+                            >
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  }
+                })
+                : filteredZvitu.length &&
+                filteredZvitu.map((filter) => {
+                  if (filter.date_rozxodu) {
+                    return (
+                      <tr key={filter._id}>
+                        <td>{filter._id}</td>
+                        <td>{filter.paramsId?.name}</td>
+                        <td>{filter.paramsValueId?.name}</td>
+                        <td>{filter.quantity}</td>
+                        <td>
+                          {filter.price}
+                        </td>
+                        <td>{filter.vendorId?.name}</td>
+                        <td>
+                          <div className={s.table__btn}>
+                            <button
+                              className={s.del}
+                              onClick={() =>
+                                h.push(`/edit-zvitu-rozxid/${filter._id}`)
+                              }
+                            >
+                              Редагувати
+                            </button>
+                            <button
+                              onClick={() => deleteZvituRozxid(filter._id)}
+                            >
+                              Видалити
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  }
+                })}
+            </table>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div className={s.table}>
+            <table id="table-to-xls">
+              <tr>
+                <th className={s.status__table}>ID Матеріалу</th>
+                <th className={s.status__table}>Параметри</th>
+                <th className={s.status__table}>Значення параметру</th>
+                <th className={s.status__table}>К-сть</th>
+                <th className={s.status__table}>Ціна</th>
+                <th className={s.status__table}>Постачальник</th>
+                {/*<th className={s.status__table}>Змінено</th>*/}
+                <th className={s.status__table}></th>
                 <th></th>
               </tr>
               {!filteredZvituZalushok.length
@@ -419,19 +396,14 @@ const Materials = ({
                 zvituZalushok.map((zvitz) => {
                   return (
                     <tr key={zvitz._id}>
-                      <td>{zvitz.operationId?.name}</td>
-                      <td>{zvitz.gatynok1}</td>
-                      <td>{zvitz.gatynok2}</td>
-                      <td>{zvitz.gatynok3}</td>
+                      <td>{zvitz._id}</td>
+                      <td>{zvitz.paramsId?.name}</td>
+                      <td>{zvitz.paramsValueId?.name}</td>
+                      <td>{zvitz.quantity}</td>
                       <td>
-                        {zvitz.workerId?.fName + " " + zvitz.workerId?.sName}
+                        {zvitz.price}
                       </td>
-                      <td>{zvitz.date_rozxodu?.slice(0, 10)}</td>
-                      <td>
-                        {zvitz.changesId?.firstName +
-                        " " +
-                        zvitz.changesId?.lastName}
-                      </td>
+                      <td>{zvitz.vendorId?.name}</td>
                       <td>
                         <div className={s.table__btn}>
                           <button
@@ -454,21 +426,14 @@ const Materials = ({
                 filteredZvituZalushok.map((filter) => {
                   return (
                     <tr key={filter._id}>
-                      <td>{filter.operationId?.name}</td>
-                      <td>{filter.gatynok1}</td>
-                      <td>{filter.gatynok2}</td>
-                      <td>{filter.gatynok3}</td>
+                      <td>{filter._id}</td>
+                      <td>{filter.paramsId?.name}</td>
+                      <td>{filter.paramsValueId?.name}</td>
+                      <td>{filter.quantity}</td>
                       <td>
-                        {filter.workerId?.fName +
-                        " " +
-                        filter.workerId?.sName}
+                        {filter.price}
                       </td>
-                      <td>{filter.date_rozxodu?.slice(0, 10)}</td>
-                      <td>
-                        {filter.changesId?.firstName +
-                        " " +
-                        filter.changesId?.lastName}
-                      </td>
+                      <td>{filter.vendorId?.name}</td>
                       <td>
                         <div className={s.table__btn}>
                           <button
@@ -495,15 +460,13 @@ const Materials = ({
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state.materials)
+  console.log(state)
   return {
     zvitu: state.materials.materials,
     operations: state.operations.operations,
     filteredZvitu: state.materials.filtered,
-    zvituRozxid: state.zvituRozxid.zvituRozxid,
-    filteredZvituRozxid: state.zvituRozxid.filtered,
-    zvituZalushok: state.zvituZalushok.zvituZalushok,
-    filteredZvituZalushok: state.zvituZalushok.filtered,
+    zvituZalushok: state.materialsZalushok.zvituZalushok,
+    filteredZvituZalushok: state.materialsZalushok.filtered,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -511,16 +474,14 @@ const mapDispatchToProps = (dispatch) => {
     getZvitu: () => dispatch(getMaterialsAction()),
     filterZvitu: (data) => dispatch(filterMaterialsAction(data)),
     deleteZvitu: (id) => dispatch(deleteMaterialsAction(id)),
-    getZvituRozxid: () => dispatch(getZvituRozxidAction()),
-    filterZvituRozxid: (data) => dispatch(filterZvituRozxidAction(data)),
     deleteZvituRozxid: (id) => dispatch(deleteZvituRozxidAction(id)),
-    getZvituZalushok: (data) => dispatch(getZvituZalushokAction(data)),
-    filterZvituZalushok: (data) => dispatch(filterZvituZalushokAction(data)),
+    // getZvituZalushok: (data) => dispatch(getZvituZalushokAction(data)),
+    // filterZvituZalushok: (data) => dispatch(filterZvituZalushokAction(data)),
     // getZvituRozxid: () => dispatch(getMaterialsRozxidAction()),
     // filterZvituRozxid: (data) => dispatch(filterMaterialsRozxidAction(data)),
     // deleteZvituRozxid: (id) => dispatch(deleteMaterialsRozxidAction(id)),
-    // getZvituZalushok: (data) => dispatch(getMaterialsZalushokAction(data)),
-    // filterZvituZalushok: (data) => dispatch(filterMaterialsZalushokAction(data)),
+    getZvituZalushok: (data) => dispatch(getMaterialsZalushokAction(data)),
+    filterZvituZalushok: (data) => dispatch(filterMaterialsZalushokAction(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Materials);

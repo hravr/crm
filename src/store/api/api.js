@@ -1786,6 +1786,7 @@ export const fetchZvituRozxid = (token) => {
     },
   });
 };
+
 export const fetchSingleZvituRozxid = (id, token) => {
   return _axios.get(`/zvitu_rozxid/${id}`, {
     headers: {
@@ -1909,6 +1910,26 @@ export const patchMaterials = (id, token, zvitu) => {
 
 export const deleteMaterials = (id, token) => {
   return _axios.delete(`/materials/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchMaterialsZalushok = (token) => {
+  const day = new Date();
+  return _axios.get(`/materials_zalushok?day=${day}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchFilteredMaterialsZalushok = (day, token) => {
+  let baseUrl = "/materials_zalushok?";
+  if (day) {
+    baseUrl += `day=${day}`;
+  }
+  return _axios.get(baseUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

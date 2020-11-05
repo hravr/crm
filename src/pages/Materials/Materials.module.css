@@ -1,89 +1,102 @@
 .title__container {
-  text-align: left;
-  border-bottom: black;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 
 }
+
 .title {
-  font-size: 36px;
-  font-weight: bold;
+    font-size: 36px;
+    font-weight: bold;
 }
+
 .table {
-  overflow-x: auto;
+    overflow-x: auto;
 }
+
 table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid black;
 }
 
 th,
 td {
-  text-align: left;
-  padding: 8px;
+    text-align: left;
+    border: 1px solid black;
+    padding: 8px;
 }
+
 th {
-  color: white;
-  background-color: #4caf50;
+    color: white;
+    background-color: #4caf50;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
+
 .search__container {
-  width: 200px;
-  padding: 10px;
+    width: 200px;
+    padding: 10px;
 }
+
 .table__btn {
-  float: right;
+    float: right;
 }
+
 .del {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .filter__container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 55%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 55%;
 }
 
 .tab {
-  list-style: none;
-  padding: 8px 25px;
-  font-weight: lighter;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 5px;
+    list-style: none;
+    padding: 8px 25px;
+    font-weight: lighter;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
 }
 
 .tab__active {
-  background: #4caf50;
-  color: #fff;
+    background: #4caf50;
+    color: #fff;
 }
+
 .tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  font-family: "Roboto", sans-serif;
-  margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: "Roboto", sans-serif;
+    margin-top: 20px;
 }
+
 .i {
-  border: none;
+    border: none;
 }
+
 .create__worker {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .exel__wrapper {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 .create__worker {
-  text-decoration: none;
+    text-decoration: none;
 }
+
 .btn__container {
-  display: flex;
-  justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
 }
