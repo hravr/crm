@@ -198,11 +198,6 @@ const Sklad1 = ({
                       return (
                         <tr key={sklad._id}>
                           <td
-                            onClick={() => {
-                              setIsVisible(!isVisible);
-                              setModalData(sklad.mishok._id);
-                              setSklad(sklad._id);
-                            }}
                           >
                             {sklad.mishok.barcode || "Всі"}
                           </td>
@@ -258,6 +253,11 @@ const Sklad1 = ({
                               <button onClick={() => deleteSklad1(sklad._id)}>
                                 Видалити
                               </button>
+                              <button onClick={() => {
+                              setIsVisible(!isVisible);
+                              setModalData(sklad.mishok._id);
+                              setSklad(sklad._id);
+                            }} className={s.sent}>Відправити</button>
                             </div>
                           </td>
                         </tr>
@@ -269,7 +269,7 @@ const Sklad1 = ({
                     return (
                       <tr key={filtered._id}>
                         <td>{filtered.mishok.barcode || "Всі"}</td>
-                        <td>{filtered.createdAt.slice(0, 10) || "Всі"}</td>
+                        <td>{filtered.date_prixod.slice(0, 10) || "Всі"}</td>
                         <div className={s.gatynok}>
                           <td>
                             {filtered?.masterId?.fName +
@@ -373,7 +373,7 @@ const Sklad1 = ({
                             {sklad.vyazalId.fName}
                           </td>
                           <td>{sklad.machineId.name || "Всі"}</td>
-                          <td>{sklad.mishok.articleId.name || "Всі"}</td>
+                          {/*<td>{sklad.mishok.articleId.name || "Всі"}</td>*/}
                           <td>{sklad.mishok.classId.name || "Всі"}</td>
                           <td>
                             <span>{sklad.mishok.sizeId.name || "Всі"} | </span>

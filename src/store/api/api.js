@@ -62,13 +62,13 @@ export const fetchSklad3Zalushok = (token, day) => {
 };
 
 export const fetchFilteredSklad1 = ({
-  from,
-  to,
-  search,
-  token,
-  fromRozxod,
-  toRozxod,
-}) => {
+                                      from,
+                                      to,
+                                      search,
+                                      token,
+                                      fromRozxod,
+                                      toRozxod,
+                                    }) => {
   let baseUrl = "/sklad1?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -124,13 +124,13 @@ export const fetchSklad2 = (token) => {
 };
 
 export const fetchFilteredSklad2 = ({
-  from,
-  to,
-  search,
-  token,
-  fromRozxod,
-  toRozxod,
-}) => {
+                                      from,
+                                      to,
+                                      search,
+                                      token,
+                                      fromRozxod,
+                                      toRozxod,
+                                    }) => {
   let baseUrl = "/sklad2?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -1949,3 +1949,90 @@ export const fetchFilteredMaterialsZalushok = (day, token) => {
     },
   });
 };
+// ---------------------- Priaga ---------------------------------
+
+
+export const fetchPriaga = (token) => {
+  return _axios.get("/priaga", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSinglePriaga = (id, token) => {
+  return _axios.get(`/priaga/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchFilteredPriaga = ({from, to, operationId, fromRozxod, toRozxod, token}) => {
+  let baseUrl = "/priaga?";
+  if (operationId) {
+    baseUrl += `operationId=${operationId}`;
+  }
+  if (from) {
+    baseUrl += `&from=${from}`;
+  }
+  if (to) {
+    baseUrl += `&to=${to}`;
+  }
+  if (fromRozxod) {
+    baseUrl += `fromRozxod=${fromRozxod}`;
+  }
+  if (toRozxod) {
+    baseUrl += `&toRozxod=${toRozxod}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createPriaga = (zvitu, token) => {
+  return _axios.post("/priaga", zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const patchPriaga = (id, token, zvitu) => {
+  return _axios.patch(`/priaga/${id}`, zvitu, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deletePriaga = (id, token) => {
+  return _axios.delete(`/priaga/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchPriagaZalushok = (token) => {
+  const day = new Date();
+  return _axios.get(`/priaga_zalushok?day=${day}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const fetchFilteredPriagaZalushok = (day, token) => {
+  let baseUrl = "/priaga_zalushok?";
+  if (day) {
+    baseUrl += `day=${day}`;
+  }
+  return _axios.get(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+

@@ -3,10 +3,11 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+
 }
 
 .title {
-    font-size: 20px;
+    font-size: 36px;
     font-weight: bold;
 }
 
@@ -17,21 +18,14 @@
 table {
     border-collapse: collapse;
     width: 100%;
+    border: 1px solid black;
 }
 
 th,
 td {
     text-align: left;
-    /*padding: 8px;*/
-    padding: 0px !important;
-}
-
-p {
-    padding: 0px !important;
-}
-
-.btn {
-    padding: 5px !important;
+    border: 1px solid black;
+    padding: 8px;
 }
 
 th {
@@ -45,11 +39,7 @@ tr:nth-child(even) {
 
 .search__container {
     width: 200px;
-}
-
-.search__container__block {
-    width: 200px;
-    opacity: 0;
+    padding: 10px;
 }
 
 .table__btn {
@@ -64,7 +54,7 @@ tr:nth-child(even) {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 10px;
+    width: 55%;
 }
 
 .tab {
@@ -86,7 +76,7 @@ tr:nth-child(even) {
     flex-wrap: wrap;
     justify-content: center;
     font-family: "Roboto", sans-serif;
-    /* margin-top: 20px; */
+    margin-top: 20px;
 }
 
 .i {
@@ -102,20 +92,11 @@ tr:nth-child(even) {
     margin-bottom: 20px;
 }
 
-/*.gatynok {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    !*align-items: center;*!*/
-/*}*/
+.create__worker {
+    text-decoration: none;
+}
 
-.table__column {
+.btn__container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
 }
-
-.border {
-    border-bottom: 1px solid;
-}
- .sent {
-     margin-left: 5px;
- }
