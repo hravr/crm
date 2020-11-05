@@ -57,7 +57,7 @@ export const deleteProdSizeAction = (id) => {
     const token = getToken();
     const responce = await deleteProdSize(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_SIZE, id });
+      dispatch({ type: DELETE_PROD_SIZE, id, prodSize: responce.data });
     }
     return responce.status === 200;
   };

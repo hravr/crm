@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         prodAsortument: state.prodAsortument.filter(
-          (prodAsortument) => prodAsortument._id !== action._id
+          (prodAsortument) => prodAsortument._id !== action.id
         ),
       };
     default:

@@ -71,7 +71,11 @@ export const deleteMaterialRozhidAction = (id) => {
     const token = getToken();
     const responce = await deleteMaterialRozhid(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS_ROZHID, id });
+      dispatch({
+        type: DELETE_MATERIALS_ROZHID,
+        id,
+        materialRozhid: responce.data,
+      });
     }
     return responce.status === 200;
   };

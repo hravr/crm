@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         machineVyazalni: state.machineVyazalni.filter(
-          (machineVyazalni) => machineVyazalni._id !== action._id
+          (machineVyazalni) => machineVyazalni._id !== action.id
         ),
       };
     default:

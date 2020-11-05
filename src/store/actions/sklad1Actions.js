@@ -171,7 +171,7 @@ export const deleteSklad1Action = (id) => {
     const token = getToken();
     const responce = await deleteSklad1(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_SKLAD1, id });
+      dispatch({ type: DELETE_SKLAD1, id, sklad1: responce.data });
     }
     return responce.status === 200;
   };

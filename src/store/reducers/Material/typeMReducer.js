@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         materialType: state.materialType.filter(
-          (materialType) => materialType._id !== action._id
+          (materialType) => materialType._id !== action.id
         ),
       };
     default:

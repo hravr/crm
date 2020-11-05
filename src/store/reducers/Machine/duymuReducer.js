@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         machineDuymu: state.machineDuymu.filter(
-          (machineDuymu) => machineDuymu._id !== action._id
+          (machineDuymu) => machineDuymu._id !== action.id
         ),
       };
     default:

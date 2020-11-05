@@ -75,10 +75,10 @@ export const editWorkerAction = (workers, id) => {
 export const deleteWorkerAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await deleteWorker(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_WORKER, id });
+    const response = await deleteWorker(id, token);
+    if (response.status === 200) {
+      dispatch({ type: DELETE_WORKER, id, workers: response.data });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };

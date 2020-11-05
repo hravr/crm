@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         prajaSurovuna: state.prajaSurovuna.filter(
-          (prajaSurovuna) => prajaSurovuna._id !== action._id
+          (prajaSurovuna) => prajaSurovuna._id !== action.id
         ),
       };
     default:

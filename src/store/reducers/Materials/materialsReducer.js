@@ -34,7 +34,9 @@ export default (state = initialState, action) => {
     case DELETE_MATERIALS:
       return {
         ...state,
-        materials: state.materials.filter((material) => material._id !== action._id),
+        materials: state.materials.filter(
+          (material) => material._id !== action.id
+        ),
       };
     default:
       return state;

@@ -56,10 +56,10 @@ export const createMachineDuymuAction = (machineDuymu) => {
 export const deleteMachineDuymuAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await deleteMachineDuymu(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_MACHINE_DYUMU, id });
+    const response = await deleteMachineDuymu(id, token);
+    if (response.status === 200) {
+      dispatch({ type: DELETE_MACHINE_DYUMU, id, machineDuymu: response.data });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };

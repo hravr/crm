@@ -70,7 +70,11 @@ export const deletePrajaTovtshinaAction = (id) => {
     const token = getToken();
     const responce = await deletePrajaTovtshina(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_TOVTSHINA, id });
+      dispatch({
+        type: DELETE_PRAJA_TOVTSHINA,
+        id,
+        prajaTovtshina: responce.data,
+      });
     }
     return responce.status === 200;
   };

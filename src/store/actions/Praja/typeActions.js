@@ -70,7 +70,7 @@ export const deletePrajaTypeAction = (id) => {
     const token = getToken();
     const responce = await deletePrajaType(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_TYPE, id });
+      dispatch({ type: DELETE_PRAJA_TYPE, id, prajaType: responce.data });
     }
     return responce.status === 200;
   };

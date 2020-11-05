@@ -70,7 +70,7 @@ export const deletePrajaSurovunaAction = (id) => {
     const token = getToken();
     const responce = await deletePrajaSurovuna(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_SUROVUNA, id });
+      dispatch({ type: DELETE_PRAJA_SUROVUNA, id, prajaSurovuna: responce.data  });
     }
     return responce.status === 200;
   };

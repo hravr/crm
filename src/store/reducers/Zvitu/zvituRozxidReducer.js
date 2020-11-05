@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         zvituRozxid: state.zvituRozxid.filter(
-          (zvituRozxid) => zvituRozxid._id !== action._id
+          (zvituRozxid) => zvituRozxid._id !== action.id
         ),
       };
 

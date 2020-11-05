@@ -74,7 +74,11 @@ export const deleteMaterialVendorAction = (id) => {
     const token = getToken();
     const responce = await deleteMaterialVendor(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS_VENDOR, id });
+      dispatch({
+        type: DELETE_MATERIALS_VENDOR,
+        id,
+        materialVendor: responce.data,
+      });
     }
     return responce.status === 200;
   };

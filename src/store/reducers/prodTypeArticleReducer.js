@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         prodArticle: state.prodArticle.filter(
-          (prodArticle) => prodArticle._id !== action._id
+          (prodArticle) => prodArticle._id !== action.id
         ),
       };
 

@@ -23,7 +23,7 @@ const Operations = ({
   handleSubmit,
   values,
 }) => {
-  const [dataForFilter, setDataForFilter] = useState([]);
+  const [dataForFilter, setDataForFilter] = useState();
   const [singleOperation, setSingleOperation] = useState({});
   const [operation, setOperation] = useState([]);
 
@@ -112,27 +112,49 @@ const Operations = ({
             <th className={s.status__table}>Ім'я</th>
             <th></th>
           </tr>
-          {filteredOperations.length &&
-            filteredOperations?.map((filtered) => {
-              return (
-                <tr key={operations._id}>
-                  <td>{filtered?.name}</td>
-                  <td>
-                    <div className={s.table__btn}>
-                      <button
-                        className={s.del}
-                        onClick={() => getSingleOperation(filtered._id)}
-                      >
-                        Редагувати
-                      </button>
-                      <button onClick={() => deleteOperations(filtered._id)}>
-                        Видалити
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+          {!filteredOperations.length
+            ? operations.length &&
+              operations?.map((oper) => {
+                return (
+                  <tr key={oper._id}>
+                    <td>{oper?.name}</td>
+                    <td>
+                      <div className={s.table__btn}>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleOperation(oper._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteOperations(oper._id)}>
+                          Видалити
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            : filteredOperations.length &&
+              filteredOperations.map((filter) => {
+                return (
+                  <tr key={operations._id}>
+                    <td>{filter?.name}</td>
+                    <td>
+                      <div className={s.table__btn}>
+                        <button
+                          className={s.del}
+                          onClick={() => getSingleOperation(filter._id)}
+                        >
+                          Редагувати
+                        </button>
+                        <button onClick={() => deleteOperations(filter._id)}>
+                          Видалити
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
         </table>
       </div>
     </div>
@@ -155,6 +177,7 @@ const formikHOC = withFormik({
 })(Operations);
 
 const mapStateToProps = (state) => {
+  console.log(state.operations);
   return {
     operations: state.operations.operations,
     filteredOperations: state.operations.filtered,

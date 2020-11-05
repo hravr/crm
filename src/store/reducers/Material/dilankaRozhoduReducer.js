@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         materialRozhid: state.materialRozhid.filter(
-          (materialRozhid) => materialRozhid._id !== action._id
+          (materialRozhid) => materialRozhid._id !== action.id
         ),
       };
     default:

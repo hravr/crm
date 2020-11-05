@@ -16,7 +16,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         operations: action.operations,
-        filtered: action.operations,
       };
     case SET_FILTERED_OPERATIONS:
       return {
@@ -29,10 +28,11 @@ export default (state = initialState, action) => {
         operations: [...state.operations, action.operations],
       };
     case DELETE_OPERATIONS:
+      console.log(action);
       return {
         ...state,
         operations: state.operations.filter(
-          (operations) => operations._id !== action._id
+          (operation) => operation._id !== action.id
         ),
       };
     default:

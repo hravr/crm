@@ -57,7 +57,7 @@ export const deleteProdSezonAction = (id) => {
     const token = getToken();
     const responce = await deleteProdSezon(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_SEZON, id });
+      dispatch({ type: DELETE_PROD_SEZON, id, prodSezon: responce.data });
     }
     return responce.status === 200;
   };

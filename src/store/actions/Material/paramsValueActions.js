@@ -96,7 +96,11 @@ export const deleteMaterialParamsValueAction = (id) => {
     const token = getToken();
     const responce = await deleteMaterialParamsValue(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS_PARAMS_VALUE, id });
+      dispatch({
+        type: DELETE_MATERIALS_PARAMS_VALUE,
+        id,
+        materialParamsValue: responce.data,
+      });
     }
     return responce.status === 200;
   };

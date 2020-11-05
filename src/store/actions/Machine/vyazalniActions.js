@@ -60,10 +60,14 @@ export const createMachineVyazalniAction = (machineVyazalni) => {
 export const deleteMachineVyazalniAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await deleteMachineVyazalni(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_MACHINE_VYAZALNI, id });
+    const response = await deleteMachineVyazalni(id, token);
+    if (response.status === 200) {
+      dispatch({
+        type: DELETE_MACHINE_VYAZALNI,
+        id,
+        machineVyazalni: response.data,
+      });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };

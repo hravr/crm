@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         roztsinka: state.roztsinka.filter(
-          (roztsinka) => roztsinka._id !== action._id
+          (roztsinka) => roztsinka._id !== action.id
         ),
       };
     default:

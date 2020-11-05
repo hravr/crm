@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
     case DELETE_WORKER:
       return {
         ...state,
-        workers: state.workers.filter((workers) => workers._id !== action._id),
+        workers: state.workers.filter((workers) => workers._id !== action.id),
       };
     default:
       return state;

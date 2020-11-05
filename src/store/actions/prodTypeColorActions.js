@@ -57,7 +57,7 @@ export const deleteProdColorAction = (id) => {
     const token = getToken();
     const responce = await deleteProdColor(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_COLOR, id });
+      dispatch({ type: DELETE_PROD_COLOR, id, prodColor: responce.data });
     }
     return responce.status === 200;
   };

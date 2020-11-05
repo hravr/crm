@@ -70,7 +70,7 @@ export const deletePrajaRozhidAction = (id) => {
     const token = getToken();
     const responce = await deletePrajaRozhid(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_ROZHID, id });
+      dispatch({ type: DELETE_PRAJA_ROZHID, id, prajaRozhid: responce.data });
     }
     return responce.status === 200;
   };

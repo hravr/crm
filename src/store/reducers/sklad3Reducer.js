@@ -1,9 +1,12 @@
 import {
   ADD_SKLAD3,
-  DELETE_SKLAD3, SET_FILTERED_ROZXOD_SKLAD3,
+  DELETE_SKLAD3,
+  SET_FILTERED_ROZXOD_SKLAD3,
   SET_FILTERED_SKLAD3,
-  SET_SINGLE_SKLAD3, SET_SKLAD1_ZALUSHOK,
-  SET_SKLAD3, SET_SKLAD3_ZALUSHOK,
+  SET_SINGLE_SKLAD3,
+  SET_SKLAD1_ZALUSHOK,
+  SET_SKLAD3,
+  SET_SKLAD3_ZALUSHOK,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -40,7 +43,7 @@ export default (state = initialState, action) => {
     case DELETE_SKLAD3:
       return {
         ...state,
-        sklad3: state.sklad3.filter((sklad3) => sklad3._id !== action._id),
+        sklad3: state.sklad3.filter((sklad3) => sklad3._id !== action.id),
       };
     case SET_SKLAD3_ZALUSHOK:
       return {

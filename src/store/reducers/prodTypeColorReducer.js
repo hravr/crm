@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         prodColor: state.prodColor.filter(
-          (prodColor) => prodColor._id !== action._id
+          (prodColor) => prodColor._id !== action.id
         ),
       };
     default:

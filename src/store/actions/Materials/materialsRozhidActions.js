@@ -28,7 +28,12 @@ export const getZvituRozxidAction = () => {
 export const filterZvituRozxidAction = ({ from, to, operationId }) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await fetchFilteredZvituRozxid(from, to, operationId, token);
+    const response = await fetchFilteredZvituRozxid(
+      from,
+      to,
+      operationId,
+      token
+    );
     if (response?.data) {
       dispatch({
         type: SET_FILTERED_ZVITU_ROZXID,
@@ -79,7 +84,7 @@ export const deleteZvituRozxidAction = (id) => {
     const token = getToken();
     const responce = await deleteZvituRozxid(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_ZVITU_ROZXID, id });
+      dispatch({ type: DELETE_ZVITU_ROZXID, id, zvituRozxid: responce.data });
     }
     return responce.status === 200;
   };

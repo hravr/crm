@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         machines: state.machines.filter(
-          (machines) => machines._id !== action._id
+          (machines) => machines._id !== action.id
         ),
       };
     default:

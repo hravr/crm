@@ -85,7 +85,11 @@ export const deleteMaterialTypeAction = (id) => {
     const token = getToken();
     const responce = await deleteMaterialType(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS_TYPE, id });
+      dispatch({
+        type: DELETE_MATERIALS_TYPE,
+        id,
+        materialType: responce.data,
+      });
     }
     return responce.status === 200;
   };

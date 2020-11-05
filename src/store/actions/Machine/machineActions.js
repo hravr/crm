@@ -75,10 +75,10 @@ export const editMachineAction = (machines, id) => {
 export const deleteMachineAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await deleteMachine(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_MACHINE, id });
+    const response = await deleteMachine(id, token);
+    if (response.status === 200) {
+      dispatch({ type: DELETE_MACHINE, id, machines: response.data });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };

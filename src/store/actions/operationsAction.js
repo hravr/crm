@@ -28,6 +28,7 @@ export const searchOperationsAction = ({ search }) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSearchOperations(search, token);
+    console.log(response.data);
     if (response?.data) {
       dispatch({
         type: SET_FILTERED_OPERATIONS,

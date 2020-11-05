@@ -1,18 +1,24 @@
 import { getToken } from "../../utils/utils";
 import {
   createSklad3,
-  deleteSklad3, fetchFilteredSklad1,
+  deleteSklad3,
+  fetchFilteredSklad1,
   fetchFilteredSklad3,
   fetchSingleSklad3,
-  fetchSklad3, fetchSklad3Zalushok,
+  fetchSklad3,
+  fetchSklad3Zalushok,
   patchSklad3,
 } from "../api/api";
 import {
   ADD_SKLAD3,
-  DELETE_SKLAD3, SET_FILTERED_ROZXOD_SKLAD1, SET_FILTERED_ROZXOD_SKLAD3, SET_FILTERED_SKLAD1,
+  DELETE_SKLAD3,
+  SET_FILTERED_ROZXOD_SKLAD1,
+  SET_FILTERED_ROZXOD_SKLAD3,
+  SET_FILTERED_SKLAD1,
   SET_FILTERED_SKLAD3,
   SET_SINGLE_SKLAD3,
-  SET_SKLAD3, SET_SKLAD3_ZALUSHOK,
+  SET_SKLAD3,
+  SET_SKLAD3_ZALUSHOK,
 } from "./actionTypes";
 
 export const getSklad3ZalushokAction = (data) => {
@@ -22,13 +28,13 @@ export const getSklad3ZalushokAction = (data) => {
     if (data) {
       const response = await fetchSklad3Zalushok(token, data);
       if (response.status === 200) {
-        dispatch({type: SET_SKLAD3_ZALUSHOK, sklad1_zalushok: response.data});
+        dispatch({ type: SET_SKLAD3_ZALUSHOK, sklad1_zalushok: response.data });
       }
       return response.status === 200;
     } else {
       const response = await fetchSklad3Zalushok(token, day);
       if (response.status === 200) {
-        dispatch({type: SET_SKLAD3_ZALUSHOK, sklad1_zalushok: response.data});
+        dispatch({ type: SET_SKLAD3_ZALUSHOK, sklad1_zalushok: response.data });
       }
       return response.status === 200;
     }
@@ -54,11 +60,18 @@ export const getSingleSklad3Action = (id) => {
   };
 };
 
-export const filterSklad3Action = ({sort, from, fromRozxod, toRozxod, to, search}) => {
+export const filterSklad3Action = ({
+  sort,
+  from,
+  fromRozxod,
+  toRozxod,
+  to,
+  search,
+}) => {
   return async (dispatch) => {
     const token = getToken();
     if (from && to) {
-      const response = await fetchFilteredSklad3({from, to, search, token});
+      const response = await fetchFilteredSklad3({ from, to, search, token });
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_SKLAD3,
@@ -71,7 +84,12 @@ export const filterSklad3Action = ({sort, from, fromRozxod, toRozxod, to, search
         });
       }
     } else if (fromRozxod && toRozxod) {
-      const response = await fetchFilteredSklad3({fromRozxod, toRozxod, search, token});
+      const response = await fetchFilteredSklad3({
+        fromRozxod,
+        toRozxod,
+        search,
+        token,
+      });
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_ROZXOD_SKLAD3,
@@ -112,7 +130,7 @@ export const deleteSklad3Action = (id) => {
     const token = getToken();
     const responce = await deleteSklad3(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_SKLAD3, id });
+      dispatch({ type: DELETE_SKLAD3, id, sklad3: responce.data });
     }
     return responce.status === 200;
   };

@@ -76,7 +76,7 @@ export const deleteZvituAction = (id) => {
     const token = getToken();
     const responce = await deleteZvitu(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_ZVITU, id });
+      dispatch({ type: DELETE_ZVITU, id, zvitu: responce.data });
     }
     return responce.status === 200;
   };

@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         machineModel: state.machineModel.filter(
-          (machineModel) => machineModel._id !== action._id
+          (machineModel) => machineModel._id !== action.id
         ),
       };
     default:

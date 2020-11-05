@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         prodSize: state.prodSize.filter(
-          (prodSize) => prodSize._id !== action._id
+          (prodSize) => prodSize._id !== action.id
         ),
       };
     default:

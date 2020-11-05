@@ -7,11 +7,12 @@ import {
   SET_MATERIALS,
 } from "../actionTypes";
 import {
-  createMaterials, deleteMaterials,
+  createMaterials,
+  deleteMaterials,
   fetchFilteredMaterials,
   fetchMaterials,
   fetchSingleMaterials,
-  patchMaterials
+  patchMaterials,
 } from "../../api/api";
 
 export const getMaterialsAction = () => {
@@ -75,7 +76,7 @@ export const deleteMaterialsAction = (id) => {
     const token = getToken();
     const responce = await deleteMaterials(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS, id });
+      dispatch({ type: DELETE_MATERIALS, id, materials: responce.data });
     }
     return responce.status === 200;
   };

@@ -53,15 +53,13 @@ export const createMachineModelAction = (machineModel) => {
   };
 };
 
-
-
 export const deleteMachineModelAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await deleteMachineModel(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_MACHINE_MODEL, id });
+    const response = await deleteMachineModel(id, token);
+    if (response.status === 200) {
+      dispatch({ type: DELETE_MACHINE_MODEL, id, machineModel: response.data });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };

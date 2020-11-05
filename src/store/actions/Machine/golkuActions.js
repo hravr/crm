@@ -56,10 +56,10 @@ export const createMachineGolkuAction = (machineGolku) => {
 export const deleteMachineGolkuAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
-    const responce = await deleteMachineGolku(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_MACHINE_GOLKU, id });
+    const response = await deleteMachineGolku(id, token);
+    if (response.status === 200) {
+      dispatch({ type: DELETE_MACHINE_GOLKU, id, machineGolku: response.data });
     }
-    return responce.status === 200;
+    return response.status === 200;
   };
 };

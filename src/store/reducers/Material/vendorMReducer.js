@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         materialVendor: state.materialVendor.filter(
-          (materialVendor) => materialVendor._id !== action._id
+          (materialVendor) => materialVendor._id !== action.id
         ),
       };
     default:

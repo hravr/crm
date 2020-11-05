@@ -57,13 +57,16 @@ export const createProdAsortumentAction = (prodAsortument) => {
   };
 };
 
-
 export const deleteProdAsortumentAction = (id) => {
   return async (dispatch) => {
     const token = getToken();
     const responce = await deleteProdAsortument(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_ASORTUMENT, id });
+      dispatch({
+        type: DELETE_PROD_ASORTUMENT,
+        id,
+        prodAsortument: responce.data,
+      });
     }
     return responce.status === 200;
   };

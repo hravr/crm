@@ -79,7 +79,7 @@ export const deleteProdArticleAction = (id) => {
     const token = getToken();
     const responce = await deleteProdArticle(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_ARTICLE, id });
+      dispatch({ type: DELETE_PROD_ARTICLE, id, prodArticle: responce.data });
     }
     return responce.status === 200;
   };

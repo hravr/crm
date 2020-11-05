@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
     case DELETE_SKLAD1:
       return {
         ...state,
-        sklad1: state.sklad1.filter((sklad1) => sklad1._id !== action._id),
+        sklad1: state.sklad1.filter((sklad1) => sklad1._id !== action.id),
       };
     case SET_SKLAD1_ZALUSHOK:
       return {

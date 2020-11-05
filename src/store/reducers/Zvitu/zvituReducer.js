@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
     case DELETE_ZVITU:
       return {
         ...state,
-        zvitu: state.zvitu.filter((zvitu) => zvitu._id !== action._id),
+        zvitu: state.zvitu.filter((zvitu) => zvitu._id !== action.id),
       };
 
     default:

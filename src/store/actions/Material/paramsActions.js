@@ -71,7 +71,11 @@ export const deleteMaterialParamsAction = (id) => {
     const token = getToken();
     const responce = await deleteMaterialParams(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS_PARAMS, id });
+      dispatch({
+        type: DELETE_MATERIALS_PARAMS,
+        id,
+        materialParams: responce.data,
+      });
     }
     return responce.status === 200;
   };

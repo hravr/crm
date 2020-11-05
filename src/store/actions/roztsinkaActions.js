@@ -80,7 +80,7 @@ export const deleteRoztsinkaAction = (id) => {
     const token = getToken();
     const responce = await deleteRoztsinka(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_ROZTSINKA, id });
+      dispatch({ type: DELETE_ROZTSINKA, id, singleRoztsinka: responce.data });
     }
     return responce.status === 200;
   };

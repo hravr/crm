@@ -58,7 +58,7 @@ export const deleteProdImageAction = (id) => {
     const token = getToken();
     const responce = await deleteProdImage(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_IMAGE, id });
+      dispatch({ type: DELETE_PROD_IMAGE, id , prodImage: responce.data});
     }
     return responce.status === 200;
   };
