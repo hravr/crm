@@ -197,10 +197,7 @@ const Sklad1 = ({
                     if (sklad.date_rozsxodu === null) {
                       return (
                         <tr key={sklad._id}>
-                          <td
-                          >
-                            {sklad.mishok.barcode || "Всі"}
-                          </td>
+                          <td>{sklad.mishok.barcode || "Всі"}</td>
                           <td>{sklad?.date_prixod?.slice(0, 10) || "Всі"}</td>
                           <td>
                             <span>
@@ -253,11 +250,16 @@ const Sklad1 = ({
                               <button onClick={() => deleteSklad1(sklad._id)}>
                                 Видалити
                               </button>
-                              <button onClick={() => {
-                              setIsVisible(!isVisible);
-                              setModalData(sklad.mishok._id);
-                              setSklad(sklad._id);
-                            }} className={s.sent}>Відправити</button>
+                              <button
+                                onClick={() => {
+                                  setIsVisible(!isVisible);
+                                  setModalData(sklad.mishok._id);
+                                  setSklad(sklad._id);
+                                }}
+                                className={s.sent}
+                              >
+                                Відправити
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -372,9 +374,9 @@ const Sklad1 = ({
                             <span>{sklad.masterId.fName} | </span>
                             {sklad.vyazalId.fName}
                           </td>
-                          <td>{sklad.machineId.name || "Всі"}</td>
-                          {/*<td>{sklad.mishok.articleId.name || "Всі"}</td>*/}
-                          <td>{sklad.mishok.classId.name || "Всі"}</td>
+                          <td>{sklad.machineId?.name || "Всі"}</td>
+                          <td>{sklad.mishok.articleId?.name || "Всі"}</td>
+                          <td>{sklad.mishok.classId?.name || "Всі"}</td>
                           <td>
                             <span>{sklad.mishok.sizeId.name || "Всі"} | </span>
                             {sklad.mishok.imageId.name || "Всі"}
@@ -491,7 +493,7 @@ const Sklad1 = ({
                       <span>{zal.masterId.fName} | </span>
                       {zal.vyazalId.fName}
                     </td>
-                    <td>{zal.machineId.name || "Всі"}</td>
+                    <td>{zal.machineId?.name || "Всі"}</td>
                     <td>{zal.mishok.articleId?.name || "Всі"}</td>
                     <td>{zal.mishok.classId?.name || "Всі"}</td>
                     <td>

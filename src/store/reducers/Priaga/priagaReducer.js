@@ -1,13 +1,15 @@
 import {
-  ADD_MATERIALS,
-  DELETE_MATERIALS,
-  SET_FILTERED_MATERIALS,
-  SET_SINGLE_MATERIALS,
-  SET_MATERIALS, SET_PRIAGA, SET_FILTERED_PRIAGA, SET_SINGLE_PRIAGA, ADD_PRIAGA, DELETE_PRIAGA,
+  SET_PRIAGA,
+  SET_FILTERED_PRIAGA,
+  SET_SINGLE_PRIAGA,
+  ADD_PRIAGA,
+  DELETE_PRIAGA,
+  DELETE_PRIAGA_ROZHID,
+  ADD_PRIAGA_ROZHID,
 } from "../../actions/actionTypes";
 
 const initialState = {
-  materials: "",
+  priaja: "",
   filtered: [],
   single: {},
 };
@@ -17,14 +19,19 @@ export default (state = initialState, action) => {
     case SET_PRIAGA:
       return {
         ...state,
-        materials: action.materials,
+        priaja: action.priaja,
       };
     case SET_SINGLE_PRIAGA:
-      return { ...state, single: action.singleMaterials };
+      return { ...state, single: action.singlePraja };
     case ADD_PRIAGA:
       return {
         ...state,
-        materials: [...state.materials, action.materials],
+        priaja: [...state.priaja, action.priaja],
+      };
+    case ADD_PRIAGA_ROZHID:
+      return {
+        ...state,
+        priajaRozhid: [...state.priajaRozhid, action.priajaRozhid],
       };
     case SET_FILTERED_PRIAGA:
       return {
@@ -34,7 +41,14 @@ export default (state = initialState, action) => {
     case DELETE_PRIAGA:
       return {
         ...state,
-        materials: state.materials.filter((material) => material._id !== action._id),
+        priaja: state.priaja.filter((material) => material._id !== action.id),
+      };
+    case DELETE_PRIAGA_ROZHID:
+      return {
+        ...state,
+        priajaRozhid: state.priajaRozhid.filter(
+          (material) => material._id !== action.id
+        ),
       };
     default:
       return state;

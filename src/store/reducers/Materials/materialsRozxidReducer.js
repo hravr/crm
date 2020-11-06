@@ -1,7 +1,9 @@
 import {
-  ADD_MATERIALS_ROZXID, DELETE_MATERIALS_ROZXID, SET_FILTERED_MATERIALS_ROZXID,
-  SET_MATERIALS_ROZXID, SET_SINGLE_MATERIALS_ROZXID
-
+  ADD_MATERIALS_ROZXID,
+  DELETE_MATERIALS_ROZXID,
+  SET_FILTERED_MATERIALS_ROZXID,
+  SET_MATERIALS_ROZXID,
+  SET_SINGLE_MATERIALS_ROZXID,
 } from "../../actions/actionTypes";
 
 const initialState = {
@@ -32,13 +34,8 @@ export default (state = initialState, action) => {
     case DELETE_MATERIALS_ROZXID:
       return {
         ...state,
-<<<<<<< HEAD
         zvituRozxid: state.zvituRozxid.filter(
           (zvituRozxid) => zvituRozxid._id !== action.id
-=======
-        materialRozxid: state.materialRozxid.filter(
-          (zvituRozxid) => zvituRozxid._id !== action._id
->>>>>>> 45163a2ca38226ea5acfb7d7a5b5eb0fca9185c2
         ),
       };
 
