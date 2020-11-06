@@ -5,9 +5,11 @@ import {
   SET_FILTERED_MATERIALS,
   SET_SINGLE_MATERIALS,
   SET_MATERIALS,
+  ADD_MATERIALS_ROZHID,
 } from "../actionTypes";
 import {
   createMaterials,
+  createMaterialsRozhid,
   deleteMaterials,
   fetchFilteredMaterials,
   fetchMaterials,
@@ -51,21 +53,31 @@ export const getSingleMaterialsAction = (id) => {
   };
 };
 
-export const createMaterialsAction = (zvitu) => {
+export const createMaterialsAction = (materials) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await createMaterials(zvitu, token);
+    const response = await createMaterials(materials, token);
     if (response.status === 200) {
       dispatch({ type: ADD_MATERIALS, token, materials: response.data });
       return true;
     }
   };
 };
-
-export const editMaterialsAction = (zvitu, id) => {
+export const createMaterialsRozhidAction = (materialsRozhid) => {
   return async (dispatch) => {
     const token = getToken();
-    const response = await patchMaterials(id, token, zvitu);
+    const response = await createMaterialsRozhid(materialsRozhid, token);
+    if (response.status === 200) {
+      dispatch({ type: ADD_MATERIALS_ROZHID, token, materialsRozhid: response.data });
+      return true;
+    }
+  };
+};
+
+export const editMaterialsAction = (materials, id) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await patchMaterials(id, token, materials);
     dispatch({ type: ADD_MATERIALS, token, materials: response.data });
     return response.status === 200;
   };

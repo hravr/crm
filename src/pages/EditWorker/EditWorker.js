@@ -60,7 +60,6 @@ const EditWorker = ({
 
   useEffect(() => {
     const { fName, sName, fatherName, operationId, status, _id } = singleWorker;
-    console.log(singleWorker);
     if (singleWorker._id) {
       setValues({
         ...values,

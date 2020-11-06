@@ -62,13 +62,13 @@ export const fetchSklad3Zalushok = (token, day) => {
 };
 
 export const fetchFilteredSklad1 = ({
-                                      from,
-                                      to,
-                                      search,
-                                      token,
-                                      fromRozxod,
-                                      toRozxod,
-                                    }) => {
+  from,
+  to,
+  search,
+  token,
+  fromRozxod,
+  toRozxod,
+}) => {
   let baseUrl = "/sklad1?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -124,13 +124,13 @@ export const fetchSklad2 = (token) => {
 };
 
 export const fetchFilteredSklad2 = ({
-                                      from,
-                                      to,
-                                      search,
-                                      token,
-                                      fromRozxod,
-                                      toRozxod,
-                                    }) => {
+  from,
+  to,
+  search,
+  token,
+  fromRozxod,
+  toRozxod,
+}) => {
   let baseUrl = "/sklad2?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -184,8 +184,15 @@ export const fetchSklad3 = (token) => {
   });
 };
 
-export const fetchFilteredSklad3 = ({from, to, search, token, fromRozxod, toRozxod}) => {
-  console.log(from, to, fromRozxod, toRozxod)
+export const fetchFilteredSklad3 = ({
+  from,
+  to,
+  search,
+  token,
+  fromRozxod,
+  toRozxod,
+}) => {
+  console.log(from, to, fromRozxod, toRozxod);
   let baseUrl = "/sklad3?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -240,8 +247,15 @@ export const fetchSklad4 = (token) => {
   });
 };
 
-export const fetchFilteredSklad4 = ({from, to, search, token, fromRozxod, toRozxod}) => {
-  console.log(from, to, fromRozxod, toRozxod)
+export const fetchFilteredSklad4 = ({
+  from,
+  to,
+  search,
+  token,
+  fromRozxod,
+  toRozxod,
+}) => {
+  console.log(from, to, fromRozxod, toRozxod);
   let baseUrl = "/sklad4?";
   if (search) {
     baseUrl += `search=${search}`;
@@ -1930,16 +1944,23 @@ export const fetchFilteredMaterials = (from, to, operationId, token) => {
   });
 };
 
-export const createMaterials = (zvitu, token) => {
-  return _axios.post("/materials", zvitu, {
+export const createMaterials = (materials, token) => {
+  return _axios.post("/materials", materials, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const createMaterialsRozhid = (materialsRozhid, token) => {
+  return _axios.post("/materials_rozxid", materialsRozhid, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
 
-export const patchMaterials = (id, token, zvitu) => {
-  return _axios.patch(`/materials/${id}`, zvitu, {
+export const patchMaterials = (id, token, materials) => {
+  return _axios.patch(`/materials/${id}`, materials, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1975,7 +1996,6 @@ export const fetchFilteredMaterialsZalushok = (day, token) => {
 };
 // ---------------------- Priaga ---------------------------------
 
-
 export const fetchPriaga = (token) => {
   return _axios.get("/priaga", {
     headers: {
@@ -1992,7 +2012,14 @@ export const fetchSinglePriaga = (id, token) => {
   });
 };
 
-export const fetchFilteredPriaga = ({from, to, operationId, fromRozxod, toRozxod, token}) => {
+export const fetchFilteredPriaga = ({
+  from,
+  to,
+  operationId,
+  fromRozxod,
+  toRozxod,
+  token,
+}) => {
   let baseUrl = "/priaga?";
   if (operationId) {
     baseUrl += `operationId=${operationId}`;
@@ -2016,16 +2043,17 @@ export const fetchFilteredPriaga = ({from, to, operationId, fromRozxod, toRozxod
   });
 };
 
-export const createPriaga = (zvitu, token) => {
-  return _axios.post("/priaga", zvitu, {
+export const createPriaga = (priaja, token) => {
+  return _axios.post("/priaga", priaja, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
 
-export const patchPriaga = (id, token, zvitu) => {
-  return _axios.patch(`/priaga/${id}`, zvitu, {
+
+export const patchPriaga = (id, token, priaga) => {
+  return _axios.patch(`/priaga/${id}`, priaga, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -2034,6 +2062,20 @@ export const patchPriaga = (id, token, zvitu) => {
 
 export const deletePriaga = (id, token) => {
   return _axios.delete(`/priaga/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const createPriagaRozhid = (priajaRozhid, token) => {
+  return _axios.post("/priaga_rozxid", priajaRozhid, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const deletePriagaRozhid = (id, token) => {
+  return _axios.delete(`/priaga_rozxid/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -2059,4 +2101,3 @@ export const fetchFilteredPriagaZalushok = (day, token) => {
     },
   });
 };
-
