@@ -38,6 +38,8 @@ const Sklad2 = ({
   const [skladToModal, setSklad] = useState();
   const h = useHistory();
 
+  const handleDelete = () => {};
+
   useEffect(() => {
     (async () => {
       await getSklad1();
@@ -385,15 +387,15 @@ const Sklad2 = ({
                           {/*<td>{sklad.mishok.articleId.name || "Всі"}</td>*/}
                           <td>{sklad.mishok.classId?.name || "Всі"}</td>
                           <td>
-                            <span>{sklad.mishok.sizeId.name || "Всі"} | </span>
-                            {sklad.mishok.imageId.name || "Всі"}
+                            <span>{sklad.mishok.sizeId?.name || "Всі"} | </span>
+                            {sklad.mishok.imageId?.name || "Всі"}
                           </td>
-                          <td>{sklad.mishok.colorId.name || "Всі"}</td>
+                          <td>{sklad.mishok.colorId?.name || "Всі"}</td>
                           <td>
                             <span>
                               {sklad.mishok?.asortumentId?.name || "Всі"} |{" "}
                             </span>
-                            {sklad.mishok.typeId.name || "Всі"}
+                            {sklad.mishok.typeId?.name || "Всі"}
                           </td>
                           <td>
                             {sklad.mishok.gatynok1 +
@@ -409,7 +411,9 @@ const Sklad2 = ({
                           <td className={s.btn}>
                             <div className={s.table__btn}>
                               <button className={s.del}>Редагувати</button>
-                              <button>Видалити</button>
+                              <button onClick={() => deleteSklad1(sklad._id)}>
+                                Видалити
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -454,7 +458,9 @@ const Sklad2 = ({
                           <td className={s.btn}>
                             <div className={s.table__btn}>
                               <button className={s.del}>Редагувати</button>
-                              <button>Видалити</button>
+                              <button onClick={() => deleteSklad1(sklad._id)}>
+                                Видалити
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -526,7 +532,9 @@ const Sklad2 = ({
                     <td className={s.btn}>
                       <div className={s.table__btn}>
                         <button className={s.del}>Редагувати</button>
-                        <button>Видалити</button>
+                        <button onClick={() => deleteSklad1(zal._id)}>
+                          Видалити
+                        </button>
                       </div>
                     </td>
                   </tr>
