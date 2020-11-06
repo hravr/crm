@@ -160,6 +160,7 @@ const Sklad3 = ({
               {!filteredSklad1.length
                 ? sklad1 &&
                 sklad1.map((sklad) => {
+                  console.log(sklad.date_rozsxodu)
                   if (sklad.date_rozsxodu === null) {
                     return (
                       <tr key={sklad._id}>
