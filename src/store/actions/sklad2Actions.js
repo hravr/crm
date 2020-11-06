@@ -6,7 +6,7 @@ import {
   fetchSingleSklad2,
   fetchSklad2,
   patchSklad2,
-  fetchSklad2Zalushok,
+  fetchSklad2Zalushok, fetchSklad2to3, fetchSklad2to4,
 } from "../api/api";
 import {
   ADD_SKLAD2,
@@ -14,7 +14,7 @@ import {
   SET_FILTERED_ROZXOD_SKLAD2,
   SET_FILTERED_SKLAD2,
   SET_SINGLE_SKLAD2,
-  SET_SKLAD2,
+  SET_SKLAD2, SET_SKLAD2_TO3, SET_SKLAD2_TO4,
   SET_SKLAD2_ZALUSHOK,
 } from "./actionTypes";
 
@@ -132,5 +132,27 @@ export const deleteSklad2Action = (id) => {
       dispatch({ type: DELETE_SKLAD2, id, sklad2: responce.data });
     }
     return responce.status === 200;
+  };
+};
+
+export const postSklad2to3Action = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSklad2to3(token, data);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD2_TO3, sklad2to3: response.data });
+    }
+    return response.status === 200;
+  };
+};
+
+export const postSklad2to4Action = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSklad2to4(token, data);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD2_TO4, sklad2to4: response.data });
+    }
+    return response.status === 200;
   };
 };

@@ -335,6 +335,30 @@ export const fetchSklad1to3 = (token, data) => {
   });
 };
 
+export const fetchSklad2to4 = (token, data) => {
+  return _axios.post("/sklad2_4", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSklad3to4 = (token, data) => {
+  return _axios.post("/sklad3_4", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fetchSklad2to3 = (token, data) => {
+  return _axios.post("/sklad2_3", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchWorkers = (token) => {
   return _axios.get("/workers", {
     headers: {

@@ -36,7 +36,7 @@ const EditSklad4 = ({
   fetchProdSezon,
   seasonId,
   fetchProdAsortument,
-  asortument,
+  asortumentId,
   fetchProdImage,
   imageId,
   fetchProdClass,
@@ -111,11 +111,11 @@ const EditSklad4 = ({
     });
   };
 
-  const asortumentSelect = (asortument) => {
+  const asortumentSelect = (asortumentId) => {
     setValues({
       ...values,
-      asortument: asortument.value,
-      asortumentName: asortument.label,
+      asortumentId: asortumentId.value,
+      asortumentName: asortumentId.label,
     });
   };
 
@@ -169,12 +169,12 @@ const EditSklad4 = ({
 
   useEffect(() => {
     setAsortumenOptions(
-      asortument.length &&
-        asortument.map((asort) => {
+      asortumentId.length &&
+        asortumentId.map((asort) => {
           return { label: asort.name, value: asort._id };
         })
     );
-  }, [asortument]);
+  }, [asortumentId]);
 
   useEffect(() => {
     setClassOptions(
@@ -238,7 +238,7 @@ const EditSklad4 = ({
       machineId,
       packId,
       articleId,
-      asortument,
+      asortumentId,
       classId,
       mishok,
       _id,
@@ -264,8 +264,8 @@ const EditSklad4 = ({
         packName: packId?.name,
         articleId,
         articleName: mishok.articleId?.name,
-        asortument,
-        asortumentName: mishok.asortument?.name,
+        asortumentId,
+        asortumentName: mishok.asortumentId?.name,
         gatynok1: mishok.gatynok1,
         gatynok2: mishok.gatynok2,
         gatynok3: mishok.gatynok3,
@@ -403,8 +403,8 @@ const EditSklad4 = ({
             </div>
             <Select
               options={asortumenOptions}
-              value={{ label: values.asortumentName, value: values.asortument }}
-              name="asortument"
+              value={{ label: values.asortumentName, value: values.asortumentId }}
+              name="asortumentId"
               onChange={asortumentSelect}
             />
           </div>
@@ -451,7 +451,7 @@ const EditSklad4 = ({
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
-    asortument: "",
+    asortumentId: "",
     typeId: "",
     sizeId: "",
     seasonId: "",
@@ -471,20 +471,19 @@ const formikHOC = withFormik({
     { props: { editSklad4, history, singleSklad4 } }
   ) => {
     const pruhudToSubmit = {
-      asortument: values.asortument,
-      typeId: values.typeId,
-      sizeId: values.sizeId,
-      seasonId: values.seasonId,
-      classId: values.classId,
-      imageId: values.imageId,
-      colorId: values.colorId,
-      date_rozsxodu: values.date_rozsxodu,
-      gatynok1: values.gatynok1,
-      gatynok2: values.gatynok2,
-      gatynok3: values.gatynok3,
-      machineId: values.machineId,
+      asortumentId: !!values.asortumentId ? values.asortumentId : (singleSklad4.mishok.asortumentId?._id || null),
+      typeId: !!values.typeId ? values.typeId : (singleSklad4.mishok.typeId?._id || null),
+      sizeId: !!values.sizeId ? values.sizeId : (singleSklad4.mishok.sizeId?._id || null),
+      seasonId: !!values.seasonId ? values.seasonId : (singleSklad4.mishok.seasonId?._id || null),
+      classId: !!values.classId ? values.classId : (singleSklad4.mishok.classId?._id || null),
+      imageId: !!values.imageId ? values.imageId : (singleSklad4.mishok.imageId?._id || null),
+      colorId: !!values.colorId ? values.colorId : (singleSklad4.mishok.colorId?._id || null),
+      date_prixod: values.date_prixod,
+      gatynok1: !!values.gatynok1 ? values.gatynok1 : (singleSklad4.mishok.gatynok1?._id || null),
+      gatynok2: !!values.gatynok2 ? values.gatynok2 : (singleSklad4.mishok.gatynok2?._id || null),
+      gatynok3: !!values.gatynok3 ? values.gatynok3 : (singleSklad4.mishok.gatynok3?._id || null),
+      articleId: !!values.articleId ? values.articleId : (singleSklad4.mishok.articleId?._id || null),
       packId: values.packId,
-      articleId: values.articleId,
     };
     const isSuccess = await editSklad4(pruhudToSubmit, singleSklad4._id);
     if (isSuccess) {
@@ -501,13 +500,12 @@ const mapStateToProps = (state) => {
     typeId: state.prodType.prodType,
     sizeId: state.prodSize.prodSize,
     seasonId: state.prodSezon.prodSezon,
-    asortument: state.prodAsortument.prodAsortument,
+    asortumentId: state.prodAsortument.prodAsortument,
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,
     machineId: state.machines.machines,
     packId: state.sklad4.sklad4,
-    operations: state.operations.operations,
     workers: state.workers.workers,
     singleSklad4: state.sklad4.single,
   };

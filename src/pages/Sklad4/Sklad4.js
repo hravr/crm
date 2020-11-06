@@ -45,6 +45,7 @@ const Sklad4 = ({
         setIsVisible={setIsVisible}
         modalData={modalData}
         sklad1={skladToModal}
+        from={4}
       />
       <div className={s.main}>
         <div className={s.title__container}>

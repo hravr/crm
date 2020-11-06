@@ -1,4 +1,4 @@
-import { getToken } from "../../utils/utils";
+import {getToken} from "../../utils/utils";
 import {
   createSklad1,
   deleteSklad1,
@@ -29,13 +29,13 @@ export const getSklad1ZalushokAction = (data) => {
     if (data) {
       const response = await fetchSklad1Zalushok(token, data);
       if (response.status === 200) {
-        dispatch({ type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data });
+        dispatch({type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data});
       }
       return response.status === 200;
     } else {
       const response = await fetchSklad1Zalushok(token, day);
       if (response.status === 200) {
-        dispatch({ type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data });
+        dispatch({type: SET_SKLAD1_ZALUSHOK, sklad1_zalushok: response.data});
       }
       return response.status === 200;
     }
@@ -47,17 +47,25 @@ export const getSklad1Action = () => {
     const token = getToken();
     const response = await fetchSklad1(token);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD1, sklad1: response.data });
+      dispatch({type: SET_SKLAD1, sklad1: response.data});
     }
     return response.status === 200;
   };
 };
+
+export const getSklad1RozxodAction = (id) => {
+  return async (dispatch) => {
+    dispatch({type: SET_SKLAD1, sklad1: []})
+    return
+  }
+}
+
 export const postSklad1to2Action = (data) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSklad1to2(token, data);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
+      dispatch({type: SET_SKLAD1_TO2, sklad1to2: response.data});
     }
     return response.status === 200;
   };
@@ -66,7 +74,7 @@ export const getSingleSklad1Action = (id) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await fetchSingleSklad1(id, token);
-    dispatch({ type: SET_SINGLE_SKLAD1, singleSklad1: response.data });
+    dispatch({type: SET_SINGLE_SKLAD1, singleSklad1: response.data});
   };
 };
 export const getSklad1to2Action = () => {
@@ -74,7 +82,7 @@ export const getSklad1to2Action = () => {
     const token = getToken();
     const response = await fetchSklad1to2(token);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
+      dispatch({type: SET_SKLAD1_TO2, sklad1to2: response.data});
     }
     return response.status === 200;
   };
@@ -84,7 +92,7 @@ export const postSklad1to3Action = (data) => {
     const token = getToken();
     const response = await fetchSklad1to3(token, data);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
+      dispatch({type: SET_SKLAD1_TO2, sklad1to2: response.data});
     }
     return response.status === 200;
   };
@@ -95,24 +103,26 @@ export const postSklad1to4Action = (data) => {
     const token = getToken();
     const response = await fetchSklad1to4(token, data);
     if (response.status === 200) {
-      dispatch({ type: SET_SKLAD1_TO2, sklad1to2: response.data });
+      dispatch({type: SET_SKLAD1_TO2, sklad1to2: response.data});
     }
     return response.status === 200;
   };
 };
 
-export const filterSklad1Action = ({
-  sort,
-  from,
-  fromRozxod,
-  toRozxod,
-  to,
-  search,
-}) => {
+export const filterSklad1Action = (
+  {
+    sort,
+    from,
+    fromRozxod,
+    toRozxod,
+    to,
+    search,
+  }
+) => {
   return async (dispatch) => {
     const token = getToken();
     if (from && to) {
-      const response = await fetchFilteredSklad1({ from, to, search, token });
+      const response = await fetchFilteredSklad1({from, to, search, token});
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_SKLAD1,
@@ -151,7 +161,7 @@ export const createSklad1Action = (sklad1) => {
     const token = getToken();
     const response = await createSklad1(sklad1, token);
     if (response.status === 200) {
-      dispatch({ type: ADD_SKLAD1, token, sklad1: response.data });
+      dispatch({type: ADD_SKLAD1, token, sklad1: response.data});
       return true;
     }
   };
@@ -161,7 +171,7 @@ export const editSklad1ction = (sklad1, id) => {
   return async (dispatch) => {
     const token = getToken();
     const response = await patchSklad1(sklad1, token, id);
-    dispatch({ type: ADD_SKLAD1, token, sklad1: response.data });
+    dispatch({type: ADD_SKLAD1, token, sklad1: response.data});
     return response.status === 200;
   };
 };
@@ -171,7 +181,7 @@ export const deleteSklad1Action = (id) => {
     const token = getToken();
     const responce = await deleteSklad1(id, token);
     if (responce.status === 200) {
-      dispatch({ type: DELETE_SKLAD1, id, sklad1: responce.data });
+      dispatch({type: DELETE_SKLAD1, id, sklad1: responce.data});
     }
     return responce.status === 200;
   };

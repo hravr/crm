@@ -20,7 +20,7 @@ const Input = ({
         {...{ value }}
         {...{ onChange }}
         {...{ placeholder }}
-        {...rest}
+        {...{rest}}
       />
     </div>
   );

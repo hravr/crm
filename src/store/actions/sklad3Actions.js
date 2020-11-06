@@ -4,8 +4,8 @@ import {
   deleteSklad3,
   fetchFilteredSklad1,
   fetchFilteredSklad3,
-  fetchSingleSklad3,
-  fetchSklad3,
+  fetchSingleSklad3, fetchSklad2to4,
+  fetchSklad3, fetchSklad3to4,
   fetchSklad3Zalushok,
   patchSklad3,
 } from "../api/api";
@@ -16,8 +16,8 @@ import {
   SET_FILTERED_ROZXOD_SKLAD3,
   SET_FILTERED_SKLAD1,
   SET_FILTERED_SKLAD3,
-  SET_SINGLE_SKLAD3,
-  SET_SKLAD3,
+  SET_SINGLE_SKLAD3, SET_SKLAD2_TO4,
+  SET_SKLAD3, SET_SKLAD3_TO4,
   SET_SKLAD3_ZALUSHOK,
 } from "./actionTypes";
 
@@ -133,5 +133,16 @@ export const deleteSklad3Action = (id) => {
       dispatch({ type: DELETE_SKLAD3, id, sklad3: responce.data });
     }
     return responce.status === 200;
+  };
+};
+
+export const postSklad3to4Action = (data) => {
+  return async (dispatch) => {
+    const token = getToken();
+    const response = await fetchSklad3to4(token, data);
+    if (response.status === 200) {
+      dispatch({ type: SET_SKLAD3_TO4, sklad2to4: response.data });
+    }
+    return response.status === 200;
   };
 };
