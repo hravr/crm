@@ -31,17 +31,26 @@ const EditZvitu = ({
   const { id } = useParams();
 
   const operationSelect = (operations) => {
-    setValues({ ...values, operationId: operations.value });
+    setValues({
+      ...values,
+      operationId: operations.value,
+      operationName: operations.label,
+    });
   };
   const workerSelect = (workers) => {
-    setValues({ ...values, workerId: workers.value });
+    setValues({
+      ...values,
+      workerId: workers.value,
+      workerName: workers.label,
+    });
   };
 
   useEffect(() => {
     setWorkersOptions(
-      workers.map((opt) => {
-        return { label: opt.fName, value: opt._id };
-      })
+      workers.length &&
+        workers.map((opt) => {
+          return { label: opt.fName, value: opt._id };
+        })
     );
   }, [workers]);
   useEffect(() => {
@@ -65,7 +74,7 @@ const EditZvitu = ({
       gatynok2,
       gatynok3,
       operationId,
-      date_rozxodu,
+      date_prixodu,
       workerId,
       _id,
     } = singleZvitu;
@@ -76,8 +85,10 @@ const EditZvitu = ({
         gatynok2,
         gatynok3,
         operationId,
-        date_rozxodu,
+        operationName: operationId?.name,
+        date_prixodu,
         workerId,
+        workerName: workerId?.fName + " " + workerId.sName,
         _id,
       });
     }
@@ -119,8 +130,8 @@ const EditZvitu = ({
           <Input
             type="date"
             label="Дата"
-            value={values.date_rozxodu}
-            name="date_rozxodu"
+            value={values.date_prixodu}
+            name="date_prixodu"
             onChange={handleChange}
           />
           <div className={s.select__container}>
@@ -129,7 +140,7 @@ const EditZvitu = ({
             </div>
             <Select
               options={operationsOptions}
-              value={{ label: values.operationId, value: values.operationId }}
+              value={{ label: values.operationName, value: values.operationId }}
               name="operationId"
               onChange={operationSelect}
             />
@@ -140,7 +151,7 @@ const EditZvitu = ({
             </div>
             <Select
               options={workersOptions}
-              value={{ label: values.workerId, value: values.workerId }}
+              value={{ label: values.workerName, value: values.workerId }}
               name="workerId"
               onChange={workerSelect}
             />
@@ -158,22 +169,25 @@ const formikHOC = withFormik({
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
-    date_rozxodu: "",
+    date_prixodu: "",
     operationId: "",
     workerId: "",
   }),
-  handleSubmit: async (values, { props: { editZvitu, singleZvitu } }) => {
+  handleSubmit: async (
+    values,
+    { props: { editZvitu, singleZvitu, history } }
+  ) => {
     const zvituToSubmit = {
       operationId: values.operationId,
       gatynok1: values.gatynok1,
       gatynok2: values.gatynok2,
       gatynok3: values.gatynok3,
       workerId: values.workerId,
-      date_rozxodu: values.date_rozxodu,
+      date_prixodu: values.date_prixodu,
     };
     const isSuccess = await editZvitu(zvituToSubmit, singleZvitu._id);
     if (isSuccess) {
-      alert("Success");
+      alert("Змінено") || history.push("/zvitu");
     } else {
       alert("error===");
     }
