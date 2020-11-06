@@ -45,6 +45,7 @@ const Sklad3 = ({
         setIsVisible={setIsVisible}
         modalData={modalData}
         sklad1={skladToModal}
+        from={3}
       />
       <div className={s.main}>
         <div className={s.title__container}>
@@ -196,7 +197,7 @@ const Sklad3 = ({
                           {" /" + sklad.mishok.gatynok3 || "Всі"}</td>
                         <td>{sklad?.changesId?.firstName || "Всі"}</td>
                         <td className={s.btn}>
-                          <div className={s.table__btn}>
+                          {/*<div className={s.table__btn}>*/}
                             <button
                               className={s.del}
                               onClick={() =>
@@ -208,7 +209,12 @@ const Sklad3 = ({
                             <button onClick={() => deleteSklad1(sklad._id)}>
                               Видалити
                             </button>
-                          </div>
+                            <button onClick={() => {
+                              setIsVisible(!isVisible);
+                              setModalData(sklad.mishok._id);
+                              setSklad(sklad._id);
+                            }} className={s.sent}>Відправити</button>
+                          {/*</div>*/}
                         </td>
                       </tr>
                     );

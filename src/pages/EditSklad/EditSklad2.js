@@ -1,56 +1,52 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./EditSklad.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
-import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
-import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
-import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortActions";
-import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
-import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
-import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
-import { getMachineAction } from "../../store/actions/Machine/machineActions";
-import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import {
-  editSklad2Action,
-  getSingleSklad2Action,
-  getSklad2Action,
-} from "../../store/actions/sklad2Actions";
-import { getOperationsAction } from "../../store/actions/operationsAction";
-import { getWorkersAction } from "../../store/actions/workersActions";
-import { useParams } from "react-router-dom";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {getProdTypeAction} from "../../store/actions/prodTypeTypeActions";
+import {getProdSizeAction} from "../../store/actions/prodTypeSizeActions";
+import {getProdSezonAction} from "../../store/actions/prodTypeSezonActions";
+import {getProdAsortumentAction} from "../../store/actions/prodTypeAsortActions";
+import {getProdClassAction} from "../../store/actions/prodTypeClassActions";
+import {getProdColorAction} from "../../store/actions/prodTypeColorActions";
+import {getProdImageAction} from "../../store/actions/prodTypeImageActions";
+import {getMachineAction} from "../../store/actions/Machine/machineActions";
+import {getProdArticleAction} from "../../store/actions/prodTypeArticleActions";
+import {editSklad2Action, getSingleSklad2Action, getSklad2Action,} from "../../store/actions/sklad2Actions";
+import {getOperationsAction} from "../../store/actions/operationsAction";
+import {getWorkersAction} from "../../store/actions/workersActions";
+import {useParams} from "react-router-dom";
 
 const EditSklad2 = ({
-  values,
-  handleChange,
-  handleSubmit,
-  setValues,
-  fetchProdType,
-  typeId,
-  fetchProdSize,
-  sizeId,
-  fetchProdSezon,
-  seasonId,
-  fetchProdAsortument,
-  asortument,
-  fetchProdImage,
-  imageId,
-  fetchProdClass,
-  classId,
-  fetchProdColor,
-  colorId,
-  fetchMachine,
-  getSklad2,
-  articleId,
-  fetchProdArticle,
-  operations,
-  workers,
-  singleSklad2,
-  getSingleSklad2,
-}) => {
+                      values,
+                      handleChange,
+                      handleSubmit,
+                      setValues,
+                      fetchProdType,
+                      typeId,
+                      fetchProdSize,
+                      sizeId,
+                      fetchProdSezon,
+                      seasonId,
+                      fetchProdAsortument,
+                      asortumentId,
+                      fetchProdImage,
+                      imageId,
+                      fetchProdClass,
+                      classId,
+                      fetchProdColor,
+                      colorId,
+                      fetchMachine,
+                      getSklad2,
+                      articleId,
+                      fetchProdArticle,
+                      operations,
+                      workers,
+                      singleSklad2,
+                      getSingleSklad2,
+                    }) => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
   const [sezonOptions, setSezonOptions] = useState([]);
@@ -78,12 +74,12 @@ const EditSklad2 = ({
     const temp = {};
     Object.entries(operationsObject).forEach(([key, value]) => {
       value.forEach((operation) => {
-        const isCorrect = !!operation.operationId.find(({ name }) => {
+        const isCorrect = !!operation.operationId.find(({name}) => {
           return name === key;
         });
         if (!isCorrect) return;
-        const { name, fName, sName } = operation;
-        const option = { label: `${fName} ${sName}`, value: operation._id };
+        const {name, fName, sName} = operation;
+        const option = {label: `${fName} ${sName}`, value: operation._id};
         if (!temp[key]) {
           temp[key] = [option];
           return;
@@ -103,7 +99,7 @@ const EditSklad2 = ({
   };
 
   const masterSelect = (sortId) => {
-    setValues({ ...values, sortId: sortId.value, sortName: sortId.label });
+    setValues({...values, sortId: sortId.value, sortName: sortId.label});
   };
 
   const articleSelect = (articleId) => {
@@ -114,25 +110,25 @@ const EditSklad2 = ({
     });
   };
 
-  const asortumentSelect = (asortument) => {
+  const asortumentSelect = (asortumentId) => {
     setValues({
       ...values,
-      asortument: asortument.value,
-      asortumentName: asortument.label,
+      asortumentId: asortumentId.value,
+      asortumentName: asortumentId.label,
     });
   };
 
   const classSelect = (classId) => {
-    setValues({ ...values, classId: classId.value, cName: classId.label });
+    setValues({...values, classId: classId.value, cName: classId.label});
   };
   const colorSelect = (colorId) => {
-    setValues({ ...values, colorId: colorId.value, colorName: colorId.label });
+    setValues({...values, colorId: colorId.value, colorName: colorId.label});
   };
   const imageSelect = (imageId) => {
-    setValues({ ...values, imageId: imageId.value, imageName: imageId.label });
+    setValues({...values, imageId: imageId.value, imageName: imageId.label});
   };
   const sizeSelect = (sizeId) => {
-    setValues({ ...values, sizeId: sizeId.value, sizeName: sizeId.label });
+    setValues({...values, sizeId: sizeId.value, sizeName: sizeId.label});
   };
 
   const sezonSelect = (seasonId) => {
@@ -143,76 +139,76 @@ const EditSklad2 = ({
     });
   };
   const typeSelect = (typeId) => {
-    setValues({ ...values, typeId: typeId.value, typeName: typeId.label });
+    setValues({...values, typeId: typeId.value, typeName: typeId.label});
   };
 
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
-        articleId.map((art) => {
-          return { label: art.name, value: art._id };
-        })
+      articleId.map((art) => {
+        return {label: art.name, value: art._id};
+      })
     );
   }, [articleId]);
 
   useEffect(() => {
     setAsortumenOptions(
-      asortument.length &&
-        asortument.map((asort) => {
-          return { label: asort.name, value: asort._id };
-        })
+      asortumentId.length &&
+      asortumentId.map((asort) => {
+        return {label: asort.name, value: asort._id};
+      })
     );
-  }, [asortument]);
+  }, [asortumentId]);
 
   useEffect(() => {
     setClassOptions(
       classId.length &&
-        classId.map((cls) => {
-          return { label: cls.name, value: cls._id };
-        })
+      classId.map((cls) => {
+        return {label: cls.name, value: cls._id};
+      })
     );
   }, [classId]);
   useEffect(() => {
     setColorOptions(
       colorId.length &&
-        colorId.map((col) => {
-          return { label: col.name, value: col._id };
-        })
+      colorId.map((col) => {
+        return {label: col.name, value: col._id};
+      })
     );
   }, [colorId]);
   useEffect(() => {
     setImageOptions(
       imageId.length &&
-        imageId.map((img) => {
-          return { label: img.name, value: img._id };
-        })
+      imageId.map((img) => {
+        return {label: img.name, value: img._id};
+      })
     );
   }, [imageId]);
 
   useEffect(() => {
     setSizeOptions(
       sizeId.length &&
-        sizeId.map((size) => {
-          return { label: size.name, value: size._id };
-        })
+      sizeId.map((size) => {
+        return {label: size.name, value: size._id};
+      })
     );
   }, [sizeId]);
 
   useEffect(() => {
     setSezonOptions(
       seasonId.length &&
-        seasonId.map((sez) => {
-          return { label: sez.name, value: sez._id };
-        })
+      seasonId.map((sez) => {
+        return {label: sez.name, value: sez._id};
+      })
     );
   }, [seasonId]);
 
   useEffect(() => {
     setTypeOptions(
       typeId.length &&
-        typeId.map((type) => {
-          return { label: type.name, value: type._id };
-        })
+      typeId.map((type) => {
+        return {label: type.name, value: type._id};
+      })
     );
   }, [typeId]);
 
@@ -226,7 +222,7 @@ const EditSklad2 = ({
       shveyaId,
       sortId,
       articleId,
-      asortument,
+      asortumentId,
       classId,
       mishok,
       _id,
@@ -252,8 +248,8 @@ const EditSklad2 = ({
         sortName: sortId?.fName + " " + sortId?.sName,
         articleId,
         articleName: mishok.articleId?.name,
-        asortument,
-        asortumentName: mishok.asortument?.name,
+        asortumentId,
+        asortumentName: mishok.asortumentId?.name,
         gatynok1: mishok.gatynok1,
         gatynok2: mishok.gatynok2,
         gatynok3: mishok.gatynok3,
@@ -262,7 +258,7 @@ const EditSklad2 = ({
     }
   }, [singleSklad2]);
 
-  const { id } = useParams();
+  const {id} = useParams();
   useEffect(() => {
     (async () => {
       await getSingleSklad2(id);
@@ -289,7 +285,7 @@ const EditSklad2 = ({
         <div className={s.left}>
           <Input
             type="date"
-            value={values.date_rozsxodu}
+            value={singleSklad2.date_prixod?.split('T')[0]}
             name="date_rozsxodu"
             label="Дата"
             onChange={handleChange}
@@ -321,7 +317,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={operationsOptions["Швея"]}
-              value={{ label: values.shveyaName, value: values.shveyaId }}
+              value={{label: values.shveyaName, value: values.shveyaId}}
               name="shveyaId"
               onChange={vyazalSelect}
             />
@@ -332,7 +328,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={operationsOptions["Сортувальниця"]}
-              value={{ label: values.sortName, value: values.sortId }}
+              value={{label: values.sortName, value: values.sortId}}
               name="sortId"
               onChange={masterSelect}
             />
@@ -343,7 +339,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={articleOptions}
-              value={{ label: values.articleName, value: values.articleId }}
+              value={{label: values.articleName, value: values.articleId}}
               name="articleId"
               onChange={articleSelect}
             />
@@ -356,7 +352,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={typeOptions}
-              value={{ label: values.typeName, value: values.typeId }}
+              value={{label: values.typeName, value: values.typeId}}
               name="typeId"
               onChange={typeSelect}
             />
@@ -367,7 +363,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={colorOptions}
-              value={{ label: values.colorName, value: values.colorId }}
+              value={{label: values.colorName, value: values.colorId}}
               name="colorId"
               onChange={colorSelect}
             />
@@ -378,7 +374,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={classOptions}
-              value={{ label: values.cName, value: values.classId }}
+              value={{label: values.cName, value: values.classId}}
               name="classId"
               onChange={classSelect}
             />
@@ -389,8 +385,8 @@ const EditSklad2 = ({
             </div>
             <Select
               options={asortumenOptions}
-              value={{ label: values.asortumentName, value: values.asortument }}
-              name="asortument"
+              value={{label: values.asortumentName, value: values.asortumentId}}
+              name="asortumentId"
               onChange={asortumentSelect}
             />
           </div>
@@ -400,7 +396,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={imageOptions}
-              value={{ label: values.imageName, value: values.imageId }}
+              value={{label: values.imageName, value: values.imageId}}
               name="imageId"
               onChange={imageSelect}
             />
@@ -411,7 +407,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={sezonOptions}
-              value={{ label: values.seasonName, value: values.seasonId }}
+              value={{label: values.seasonName, value: values.seasonId}}
               name="seasonId"
               onChange={sezonSelect}
             />
@@ -422,7 +418,7 @@ const EditSklad2 = ({
             </div>
             <Select
               options={sizeOptions}
-              value={{ label: values.sizeName, value: values.sizeId }}
+              value={{label: values.sizeName, value: values.sizeId}}
               name="sizeId"
               onChange={sizeSelect}
             />
@@ -430,14 +426,14 @@ const EditSklad2 = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Змінити" onClick={handleSubmit} />
+        <Button title="Змінити" onClick={handleSubmit}/>
       </div>
     </div>
   );
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
-    asortument: "",
+    asortumentId: "",
     typeId: "",
     sizeId: "",
     seasonId: "",
@@ -447,30 +443,30 @@ const formikHOC = withFormik({
     sortId: "",
     shveyaId: "",
     articleId: "",
-    date_rozsxodu: "",
+    // date_rozsxodu: "",
     gatynok1: "",
     gatynok2: "",
     gatynok3: "",
   }),
   handleSubmit: async (
     values,
-    { props: { editSklad2, history, singleSklad2 } }
+    {props: {editSklad2, history, singleSklad2}}
   ) => {
     const pruhudToSubmit = {
-      asortument: values.asortument,
-      typeId: values.typeId,
-      sizeId: values.sizeId,
-      seasonId: values.seasonId,
-      classId: values.classId,
-      imageId: values.imageId,
-      colorId: values.colorId,
-      date_rozsxodu: values.date_rozsxodu,
-      gatynok1: values.gatynok1,
-      gatynok2: values.gatynok2,
-      gatynok3: values.gatynok3,
-      sortId: values.sortId,
-      shveyaId: values.shveyaId,
-      articleId: values.articleId,
+      asortumentId: !!values.asortumentId ? values.asortumentId : (singleSklad2.mishok.asortumentId?._id || null),
+      typeId: !!values.typeId ? values.typeId : (singleSklad2.mishok.typeId?._id || null),
+      sizeId: !!values.sizeId ? values.sizeId : (singleSklad2.mishok.sizeId?._id || null),
+      seasonId: !!values.seasonId ? values.seasonId : (singleSklad2.mishok.seasonId?._id || null),
+      classId: !!values.classId ? values.classId : (singleSklad2.mishok.classId?._id || null),
+      imageId: !!values.imageId ? values.imageId : (singleSklad2.mishok.imageId?._id || null),
+      colorId: !!values.colorId ? values.colorId : (singleSklad2.mishok.colorId?._id || null),
+      date_prixod: values.date_prixod,
+      gatynok1: !!values.gatynok1 ? values.gatynok1 : (singleSklad2.mishok.gatynok1?._id || null),
+      gatynok2: !!values.gatynok2 ? values.gatynok2 : (singleSklad2.mishok.gatynok2?._id || null),
+      gatynok3: !!values.gatynok3 ? values.gatynok3 : (singleSklad2.mishok.gatynok3?._id || null),
+      articleId: !!values.articleId ? values.articleId : (singleSklad2.mishok.articleId?._id || null),
+      sortId: values.sortId._id,
+      shveyaId: values.shveyaId._id,
     };
     const isSuccess = await editSklad2(pruhudToSubmit, singleSklad2._id);
     if (isSuccess) {
@@ -487,7 +483,7 @@ const mapStateToProps = (state) => {
     typeId: state.prodType.prodType,
     sizeId: state.prodSize.prodSize,
     seasonId: state.prodSezon.prodSezon,
-    asortument: state.prodAsortument.prodAsortument,
+    asortumentId: state.prodAsortument.prodAsortument,
     classId: state.prodClass.prodClass,
     colorId: state.prodColor.prodColor,
     imageId: state.prodImage.prodImage,

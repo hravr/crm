@@ -53,7 +53,7 @@ tr:nth-child(even) {
 }
 
 .table__btn {
-    float: right;
+    /*float: right;*/
 }
 
 .del {
