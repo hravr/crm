@@ -112,7 +112,7 @@ const Materials = ({
                 <div className={s.exel__wrapper}>
                   <ReactToExcel
                     table="table-to-xls"
-                    filename="Sklad-1"
+                    filename="Materials"
                     sheet="sheet 1"
                     buttonText="EXPORT"
                     className="exel"
@@ -167,7 +167,7 @@ const Materials = ({
                   <div className={s.exel__wrapper}>
                     <ReactToExcel
                       table="table-to-xls"
-                      filename="Sklad-1"
+                      filename="Materials"
                       sheet="sheet 1"
                       buttonText="EXPORT"
                       className="exel"
@@ -213,7 +213,7 @@ const Materials = ({
                     <div className={s.exel__wrapper}>
                       <ReactToExcel
                         table="table-to-xls"
-                        filename="Sklad-1"
+                        filename="Materials"
                         sheet="sheet 1"
                         buttonText="EXPORT"
                         className="exel"

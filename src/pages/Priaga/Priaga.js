@@ -88,7 +88,7 @@ const Priaga = ({
                 <div className={s.exel__wrapper}>
                   <ReactToExcel
                     table="table-to-xls"
-                    filename="Sklad-1"
+                    filename="Praja"
                     sheet="sheet 1"
                     buttonText="EXPORT"
                     className="exel"
@@ -134,7 +134,7 @@ const Priaga = ({
                   <div className={s.exel__wrapper}>
                     <ReactToExcel
                       table="table-to-xls"
-                      filename="Sklad-1"
+                      filename="Praja"
                       sheet="sheet 1"
                       buttonText="EXPORT"
                       className="exel"
@@ -170,7 +170,7 @@ const Priaga = ({
                     <div className={s.exel__wrapper}>
                       <ReactToExcel
                         table="table-to-xls"
-                        filename="Sklad-1"
+                        filename="Praja"
                         sheet="sheet 1"
                         buttonText="EXPORT"
                         className="exel"

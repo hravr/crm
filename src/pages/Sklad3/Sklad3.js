@@ -86,7 +86,7 @@ const Sklad3 = ({
               <div className={s.exel__wrapper}>
                 <ReactToExcel
                   table="table-to-xls"
-                  filename="Sklad-1"
+                  filename="Sklad-3"
                   sheet="sheet 1"
                   buttonText="EXPORT"
                   className="exel"

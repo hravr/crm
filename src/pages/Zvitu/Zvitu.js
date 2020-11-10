@@ -119,7 +119,7 @@ const Zvitu = ({
               <div className={s.exel__wrapper}>
                 <ReactToExcel
                   table="table-to-xls"
-                  filename="Sklad-1"
+                  filename="Zvitu"
                   sheet="sheet 1"
                   buttonText="EXPORT"
                   className="exel"
@@ -262,7 +262,7 @@ const Zvitu = ({
               <div className={s.exel__wrapper}>
                 <ReactToExcel
                   table="table-to-xls"
-                  filename="Sklad-1"
+                  filename="Zvitu"
                   sheet="sheet 1"
                   buttonText="EXPORT"
                   className="exel"
@@ -405,7 +405,7 @@ const Zvitu = ({
               <div className={s.exel__wrapper}>
                 <ReactToExcel
                   table="table-to-xls"
-                  filename="Sklad-1"
+                  filename="Zvitu"
                   sheet="sheet 1"
                   buttonText="EXPORT"
                   className="exel"
@@ -451,12 +451,6 @@ const Zvitu = ({
                         </td>
                         <td>
                           <div className={s.table__btn}>
-                            <button
-                              className={s.del}
-                              onClick={() => h.push("/edit")}
-                            >
-                              Редагувати
-                            </button>
                             <button
                               onClick={() => deleteZvituRozxid(zvitz._id)}
                             >
