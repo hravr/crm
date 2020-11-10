@@ -158,11 +158,15 @@ export const filterSklad1Action = (
 
 export const createSklad1Action = (sklad1) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createSklad1(sklad1, token);
-    if (response.status === 200) {
-      dispatch({type: ADD_SKLAD1, token, sklad1: response.data});
-      return true;
+    try {
+      const token = getToken();
+      const response = await createSklad1(sklad1, token);
+      if (response.status === 200) {
+        dispatch({type: ADD_SKLAD1, token, sklad1: response.data});
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };

@@ -252,8 +252,8 @@ const Materials = ({
                       return (
                         <tr key={zvit._id}>
                           <td>{zvit._id}</td>
-                          <td>{zvit.param || "Всі"}</td>
-                          <td>{zvit.param_value || "Всі"}</td>
+                          <td>{zvit.paramsId?.name || "Всі"}</td>
+                          <td>{zvit.paramsValueId?.name || "Всі"}</td>
                           <td>{zvit.quantity || "Всі"}</td>
                           <td>{zvit.price || "Всі"}</td>
                           <td>{zvit.vendor || "Всі"}</td>

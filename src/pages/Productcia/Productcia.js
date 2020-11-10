@@ -70,7 +70,7 @@ const Productcia = ({
           <div className={s.filter__container}>
             <div className={s.search__container}>
               <Input
-                label="Пошук працівника"
+                label="Пошук"
                 onChange={({ target }) =>
                   setDataForFilter({ ...dataForFilter, search: target.value })
                 }

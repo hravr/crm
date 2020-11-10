@@ -1,4 +1,5 @@
 import {
+  ADD_MATERIALS_DILANKA,
   ADD_MATERIALS_ROZHID,
   DELETE_MATERIALS_ROZHID,
   SET_FILTER_MATERIALS_ROZHID,
@@ -22,7 +23,7 @@ export default (state = initialState, action) => {
         ...state,
         filtered: action.filtered,
       };
-    case ADD_MATERIALS_ROZHID:
+    case ADD_MATERIALS_DILANKA:
       return {
         ...state,
         materialRozhid: [...state.materialRozhid, action.materialRozhid],

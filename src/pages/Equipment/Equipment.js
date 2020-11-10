@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { withFormik } from "formik";
+import React, {useEffect, useState} from "react";
+import {withFormik} from "formik";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./Equipment.module.css";
 import classnames from "classnames";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { connect } from "react-redux";
+import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
+import {connect} from "react-redux";
 import {
   createMachineModelAction,
   deleteMachineModelAction,
@@ -15,23 +15,20 @@ import {
 import MachineDuymu from "../../misc/EqItems/MachineDuymu";
 import MachineGolku from "../../misc/EqItems/MachineGolku";
 import MachineVyazalni from "../../misc/EqItems/MachineVyazalni";
-import {
-  fetchSingleMachineModel,
-  patchMachineModel,
-} from "../../store/api/api";
-import { getToken } from "../../utils/utils";
+import {fetchSingleMachineModel, patchMachineModel,} from "../../store/api/api";
+import {getToken} from "../../utils/utils";
 import Machines from "../../misc/EqItems/Machines";
 
 const Equipment = ({
-  handleChange,
-  handleSubmit,
-  values,
-  fetchMachineModel,
-  machineModel,
-  filteredMachineModel,
-  filterMachineModel,
-  deleteMachineModel,
-}) => {
+                     handleChange,
+                     handleSubmit,
+                     values,
+                     fetchMachineModel,
+                     machineModel,
+                     filteredMachineModel,
+                     filterMachineModel,
+                     deleteMachineModel,
+                   }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [dataForFilter, setDataForFilter] = useState({});
   const [singleMachineModel, setsingleMachineModel] = useState({});
@@ -50,13 +47,13 @@ const Equipment = ({
     patchMachineModel(singleMachineModel._id, token, singleMachineModel).then(
       (res) => {
         res.status === 200 &&
-          setModel((prevState) =>
-            prevState.filter((model) =>
-              model._id === singleMachineModel._id
-                ? (model.name = singleMachineModel.name)
-                : model
-            )
-          );
+        setModel((prevState) =>
+          prevState.filter((model) =>
+            model._id === singleMachineModel._id
+              ? (model.name = singleMachineModel.name)
+              : model
+          )
+        );
       }
     );
   };
@@ -81,7 +78,7 @@ const Equipment = ({
     <Tabs>
       <div className={s.main}>
         <TabList className={s.tabs}>
-          {["Машини", "Моделі", "Голки", "Дюйми", "Машини в'язальні"].map(
+          {["Машини", "Голки", "Моделі", "Дюйми", "Машини в'язальні"].map(
             (item, i) => (
               <Tab
                 onClick={() => setActiveTabIndex(i)}
@@ -96,7 +93,7 @@ const Equipment = ({
           )}
         </TabList>
         <TabPanel>
-          <Machines />
+          <Machines/>
         </TabPanel>
         <TabPanel>
           <div className={s.title__container}>
@@ -107,8 +104,8 @@ const Equipment = ({
             <div className={s.search__container}>
               <Input
                 label="Пошук"
-                onChange={({ target }) =>
-                  setDataForFilter({ ...dataForFilter, search: target.value })
+                onChange={({target}) =>
+                  setDataForFilter({...dataForFilter, search: target.value})
                 }
               />
               <Button
@@ -126,7 +123,7 @@ const Equipment = ({
                   name="name"
                   onChange={handleChange}
                 />
-                <Button title="Створити" onClick={handleSubmit} />
+                <Button title="Створити" onClick={handleSubmit}/>
               </div>
             </div>
             <div className={s.filter__container}>
@@ -152,64 +149,64 @@ const Equipment = ({
               </tr>
               {!filteredMachineModel.length
                 ? machineModel &&
-                  machineModel.map((machineModel) => {
-                    return (
-                      <tr>
-                        <td>{machineModel.name || "err"}</td>
-                        <td>
-                          <div className={s.table__btn}>
-                            <button
-                              className={s.del}
-                              onClick={() => getSingleModel(machineModel._id)}
-                            >
-                              Редагувати
-                            </button>
-                            <button
-                              onClick={() =>
-                                deleteMachineModel(machineModel._id)
-                              }
-                            >
-                              Видалити
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
+                machineModel.map((machineModel) => {
+                  return (
+                    <tr>
+                      <td>{machineModel.name || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button
+                            className={s.del}
+                            onClick={() => getSingleModel(machineModel._id)}
+                          >
+                            Редагувати
+                          </button>
+                          <button
+                            onClick={() =>
+                              deleteMachineModel(machineModel._id)
+                            }
+                          >
+                            Видалити
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
                 : filteredMachineModel.length &&
-                  filteredMachineModel.map((filter) => {
-                    return (
-                      <tr>
-                        <td>{filter.name || "err"}</td>
-                        <td>
-                          <div className={s.table__btn}>
-                            <button
-                              className={s.del}
-                              onClick={() => getSingleModel(filter._id)}
-                            >
-                              Редагувати
-                            </button>
-                            <button
-                              onClick={() => deleteMachineModel(filter._id)}
-                            >
-                              Видалити
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                filteredMachineModel.map((filter) => {
+                  return (
+                    <tr>
+                      <td>{filter.name || "err"}</td>
+                      <td>
+                        <div className={s.table__btn}>
+                          <button
+                            className={s.del}
+                            onClick={() => getSingleModel(filter._id)}
+                          >
+                            Редагувати
+                          </button>
+                          <button
+                            onClick={() => deleteMachineModel(filter._id)}
+                          >
+                            Видалити
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
             </table>
           </div>
         </TabPanel>
         <TabPanel>
-          <MachineGolku />
+          <MachineGolku/>
         </TabPanel>
         <TabPanel>
-          <MachineDuymu />
+          <MachineDuymu/>
         </TabPanel>
         <TabPanel>
-          <MachineVyazalni />
+          <MachineVyazalni/>
         </TabPanel>
       </div>
     </Tabs>
@@ -222,7 +219,7 @@ const formikHOC = withFormik({
   }),
   handleSubmit: async (
     values,
-    { props: { createMachineModel }, resetForm }
+    {props: {createMachineModel}, resetForm}
   ) => {
     const isSuccess = await createMachineModel(values);
     if (isSuccess) {
@@ -230,7 +227,7 @@ const formikHOC = withFormik({
     } else {
       alert("error===");
     }
-    resetForm({ name: "" });
+    resetForm({name: ""});
   },
 })(Equipment);
 

@@ -2,66 +2,52 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import s from "./CreatePakType.module.css";
+import s from "./CreatePakParam.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
-import { createMaterialTypeAction } from "../../store/actions/Material/typeActions";
+import {createMaterialTypeAction, getMaterialTypeAction} from "../../store/actions/Material/typeActions";
 import { getMaterialVendorAction } from "../../store/actions/Material/vendorActions";
-import { getMaterialParamsAction } from "../../store/actions/Material/paramsActions";
+import {createMaterialParamsAction, getMaterialParamsAction} from "../../store/actions/Material/paramsActions";
 import { getMaterialRozhidAction } from "../../store/actions/Material/dilankaRozhoduActions";
+import {createMaterialParams} from "../../store/api/api";
 
-const CreatePakType = ({
+const CreatePakParam = ({
   values,
   handleChange,
   handleBlur,
   handleSubmit,
   setValues,
-  vendorId,
-  fetchMaterialVendor,
+  typeId,
+                          fetchMaterialType,
   dilankaId,
   errors,
   fetchMaterialRozhid,
 }) => {
-  const [vendorOptions, setVendorOptions] = useState([]);
-  const [paramsOptions, setParamsOptions] = useState([]);
-  const [rozhidOptions, setRozhidActions] = useState([]);
+  const [typeOptions, setTypeOptions] = useState([]);
 
-
-  const vendorSelect = (vendorId) => {
-    setValues({ ...values, vendorId: vendorId.value });
-  };
-  const rozhidSelect = (dilankaId) => {
-    setValues({ ...values, dilankaId: dilankaId.value });
+  const vendorSelect = (typeId) => {
+    setValues({ ...values, typeId: typeId.value });
   };
 
   useEffect(() => {
-    setRozhidActions(
-      dilankaId.length &&
-        dilankaId.map((opt) => {
+    setTypeOptions(
+      typeId.length &&
+        typeId.map((opt) => {
           return { label: opt.name, value: opt._id };
         })
     );
-  }, [dilankaId]);
+  }, [typeId]);
 
-  useEffect(() => {
-    setVendorOptions(
-      vendorId.length &&
-        vendorId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
-    );
-  }, [vendorId]);
   useEffect(() => {
     (async () => {
-      await fetchMaterialVendor();
-      await fetchMaterialRozhid();
+      await fetchMaterialType();
     })();
   }, []);
 
   return (
     <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Створити тип</span>
+        <span className={s.title}>Створити Параметр</span>
         <hr></hr>
       </div>
       <div className={s.main__container}>
@@ -75,24 +61,12 @@ const CreatePakType = ({
           />
           <div className={s.select__container}>
             <div className={s.span}>
-              <span>Ділянка розходу</span>
+              <span>Тип</span>
             </div>
             <Select
-              options={rozhidOptions}
-              value={values.dilankaId.label}
-              name="dilankaId"
-              onChange={rozhidSelect}
-              onBlur={handleBlur}
-            />
-          </div>
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Постачальник</span>
-            </div>
-            <Select
-              options={vendorOptions}
-              value={values.vendorId.label}
-              name="vendorId"
+              options={typeOptions}
+              value={values.typeId.label}
+              name="typeId"
               onChange={vendorSelect}
               onBlur={handleBlur}
             />
@@ -112,14 +86,14 @@ const CreatePakType = ({
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
     name: "",
-    vendorId: {},
+    typeId: {},
     dilankaId: {},
   }),
   validate: (values) => {
     const errors = {};
     if (
       !values.name ||
-      !values.vendorId ||
+      !values.typeId ||
       !values.dilankaId
     ) {
       errors.name = "Required";
@@ -127,33 +101,31 @@ const formikHOC = withFormik({
 
     return errors;
   },
-  handleSubmit: async (values, { props: { createPakType, history } }) => {
+  handleSubmit: async (values, { props: { createParams, history } }) => {
     const typeToSubmit = {
       name: values.name,
-      vendorId: values.vendorId,
-      dilankaId: values.dilankaId,
+      typeId: values.typeId,
     };
-    const isSuccess = await createPakType(typeToSubmit);
+    const isSuccess = await createParams(typeToSubmit);
     if (isSuccess) {
       history.push("/pak_materials") || alert("Створено");
     } else {
       alert("Помилка");
     }
   },
-})(CreatePakType);
+})(CreatePakParam);
+
 const mapStateToProps = (state) => {
   return {
     operations: state.operations.operations,
-    vendorId: state.materialVendor.materialVendor,
-    dilankaId: state.materialRozhid.materialRozhid,
+    typeId: state.materialType.materialType,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    createPakType: (materialType) =>
-      dispatch(createMaterialTypeAction(materialType)),
-    fetchMaterialVendor: () => dispatch(getMaterialVendorAction()),
-    fetchMaterialRozhid: () => dispatch(getMaterialRozhidAction()),
+    createParams: (materialType) =>
+      dispatch(createMaterialParamsAction(materialType)),
+    fetchMaterialType: () => dispatch(getMaterialTypeAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

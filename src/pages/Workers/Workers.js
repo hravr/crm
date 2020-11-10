@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./Workers.module.css";
-import {
-  deleteWorkerAction,
-  getWorkersAction,
-  searchWorkersAction,
-} from "../../store/actions/workersActions";
-import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import {deleteWorkerAction, getWorkersAction, searchWorkersAction,} from "../../store/actions/workersActions";
+import {connect} from "react-redux";
+import {Link, useHistory} from "react-router-dom";
 
 const Workers = ({
-  getWorkers,
-  filteredWorkers,
-  workers,
-  filetred,
-  searchWorkers,
-  deleteWorkers,
-  _id,
-}) => {
+                   getWorkers,
+                   filteredWorkers,
+                   workers,
+                   filetred,
+                   searchWorkers,
+                   deleteWorkers,
+                   _id,
+                 }) => {
   const [dataForFilter, setDataForFilter] = useState({});
   const h = useHistory();
   console.log(filteredWorkers);
@@ -38,8 +34,8 @@ const Workers = ({
           <div className={s.search__container}>
             <Input
               label="Пошук працівника"
-              onChange={({ target }) =>
-                setDataForFilter({ ...dataForFilter, search: target.value })
+              onChange={({target}) =>
+                setDataForFilter({...dataForFilter, search: target.value})
               }
             />
             <Button
@@ -52,7 +48,7 @@ const Workers = ({
         </div>
         <div>
           <Link to="create-worker" className={s.create__worker}>
-            <Button title="Створити працівника" />
+            <Button title="Створити працівника"/>
           </Link>
         </div>
       </div>
@@ -66,59 +62,59 @@ const Workers = ({
           </tr>
           {!filteredWorkers.length
             ? workers &&
-              workers?.map((worker) => {
-                return (
-                  <tr key={worker._id}>
-                    <td>{worker?.fName + " " + worker?.sName}</td>
-                    <td>{worker?.status}</td>
-                    <td>
-                      {worker?.operationId?.map((q) => {
-                        return q.name;
-                      })}
-                    </td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button
-                          className={s.del}
-                          onClick={() => h.push(`/edit-worker/${worker._id}`)}
-                        >
-                          Редагувати
-                        </button>
-                        <button onClick={() => deleteWorkers(worker._id)}>
-                          Видалити
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+            workers?.map((worker) => {
+              return (
+                <tr key={worker._id}>
+                  <td>{worker?.fName + " " + worker?.sName}</td>
+                  <td>{worker?.status === 'worked' ? "Працює":"Не працює"}</td>
+                  <td>
+                    {worker?.operationId?.map((q) => {
+                      return q.name;
+                    })}
+                  </td>
+                  <td>
+                    <div className={s.table__btn}>
+                      <button
+                        className={s.del}
+                        onClick={() => h.push(`/edit-worker/${worker._id}`)}
+                      >
+                        Редагувати
+                      </button>
+                      <button onClick={() => deleteWorkers(worker._id)}>
+                        Видалити
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
             : filteredWorkers.length &&
-              filteredWorkers?.map((filtered) => {
-                return (
-                  <tr key={filetred?._id}>
-                    <td>{filetred?.fName + " " + filetred?.sName}</td>
-                    <td>{filetred?.status}</td>
-                    {/* <td>
+            filteredWorkers?.map((filtered) => {
+              return (
+                <tr key={filetred?._id}>
+                  <td>{filetred?.fName + " " + filetred?.sName}</td>
+                  <td>{filetred?.status === 'worked' ? "Працює":"Не працює"}</td>
+                  {/* <td>
                       {filetred?.operationId?.map((q) => {
                         return q.name;
                       })}
                     </td> */}
-                    <td>
-                      <div className={s.table__btn}>
-                        <button
-                          className={s.del}
-                          onClick={() => h.push(`/edit-worker/${filetred._id}`)}
-                        >
-                          Редагувати
-                        </button>
-                        <button onClick={() => deleteWorkers(filtered._id)}>
-                          Видалити
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                  <td>
+                    <div className={s.table__btn}>
+                      <button
+                        className={s.del}
+                        onClick={() => h.push(`/edit-worker/${filetred._id}`)}
+                      >
+                        Редагувати
+                      </button>
+                      <button onClick={() => deleteWorkers(filtered._id)}>
+                        Видалити
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </table>
       </div>
     </div>

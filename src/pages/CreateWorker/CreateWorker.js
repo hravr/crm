@@ -1,41 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./CreateWorker.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import { createWorkerAction } from "../../store/actions/workersActions";
-import { getOperationsAction } from "../../store/actions/operationsAction";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {createWorkerAction} from "../../store/actions/workersActions";
+import {getOperationsAction} from "../../store/actions/operationsAction";
 
 const CreateWorker = ({
-  values,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  getOperations,
-  setValues,
-  operations,
-  errors,
-}) => {
+                        values,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        getOperations,
+                        setValues,
+                        operations,
+                        errors,
+                      }) => {
   const [operationsOptions, setOperationsOptions] = useState([]);
   const options = [
-    { value: "worked", label: "Працює" },
-    { value: "not-worked", label: "Не працює" },
+    {value: "worked", label: "Працює"},
+    {value: "not-worked", label: "Не працює"},
   ];
 
   const statusSelect = (options) => {
-    setValues({ ...values, status: options.value });
+    setValues({...values, status: options.value});
   };
 
   const operationSelect = (operations) => {
-    setValues({ ...values, operationId: operations.value });
+    operations.map(oper => {
+      setValues({...values, operationId: [...values.operationId, oper.value]});
+    })
   };
 
   useEffect(() => {
     setOperationsOptions(
       operations.map((opt) => {
-        return { label: opt.name, value: opt._id };
+        return {label: opt.name, value: opt._id};
       })
     );
   }, [operations]);
@@ -98,6 +100,7 @@ const CreateWorker = ({
                 options={operationsOptions}
                 value={values.operationId.label}
                 name="operationId"
+                isMulti
                 onChange={operationSelect}
                 onBlur={handleBlur}
               />
@@ -120,7 +123,7 @@ const formikHOC = withFormik({
     fName: "",
     sName: "",
     fatherName: "",
-    operationId: {},
+    operationId: "",
     status: {},
   }),
   validate: (values) => {
@@ -137,7 +140,7 @@ const formikHOC = withFormik({
 
     return errors;
   },
-  handleSubmit: async (values, { props: { createWorker, history } }) => {
+  handleSubmit: async (values, {props: {createWorker, history}}) => {
     const workerToSubmit = {
       status: values.status,
       operationId: values.operationId,

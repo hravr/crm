@@ -10,7 +10,7 @@ import {
   SET_MATERIALS_ROZHID,
   DELETE_MATERIALS_ROZHID,
   SET_FILTER_MATERIALS_ROZHID,
-  ADD_MATERIALS_ROZHID,
+  ADD_MATERIALS_ROZHID, ADD_MATERIALS_DILANKA,
 } from "../actionTypes";
 
 export const getMaterialRozhidAction = () => {
@@ -48,12 +48,12 @@ export const createMaterialRozhidAction = (materialRozhid) => {
     const response = await createMaterialRozhid(materialRozhid, token);
     if (response.status === 200) {
       dispatch({
-        type: ADD_MATERIALS_ROZHID,
-        token,
+        type: ADD_MATERIALS_DILANKA,
         materialRozhid: response.data,
       });
-      return true;
+      return response.status === 200;
     }
+    return response.status === 200;
   };
 };
 

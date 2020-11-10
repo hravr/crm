@@ -51,7 +51,8 @@ import CreatePrajaPruhid from "./pages/CreatePrajaPruhid/CreatePrajaPruhid";
 import EditPrajaPruhid from "./pages/EditPrajaPruhid/EditPrajaPruhid";
 import CreatePrajaRozhid from "./pages/CreatePrajaRozhid/CreatePrajaRozhid";
 import EditMaterialPruhid from "./pages/EditMaterialPruhid/EditMaterialPruhid";
-import { createMaterialRozhid } from "./store/api/api";
+import CreatePakParam from "./pages/CreatePakParam/CreatePakParam";
+import createMaterialRozhid from "./pages/CreateMaterialRozhid/CreateMaterialRozhid";
 
 function App(props) {
   // const Route = ({
@@ -111,6 +112,7 @@ function App(props) {
           <Route path="/create-prod-article" component={CreateProdArticle} />
           <Route path="/edit-prod-article/:id" component={EditProdArticle} />
           <Route path="/create-paktype" component={CreatePakType} />
+          <Route path="/create-pakparam" component={CreatePakParam} />
           <Route path="/create-pak-paramsvalue" component={CreateParamsValue} />
           <Route path="/edit-pak-paramsvalue/:id" component={EditPramsValue} />
           <Route path="/edit-paktype/:id" component={EditPakType} />

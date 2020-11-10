@@ -94,13 +94,12 @@ const CreateMachine = ({
       </div>
       <div className={s.main__container}>
         <div className={s.left}>
-          <Input
-            label="Назва"
-            value={values.name}
-            name="name"
-            onChange={handleChange}
-          />
-
+          {/*<Input*/}
+          {/*  label="Назва"*/}
+          {/*  value={values.name}*/}
+          {/*  name="name"*/}
+          {/*  onChange={handleChange}*/}
+          {/*/>*/}
           <div className={s.select__container}>
             <div className={s.span}>
               <span>Модель</span>
@@ -168,7 +167,7 @@ const formikHOC = withFormik({
   validate: (values) => {
     const errors = {};
     if (
-      !values.name ||
+      // !values.name ||
       !values.modelId ||
       !values.golkuId ||
       !values.vyazalniId ||

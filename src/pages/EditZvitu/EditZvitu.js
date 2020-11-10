@@ -1,53 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./EditZvitu.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import { getOperationsAction } from "../../store/actions/operationsAction";
-import {
-  editZvituAction,
-  getSingleZvituAction,
-} from "../../store/actions/Zvitu/zvituActions";
-import { getWorkersAction } from "../../store/actions/workersActions";
-import { useParams } from "react-router-dom";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {getOperationsAction} from "../../store/actions/operationsAction";
+import {editZvituAction, getSingleZvituAction,} from "../../store/actions/Zvitu/zvituActions";
+import {getWorkersAction} from "../../store/actions/workersActions";
+import {useParams} from "react-router-dom";
 
 const EditZvitu = ({
-  values,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  getOperations,
-  setValues,
-  operations,
-  getWorkers,
-  workers,
-  getSingleZvitu,
-  singleZvitu,
-}) => {
+                     values,
+                     handleChange,
+                     handleBlur,
+                     handleSubmit,
+                     getOperations,
+                     setValues,
+                     operations,
+                     getWorkers,
+                     workers,
+                     getSingleZvitu,
+                     singleZvitu,
+                   }) => {
   const [operationsOptions, setOperationsOptions] = useState([]);
   const [workersOptions, setWorkersOptions] = useState([]);
-  const { id } = useParams();
+  const {id} = useParams();
 
   const operationSelect = (operations) => {
-    setValues({ ...values, operationId: operations.value });
+    setValues({...values, operationId: operations.value});
   };
   const workerSelect = (workers) => {
-    setValues({ ...values, workerId: workers.value });
+    setValues({...values, workerId: workers.value});
   };
 
   useEffect(() => {
     setWorkersOptions(
       workers.map((opt) => {
-        return { label: opt.fName, value: opt._id };
+        return {label: opt.fName, value: opt._id};
       })
     );
   }, [workers]);
   useEffect(() => {
     setOperationsOptions(
       operations.map((opt) => {
-        return { label: opt.name, value: opt._id };
+        return {label: opt.name, value: opt._id};
       })
     );
   }, [operations]);
@@ -129,7 +126,7 @@ const EditZvitu = ({
             </div>
             <Select
               options={operationsOptions}
-              value={{ label: values.operationId, value: values.operationId }}
+              value={{label: values.operationId.name, value: values.operationId._id}}
               name="operationId"
               onChange={operationSelect}
             />
@@ -140,7 +137,7 @@ const EditZvitu = ({
             </div>
             <Select
               options={workersOptions}
-              value={{ label: values.workerId, value: values.workerId }}
+              value={{label: values.workerId.fName, value: values.workerId._id}}
               name="workerId"
               onChange={workerSelect}
             />
@@ -148,7 +145,7 @@ const EditZvitu = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Змінити" onClick={handleSubmit} />
+        <Button title="Змінити" onClick={handleSubmit}/>
       </div>
     </div>
   );
@@ -162,7 +159,7 @@ const formikHOC = withFormik({
     operationId: "",
     workerId: "",
   }),
-  handleSubmit: async (values, { props: { editZvitu, singleZvitu } }) => {
+  handleSubmit: async (values, {props: {editZvitu, singleZvitu}}) => {
     const zvituToSubmit = {
       operationId: values.operationId,
       gatynok1: values.gatynok1,
@@ -179,6 +176,7 @@ const formikHOC = withFormik({
     }
   },
 })(EditZvitu);
+
 const mapStateToProps = (state) => {
   return {
     singleZvitu: state.zvitu.single,

@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./PakItems.module.css";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
   createMaterialRozhidAction,
   deleteMaterialRozhidAction,
   filterMaterialRozhidAction,
   getMaterialRozhidAction,
 } from "../../store/actions/Material/dilankaRozhoduActions";
-import { withFormik } from "formik";
-import {
-  fetchSingleMaterialRozhid,
-  patchMaterialRozhid,
-} from "../../store/api/api";
-import { getToken } from "../../utils/utils";
+import {withFormik} from "formik";
+import {fetchSingleMaterialRozhid, patchMaterialRozhid,} from "../../store/api/api";
+import {getToken} from "../../utils/utils";
 
 const MaterialRozhid = ({
-  handleChange,
-  handleSubmit,
-  values,
-  fetchMaterialRozhid,
-  materialRozhid,
-  filterMaterialRozhid,
-  filteredMaterialRozhid,
-  deleteMaterialRozhid,
-}) => {
+                          handleChange,
+                          handleSubmit,
+                          values,
+                          fetchMaterialRozhid,
+                          materialRozhid,
+                          filterMaterialRozhid,
+                          filteredMaterialRozhid,
+                          deleteMaterialRozhid,
+                        }) => {
   const [dataForFilter, setDataForFilter] = useState({});
   const [singlePakMaterialRozhid, setSinglePakMaterialRozhid] = useState({});
   const [rozhid, setRozhid] = useState([]);
@@ -46,13 +43,13 @@ const MaterialRozhid = ({
       singlePakMaterialRozhid
     ).then((res) => {
       res.status === 200 &&
-        setRozhid((prevState) =>
-          prevState.filter((roz) =>
-            roz._id === singlePakMaterialRozhid._id
-              ? (roz.name = singlePakMaterialRozhid.name)
-              : roz
-          )
-        );
+      setRozhid((prevState) =>
+        prevState.filter((roz) =>
+          roz._id === singlePakMaterialRozhid._id
+            ? (roz.name = singlePakMaterialRozhid.name)
+            : roz
+        )
+      );
     });
   };
 
@@ -83,8 +80,8 @@ const MaterialRozhid = ({
         <div className={s.search__container}>
           <Input
             label="Пошук"
-            onChange={({ target }) =>
-              setDataForFilter({ ...dataForFilter, search: target.value })
+            onChange={({target}) =>
+              setDataForFilter({...dataForFilter, search: target.value})
             }
           />
           <Button
@@ -102,7 +99,7 @@ const MaterialRozhid = ({
               name="name"
               onChange={handleChange}
             />
-            <Button title="Створити" onClick={handleSubmit} />
+            <Button title="Створити" onClick={handleSubmit}/>
           </div>
         </div>
         <div className={s.filter__container}>
@@ -128,53 +125,53 @@ const MaterialRozhid = ({
           </tr>
           {!filteredMaterialRozhid.length
             ? materialRozhid &&
-              materialRozhid.map((materialRozhid) => {
-                return (
-                  <tr>
-                    <td>{materialRozhid.name || "err"}</td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button
-                          className={s.del}
-                          onClick={() => getSingleRozhid(materialRozhid._id)}
-                        >
-                          Редагувати
-                        </button>
-                        <button
-                          onClick={() =>
-                            deleteMaterialRozhid(materialRozhid._id)
-                          }
-                        >
-                          Видалити
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+            materialRozhid.map((materialRozhid) => {
+              return (
+                <tr>
+                  <td>{materialRozhid.name || "err"}</td>
+                  <td>
+                    <div className={s.table__btn}>
+                      <button
+                        className={s.del}
+                        onClick={() => getSingleRozhid(materialRozhid._id)}
+                      >
+                        Редагувати
+                      </button>
+                      <button
+                        onClick={() =>
+                          deleteMaterialRozhid(materialRozhid._id)
+                        }
+                      >
+                        Видалити
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
             : filteredMaterialRozhid.length &&
-              filteredMaterialRozhid.map((filter) => {
-                return (
-                  <tr>
-                    <td>{filter.name || "err"}</td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button
-                          className={s.del}
-                          onClick={() => getSingleRozhid(filter._id)}
-                        >
-                          Редагувати
-                        </button>
-                        <button
-                          onClick={() => deleteMaterialRozhid(filter._id)}
-                        >
-                          Видалити
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+            filteredMaterialRozhid.map((filter) => {
+              return (
+                <tr>
+                  <td>{filter.name || "err"}</td>
+                  <td>
+                    <div className={s.table__btn}>
+                      <button
+                        className={s.del}
+                        onClick={() => getSingleRozhid(filter._id)}
+                      >
+                        Редагувати
+                      </button>
+                      <button
+                        onClick={() => deleteMaterialRozhid(filter._id)}
+                      >
+                        Видалити
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </table>
       </div>
     </div>
@@ -187,9 +184,9 @@ const formikHOC = withFormik({
   }),
   handleSubmit: async (
     values,
-    { props: { createMaterialRozhid }, resetForm }
+    {props: {createRozhid}, resetForm}
   ) => {
-    const isSuccess = await createMaterialRozhid(values);
+    const isSuccess = await createRozhid(values);
     if (isSuccess) {
       alert("Створено");
     } else {
@@ -209,7 +206,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMaterialRozhid: (search) => dispatch(getMaterialRozhidAction(search)),
     filterMaterialRozhid: (data) => dispatch(filterMaterialRozhidAction(data)),
-    createMaterialRozhid: (data) => dispatch(createMaterialRozhidAction(data)),
+    createRozhid: (data) => dispatch(createMaterialRozhidAction(data)),
     deleteMaterialRozhid: (data) => dispatch(deleteMaterialRozhidAction(data)),
   };
 };

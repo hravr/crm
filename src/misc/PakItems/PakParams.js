@@ -1,34 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Button from "../../misc/Button/Button";
 import Input from "../../misc/Input/Input";
 import s from "./PakItems.module.css";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
   createMaterialParamsAction,
   deleteMaterialParamsAction,
   filterMaterialParamsAction,
   getMaterialParamsAction,
 } from "../../store/actions/Material/paramsActions";
-import { withFormik } from "formik";
-import {
-  fetchSingleMaterialParams,
-  patchMaterialParams,
-} from "../../store/api/api";
-import { getToken } from "../../utils/utils";
+import {withFormik} from "formik";
+import {fetchSingleMaterialParams, patchMaterialParams,} from "../../store/api/api";
+import {getToken} from "../../utils/utils";
+import {useHistory} from 'react-router-dom'
 
 const MaterialParams = ({
-  handleChange,
-  handleSubmit,
-  values,
-  fetchMaterialParams,
-  materialParams,
-  filterMaterialParams,
-  filteredMaterialParams,
-  deleteMaterialParams,
-}) => {
+                          handleChange,
+                          handleSubmit,
+                          values,
+                          fetchMaterialParams,
+                          materialParams,
+                          filterMaterialParams,
+                          filteredMaterialParams,
+                          deleteMaterialParams,
+                        }) => {
   const [dataForFilter, setDataForFilter] = useState({});
   const [singlePakMaterialParams, setSinglePakMaterialParams] = useState({});
   const [params, setParams] = useState([]);
+  const h = useHistory();
+
+  const handleCreate = () => {
+    h.push('/create-pakparam')
+  }
 
   const change = (e) => {
     setSinglePakMaterialParams({
@@ -46,13 +49,13 @@ const MaterialParams = ({
       singlePakMaterialParams
     ).then((res) => {
       res.status === 200 &&
-        setParams((prevState) =>
-          prevState.filter((par) =>
-            par._id === singlePakMaterialParams._id
-              ? (par.name = singlePakMaterialParams.name)
-              : par
-          )
-        );
+      setParams((prevState) =>
+        prevState.filter((par) =>
+          par._id === singlePakMaterialParams._id
+            ? (par.name = singlePakMaterialParams.name)
+            : par
+        )
+      );
     });
   };
 
@@ -83,8 +86,8 @@ const MaterialParams = ({
         <div className={s.search__container}>
           <Input
             label="Пошук"
-            onChange={({ target }) =>
-              setDataForFilter({ ...dataForFilter, search: target.value })
+            onChange={({target}) =>
+              setDataForFilter({...dataForFilter, search: target.value})
             }
           />
           <Button
@@ -96,13 +99,13 @@ const MaterialParams = ({
         </div>
         <div className={s.filter__container}>
           <div className={s.search__container}>
-            <Input
-              label="Створити"
-              value={values.name}
-              name="name"
-              onChange={handleChange}
-            />
-            <Button title="Створити" onClick={handleSubmit} />
+            {/*<Input*/}
+            {/*  label="Створити"*/}
+            {/*  value={values.name}*/}
+            {/*  name="name"*/}
+            {/*  onChange={handleChange}*/}
+            {/*/>*/}
+            <Button title="Створити" onClick={handleCreate}/>
           </div>
         </div>
         <div className={s.filter__container}>
@@ -128,53 +131,53 @@ const MaterialParams = ({
           </tr>
           {!filteredMaterialParams.length
             ? materialParams &&
-              materialParams.map((materialParams) => {
-                return (
-                  <tr>
-                    <td>{materialParams.name || "err"}</td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button
-                          className={s.del}
-                          onClick={() => getSingleParams(materialParams._id)}
-                        >
-                          Редагувати
-                        </button>
-                        <button
-                          onClick={() =>
-                            deleteMaterialParams(materialParams._id)
-                          }
-                        >
-                          Видалити
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+            materialParams.map((materialParams) => {
+              return (
+                <tr>
+                  <td>{materialParams.name || "err"}</td>
+                  <td>
+                    <div className={s.table__btn}>
+                      <button
+                        className={s.del}
+                        onClick={() => getSingleParams(materialParams._id)}
+                      >
+                        Редагувати
+                      </button>
+                      <button
+                        onClick={() =>
+                          deleteMaterialParams(materialParams._id)
+                        }
+                      >
+                        Видалити
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
             : filteredMaterialParams.length &&
-              filteredMaterialParams.map((filter) => {
-                return (
-                  <tr>
-                    <td>{filter.name || "err"}</td>
-                    <td>
-                      <div className={s.table__btn}>
-                        <button
-                          className={s.del}
-                          onClick={() => getSingleParams(filter._id)}
-                        >
-                          Редагувати
-                        </button>
-                        <button
-                          onClick={() => deleteMaterialParams(filter._id)}
-                        >
-                          Видалити
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+            filteredMaterialParams.map((filter) => {
+              return (
+                <tr>
+                  <td>{filter.name || "err"}</td>
+                  <td>
+                    <div className={s.table__btn}>
+                      <button
+                        className={s.del}
+                        onClick={() => getSingleParams(filter._id)}
+                      >
+                        Редагувати
+                      </button>
+                      <button
+                        onClick={() => deleteMaterialParams(filter._id)}
+                      >
+                        Видалити
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </table>
       </div>
     </div>
@@ -187,7 +190,7 @@ const formikHOC = withFormik({
   }),
   handleSubmit: async (
     values,
-    { props: { createMaterialParams }, resetForm }
+    {props: {createMaterialParams}, resetForm}
   ) => {
     const isSuccess = await createMaterialParams(values);
     if (isSuccess) {
@@ -195,7 +198,7 @@ const formikHOC = withFormik({
     } else {
       alert("error===");
     }
-    resetForm({ name: "" });
+    resetForm({name: ""});
   },
 })(MaterialParams);
 
