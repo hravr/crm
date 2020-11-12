@@ -10,7 +10,6 @@ import {
   getSingleMaterialTypeAction,
 } from "../../store/actions/Material/typeActions";
 import { getMaterialVendorAction } from "../../store/actions/Material/vendorActions";
-import { getMaterialParamsAction } from "../../store/actions/Material/paramsActions";
 import { getMaterialRozhidAction } from "../../store/actions/Material/dilankaRozhoduActions";
 import { useParams } from "react-router-dom";
 
@@ -20,26 +19,16 @@ const EditPakType = ({
   handleBlur,
   handleSubmit,
   setValues,
-  paramsId,
   vendorId,
   fetchMaterialVendor,
-  fetchMaterialParams,
   dilankaId,
   fetchMaterialRozhid,
   getSingleType,
   singleType,
 }) => {
   const [vendorOptions, setVendorOptions] = useState([]);
-  const [paramsOptions, setParamsOptions] = useState([]);
   const [rozhidOptions, setRozhidActions] = useState([]);
   const { id } = useParams();
-  const paramsSelect = (paramsId) => {
-    setValues({
-      ...values,
-      paramsId: paramsId.value,
-      paramsName: paramsId.label,
-    });
-  };
 
   const vendorSelect = (vendorId) => {
     setValues({
@@ -64,14 +53,7 @@ const EditPakType = ({
         })
     );
   }, [dilankaId]);
-  useEffect(() => {
-    setParamsOptions(
-      paramsId.length &&
-        paramsId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
-    );
-  }, [paramsId]);
+
   useEffect(() => {
     setVendorOptions(
       vendorId.length &&
@@ -84,7 +66,6 @@ const EditPakType = ({
     (async () => {
       await getSingleType(id);
       await fetchMaterialVendor();
-      await fetchMaterialParams();
       await fetchMaterialRozhid();
     })();
   }, []);
@@ -143,22 +124,10 @@ const EditPakType = ({
               onBlur={handleBlur}
             />
           </div>
-          <div className={s.select__container}>
-            <div className={s.span}>
-              <span>Параметер</span>
-            </div>
-            <Select
-              options={paramsOptions}
-              value={{ label: values.paramsName, value: values.paramsId }}
-              name="paramsId"
-              onChange={paramsSelect}
-              onBlur={handleBlur}
-            />
-          </div>
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Створити" onClick={handleSubmit} />
+        <Button title="Змінити" onClick={handleSubmit} />
       </div>
     </div>
   );
@@ -167,7 +136,6 @@ const formikHOC = withFormik({
   mapPropsToValues: () => ({
     name: "",
     vendorId: "",
-    paramsId: "",
     dilankaId: "",
   }),
 
@@ -178,7 +146,6 @@ const formikHOC = withFormik({
     const typeToSubmit = {
       name: values.name,
       vendorId: values.vendorId,
-      paramsId: values.paramsId,
       dilankaId: values.dilankaId,
     };
     const isSuccess = await editType(typeToSubmit, singleType._id);
@@ -193,7 +160,6 @@ const mapStateToProps = (state) => {
   return {
     operations: state.operations.operations,
     vendorId: state.materialVendor.materialVendor,
-    paramsId: state.materialParams.materialParams,
     dilankaId: state.materialRozhid.materialRozhid,
     singleType: state.materialType.single,
   };
@@ -204,7 +170,6 @@ const mapDispatchToProps = (dispatch) => {
     editType: (materialType, id) =>
       dispatch(editMaterialTypeAction(materialType, id)),
     fetchMaterialVendor: () => dispatch(getMaterialVendorAction()),
-    fetchMaterialParams: () => dispatch(getMaterialParamsAction()),
     fetchMaterialRozhid: () => dispatch(getMaterialRozhidAction()),
   };
 };

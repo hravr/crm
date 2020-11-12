@@ -2,70 +2,68 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
-import s from "./EditPramsValue.module.css";
+import s from "./EditPakParams.module.css";
 import { connect } from "react-redux";
 import { withFormik } from "formik";
-import { getMaterialParamsAction } from "../../store/actions/Material/paramsActions";
-import {
-  editMaterialParamsValueAction,
-  getSingleMaterialParamsValueAction,
-} from "../../store/actions/Material/paramsValueActions";
+import { getMaterialTypeAction } from "../../store/actions/Material/typeActions";
 import { useParams } from "react-router-dom";
+import {
+  editMaterialParamsAction,
+  getSingleMaterialParamsAction,
+} from "../../store/actions/Material/paramsActions";
 
-const EditParamsValue = ({
+const EditPakParams = ({
   values,
   handleChange,
   handleBlur,
   handleSubmit,
   setValues,
-  paramId,
-  fetchMaterialParams,
-  getSingleParamsValue,
-  singleParamsValue,
+  typeId,
+  getSingleParams,
   fetchMaterialType,
+  singleParams,
 }) => {
-  const [paramsOptions, setparamsOptions] = useState([]);
+  const [typeOptions, setTypeOptions] = useState([]);
   const { id } = useParams();
 
-  const paramsSelect = (paramId) => {
+  const typeSelect = (typeId) => {
     setValues({
       ...values,
-      paramId: paramId.value,
-      paramsName: paramId.label,
+      typeId: typeId.value,
+      typeName: typeId.label,
     });
   };
 
   useEffect(() => {
-    setparamsOptions(
-      paramId.length &&
-        paramId.map((opt) => {
+    setTypeOptions(
+      typeId.length &&
+        typeId.map((opt) => {
           return { label: opt.name, value: opt._id };
         })
     );
-  }, [paramId]);
-
+  }, [typeId]);
   useEffect(() => {
     (async () => {
-      await getSingleParamsValue(id);
-      await fetchMaterialParams();
+      await getSingleParams(id);
+      await fetchMaterialType(id);
     })();
   }, []);
   useEffect(() => {
-    const { name, paramId, _id } = singleParamsValue;
-    if (singleParamsValue._id) {
+    const { name, typeId, _id } = singleParams;
+    if (singleParams._id) {
       setValues({
         ...values,
         name,
-        paramId,
-        paramsName: paramId?.name || "Всі",
+        typeId,
+        typeName: typeId?.name || "Всі",
         _id,
       });
     }
-  }, [singleParamsValue]);
+  }, [singleParams]);
   return (
     <div className={s.main}>
       <div className={s.title__container}>
-        <span className={s.title}>Змінити значення параметру</span>
+        <span className={s.title}>Змінити параметер</span>
         <hr></hr>
       </div>
       <div className={s.main__container}>
@@ -79,13 +77,13 @@ const EditParamsValue = ({
           />
           <div className={s.select__container}>
             <div className={s.span}>
-              <span>Параметер</span>
+              <span>Тип</span>
             </div>
             <Select
-              options={paramsOptions}
-              value={{ label: values.paramsName, value: values.paramId }}
-              name="paramId"
-              onChange={paramsSelect}
+              options={typeOptions}
+              value={{ label: values.typeName, value: values.typeId }}
+              name="typeId"
+              onChange={typeSelect}
               onBlur={handleBlur}
             />
           </div>
@@ -100,41 +98,37 @@ const EditParamsValue = ({
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
     name: "",
-    paramId: "",
+    typeId: "",
   }),
 
   handleSubmit: async (
     values,
-    { props: { editParamsValue, history, singleParamsValue } }
+    { props: { editType, history, singleParams } }
   ) => {
-    const paramsValueToSubmit = {
+    const typeToSubmit = {
       name: values.name,
-      paramId: values.paramId,
+      typeId: values.typeId,
     };
-    const isSuccess = await editParamsValue(
-      paramsValueToSubmit,
-      singleParamsValue._id
-    );
+    const isSuccess = await editType(typeToSubmit, singleParams._id);
     if (isSuccess) {
       history.push("/pak_materials") || alert("Змінено");
     } else {
       alert("Помилка");
     }
   },
-})(EditParamsValue);
+})(EditPakParams);
 const mapStateToProps = (state) => {
   return {
-    singleParamsValue: state.materialParamsValue.single,
-    paramId: state.materialParams.materialParams,
+    typeId: state.materialType.materialType,
+    singleParams: state.materialParams.single,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleParamsValue: (id) =>
-      dispatch(getSingleMaterialParamsValueAction(id)),
-    editParamsValue: (materialParamsValue, id) =>
-      dispatch(editMaterialParamsValueAction(materialParamsValue, id)),
-    fetchMaterialParams: () => dispatch(getMaterialParamsAction()),
+    getSingleParams: (id) => dispatch(getSingleMaterialParamsAction(id)),
+    editType: (materialParams, id) =>
+      dispatch(editMaterialParamsAction(materialParams, id)),
+    fetchMaterialType: () => dispatch(getMaterialTypeAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

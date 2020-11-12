@@ -4,6 +4,7 @@ import {
   deleteMaterialParams,
   fetchMaterialParams,
   fetchSearchMaterialParams,
+  fetchSingleMaterialParams,
   patchMaterialParams,
 } from "../../api/api";
 import {
@@ -11,6 +12,7 @@ import {
   DELETE_MATERIALS_PARAMS,
   SET_FILTER_MATERIALS_PARAMS,
   ADD_MATERIALS_PARAMS,
+  SET_SINGLE_MATERIALS_PARAMS,
 } from "../actionTypes";
 
 export const getMaterialParamsAction = () => {
@@ -28,6 +30,20 @@ export const getMaterialParamsAction = () => {
   };
 };
 
+export const getSingleMaterialParamsAction = (id) => {
+  return async (dispatch) => {
+    try {
+      const token = getToken();
+      const response = await fetchSingleMaterialParams(id, token);
+      dispatch({
+        type: SET_SINGLE_MATERIALS_PARAMS,
+        singleParams: response.data,
+      });
+    } catch (e) {
+      return false;
+    }
+  };
+};
 export const filterMaterialParamsAction = ({ search }) => {
   return async (dispatch) => {
     try {
@@ -73,7 +89,7 @@ export const editMaterialParamsAction = (materialParams, id) => {
   return async (dispatch) => {
     try {
       const token = getToken();
-      const response = await patchMaterialParams(materialParams, token, id);
+      const response = await patchMaterialParams(id, materialParams, token);
       dispatch({ type: ADD_MATERIALS_PARAMS, token });
       return response.status === 200;
     } catch (e) {

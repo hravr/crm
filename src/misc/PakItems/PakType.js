@@ -56,7 +56,6 @@ const MaterialType = ({
           <tr>
             <th className={s.status__table}>Назва</th>
             <th className={s.status__table}>Ділянка розходу</th>
-            <th className={s.status__table}>Параметри</th>
             <th className={s.status__table}>Постачальник</th>
             <th className={s.status__table}></th>
           </tr>
@@ -67,7 +66,6 @@ const MaterialType = ({
                   <tr>
                     <td>{materialType.name || "Всі"}</td>
                     <td>{materialType.dilankaId?.name || "Всі"}</td>
-                    <td>{materialType.paramsId?.name || "Всі"}</td>
                     <td>{materialType.vendorId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
@@ -95,7 +93,6 @@ const MaterialType = ({
                   <tr>
                     <td>{filter.name || "Всі"}</td>
                     <td>{filter.dilankaId?.name || "Всі"}</td>
-                    <td>{filter.paramsId?.name || "Всі"}</td>
                     <td>{filter.vendorId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>

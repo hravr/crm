@@ -1663,7 +1663,7 @@ export const createMaterialParams = (materialParams, token) => {
   });
 };
 
-export const patchMaterialParams = (id, token, materialParams) => {
+export const patchMaterialParams = (id, materialParams, token) => {
   return _axios.patch(`/materials_params/${id}`, materialParams, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -2058,7 +2058,6 @@ export const createPriaga = (priaja, token) => {
     },
   });
 };
-
 
 export const patchPriaga = (id, token, priaga) => {
   return _axios.patch(`/priaga/${id}`, priaga, {

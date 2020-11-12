@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { withFormik } from "formik";
 import { getMaterialParamsAction } from "../../store/actions/Material/paramsActions";
 import { createMaterialParamsValueAction } from "../../store/actions/Material/paramsValueActions";
+import { getMaterialTypeAction } from "../../store/actions/Material/typeActions";
 
 const CreateParamsValue = ({
   values,
@@ -17,6 +18,8 @@ const CreateParamsValue = ({
   paramId,
   fetchMaterialParams,
   errors,
+  typeId,
+  fetchMaterialType,
 }) => {
   const [paramsOptions, setparamsOptions] = useState([]);
 

@@ -54,6 +54,7 @@ import EditMaterialPruhid from "./pages/EditMaterialPruhid/EditMaterialPruhid";
 import CreatePakParam from "./pages/CreatePakParam/CreatePakParam";
 import createMaterialRozhid from "./pages/CreateMaterialRozhid/CreateMaterialRozhid";
 import ZpRest from "./pages/ZpSklad/ZpRest/ZpRest";
+import EditPakParams from "./pages/EditPakParams/EditPakParams";
 
 function App(props) {
   // const Route = ({
@@ -129,6 +130,7 @@ function App(props) {
           <Route path="/сreate-praja-pruhid" component={CreatePrajaPruhid} />
           <Route path="/сreate-praja-rozxid" component={CreatePrajaRozhid} />
           <Route path="/edit-praja-pruhid/:id" component={EditPrajaPruhid} />
+          <Route path="/edit-pak-params/:id" component={EditPakParams} />
           <Route
             path="/create-materials-rozhid"
             component={createMaterialRozhid}
