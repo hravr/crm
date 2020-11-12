@@ -1,52 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./EditWorker.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import {
-  editWorkerAction,
-  getSingleWorkerAction,
-} from "../../store/actions/workersActions";
-import { getOperationsAction } from "../../store/actions/operationsAction";
-import { useParams } from "react-router-dom";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {editWorkerAction, getSingleWorkerAction,} from "../../store/actions/workersActions";
+import {getOperationsAction} from "../../store/actions/operationsAction";
+import {useParams} from "react-router-dom";
 
 const EditWorker = ({
-  values,
-  handleChange,
-  handleSubmit,
-  getOperations,
-  setValues,
-  operations,
-  singleWorker,
-  getSingleWorker,
-  errors,
-}) => {
+                      values,
+                      handleChange,
+                      handleSubmit,
+                      getOperations,
+                      setValues,
+                      operations,
+                      singleWorker,
+                      getSingleWorker,
+                      errors,
+                    }) => {
   const [operationsOptions, setOperationsOptions] = useState([]);
-  const { id } = useParams();
+  const {id} = useParams();
 
   const options = [
-    { value: "worked", label: "Працює" },
-    { value: "not-worked", label: "Не працює" },
+    {value: "worked", label: "Працює"},
+    {value: "not-worked", label: "Не працює"},
   ];
 
   const statusSelect = (options) => {
-    setValues({ ...values, status: options.value });
+    setValues({...values, status: options.value});
   };
 
   const operationSelect = (operations) => {
-    setValues({
-      ...values,
-      operationId: operations.value,
-      operationName: operations.label,
-    });
+    operations.map(oper => {
+      setValues({
+        ...values,
+        operationId: [...values.operationId, (oper.value)],
+        operationName: values.operationName + ', ' + oper.label
+      });
+    })
   };
 
   useEffect(() => {
     setOperationsOptions(
       operations.map((opt) => {
-        return { label: opt.name, value: opt._id };
+        return {label: opt.name, value: opt._id};
       })
     );
   }, [operations]);
@@ -59,14 +58,14 @@ const EditWorker = ({
   }, []);
 
   useEffect(() => {
-    const { fName, sName, fatherName, operationId, status, _id } = singleWorker;
+    const {fName, sName, fatherName, operationId, status, _id} = singleWorker;
     if (singleWorker._id) {
       setValues({
         ...values,
         fName,
         sName,
         fatherName,
-        operationId: operationId[0],
+        operationId: [operationId[0]._id],
         operationName: operationId[0].name,
         status,
         _id,
@@ -113,7 +112,7 @@ const EditWorker = ({
               options={options}
               name="status"
               onChange={statusSelect}
-              value={{ label: values.status, value: values.status }}
+              value={{label: values.status === 'worked' ? options[0].label : options[1].label}}
             />
             <div className={s.select__container}>
               <div className={s.span}>
@@ -121,11 +120,9 @@ const EditWorker = ({
               </div>
               <Select
                 options={operationsOptions}
-                value={{
-                  label: values.operationName,
-                  value: values.operationId,
-                }}
+                value={operationsOptions.filter(opt => values.operationId.includes(opt.value))}
                 name="operationId"
+                isMulti
                 onChange={operationSelect}
               />
             </div>
@@ -148,7 +145,7 @@ const formikHOC = withFormik({
       fName: "",
       sName: "",
       fatherName: "",
-      operationId: "",
+      operationId: [],
       status: "",
       _id: "",
     };
@@ -169,7 +166,7 @@ const formikHOC = withFormik({
   },
   handleSubmit: async (
     values,
-    { props: { editWorker, singleWorker, history } }
+    {props: {editWorker, singleWorker, history}}
   ) => {
     const workerToSubmit = {
       status: values.status,
@@ -178,14 +175,16 @@ const formikHOC = withFormik({
       fatherName: values.fatherName,
       sName: values.sName,
     };
-    const isSuccess = await editWorker(workerToSubmit, singleWorker._id);
-    if (isSuccess) {
-      history.push("/workers") || alert("Змінено");
-    } else {
-      alert("error===");
-    }
+    console.log(workerToSubmit)
+    // const isSuccess = await editWorker(workerToSubmit, singleWorker._id);
+    // if (isSuccess) {
+    //   history.push("/workers") || alert("Змінено");
+    // } else {
+    //   alert("error===");
+    // }
   },
 })(EditWorker);
+
 const mapStateToProps = (state) => {
   return {
     singleWorker: state.workers.single,

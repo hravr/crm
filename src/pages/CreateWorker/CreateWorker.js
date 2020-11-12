@@ -96,6 +96,7 @@ const CreateWorker = ({
               <div className={s.span}>
                 <span>Операція</span>
               </div>
+              {console.log(values.operationId)}
               <Select
                 options={operationsOptions}
                 value={values.operationId.label}
