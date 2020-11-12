@@ -376,7 +376,7 @@ const Sklad1 = ({
                             {sklad.vyazalId.fName}
                           </td>
                           <td>{sklad.machineId?.name || "Всі"}</td>
-                          {/*<td>{sklad.mishok.articleId.name || "Всі"}</td>*/}
+                          <td>{sklad.mishok?.articleId?.name || "Всі"}</td>
                           <td>{sklad.mishok.classId?.name || "Всі"}</td>
                           <td>
                             <span>{sklad.mishok.sizeId.name || "Всі"} | </span>
