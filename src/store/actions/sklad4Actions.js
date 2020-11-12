@@ -1,4 +1,4 @@
-import {getToken} from "../../utils/utils";
+import { getToken } from "../../utils/utils";
 import {
   createSklad4,
   deleteSklad4,
@@ -20,28 +20,43 @@ import {
 
 export const getSklad4Action = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSklad4(token);
-    if (response.status === 200) {
-      dispatch({type: SET_SKLAD4, sklad4: response.data});
+    try {
+      const token = getToken();
+      const response = await fetchSklad4(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_SKLAD4, sklad4: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
 export const getSingleSklad4Action = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSingleSklad4(id, token);
-    dispatch({type: SET_SINGLE_SKLAD4, singleSklad4: response.data});
+    try {
+      const token = getToken();
+      const response = await fetchSingleSklad4(id, token);
+      dispatch({ type: SET_SINGLE_SKLAD4, singleSklad4: response.data });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
-export const filterSklad4Action = ({sort, from, fromRozxod, toRozxod, to, search}) => {
+export const filterSklad4Action = ({
+  sort,
+  from,
+  fromRozxod,
+  toRozxod,
+  to,
+  search,
+}) => {
   return async (dispatch) => {
     const token = getToken();
     if (from && to) {
-      const response = await fetchFilteredSklad4({from, to, search, token});
+      const response = await fetchFilteredSklad4({ from, to, search, token });
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_SKLAD4,
@@ -54,7 +69,12 @@ export const filterSklad4Action = ({sort, from, fromRozxod, toRozxod, to, search
         });
       }
     } else if (fromRozxod && toRozxod) {
-      const response = await fetchFilteredSklad4({fromRozxod, toRozxod, search, token});
+      const response = await fetchFilteredSklad4({
+        fromRozxod,
+        toRozxod,
+        search,
+        token,
+      });
       if (response?.data) {
         dispatch({
           type: SET_FILTERED_ROZXOD_SKLAD4,
@@ -76,50 +96,68 @@ export const createSklad4Action = (sklad4) => {
       const token = getToken();
       const response = await createSklad4(sklad4, token);
       if (response.status === 200) {
-        dispatch({type: ADD_SKLAD4, token});
+        dispatch({ type: ADD_SKLAD4, token });
         return true;
       }
     } catch (e) {
-      return false
+      return false;
     }
   };
 };
 
 export const editSklad4ction = (sklad4, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchSklad4(sklad4, token, id);
-    dispatch({type: ADD_SKLAD4, token});
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchSklad4(sklad4, token, id);
+      dispatch({ type: ADD_SKLAD4, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteSklad4Action = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteSklad4(id, token);
-    if (responce.status === 200) {
-      dispatch({type: DELETE_SKLAD4, id, sklad4: responce.data});
+    try {
+      const token = getToken();
+      const responce = await deleteSklad4(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_SKLAD4, id, sklad4: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };
 export const getSklad4ZalushokAction = (data) => {
   return async (dispatch) => {
-    const token = getToken();
-    const day = new Date();
-    if (data) {
-      const response = await fetchSklad4Zalushok(token, data);
-      if (response.status === 200) {
-        dispatch({type: SET_SKLAD4_ZALUSHOK, sklad1_zalushok: response.data});
+    try {
+      const token = getToken();
+      const day = new Date();
+      if (data) {
+        const response = await fetchSklad4Zalushok(token, data);
+        if (response.status === 200) {
+          dispatch({
+            type: SET_SKLAD4_ZALUSHOK,
+            sklad1_zalushok: response.data,
+          });
+        }
+        return response.status === 200;
+      } else {
+        const response = await fetchSklad4Zalushok(token, day);
+        if (response.status === 200) {
+          dispatch({
+            type: SET_SKLAD4_ZALUSHOK,
+            sklad1_zalushok: response.data,
+          });
+        }
+        return response.status === 200;
       }
-      return response.status === 200;
-    } else {
-      const response = await fetchSklad4Zalushok(token, day);
-      if (response.status === 200) {
-        dispatch({type: SET_SKLAD4_ZALUSHOK, sklad1_zalushok: response.data});
-      }
-      return response.status === 200;
+    } catch (e) {
+      return false;
     }
   };
 };

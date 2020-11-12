@@ -17,10 +17,14 @@ import {
 
 export const getZvituAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchZvitu(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_ZVITU, zvitu: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchZvitu(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_ZVITU, zvitu: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -45,39 +49,55 @@ export const filterZvituAction = ({ from, to, operationId }) => {
 
 export const getSingleZvituAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSingleZvitu(id, token);
-    dispatch({ type: SET_SINGLE_ZVITU, singleZvitu: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchSingleZvitu(id, token);
+      dispatch({ type: SET_SINGLE_ZVITU, singleZvitu: response.data });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const createZvituAction = (zvitu) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createZvitu(zvitu, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_ZVITU, token, zvitu: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createZvitu(zvitu, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_ZVITU, token, zvitu: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editZvituAction = (zvitu, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchZvitu(id, token, zvitu);
-    dispatch({ type: ADD_ZVITU, token, zvitu: response.data });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchZvitu(id, token, zvitu);
+      dispatch({ type: ADD_ZVITU, token, zvitu: response.data });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteZvituAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteZvitu(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_ZVITU, id, zvitu: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deleteZvitu(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_ZVITU, id, zvitu: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

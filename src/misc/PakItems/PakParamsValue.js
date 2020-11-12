@@ -59,6 +59,7 @@ const MaterialParamsValue = ({
           <tr>
             <th className={s.status__table}>Назва</th>
             <th className={s.status__table}>Параметер</th>
+            <th className={s.status__table}>Тип</th>
             <th className={s.status__table}></th>
           </tr>
           {!filteredMaterialParamsValue.length
@@ -68,6 +69,9 @@ const MaterialParamsValue = ({
                   <tr>
                     <td>{materialParamsValue.name || "Всі"}</td>
                     <td>{materialParamsValue?.paramId?.name || "Всі"}</td>
+                    <td>
+                      {materialParamsValue?.paramId?.typeId?.name || "Всі"}
+                    </td>
                     <td>
                       <div className={s.table__btn}>
                         <button
@@ -98,6 +102,7 @@ const MaterialParamsValue = ({
                   <tr>
                     <td>{filter.name || "Всі"}</td>
                     <td>{filter?.paramId?.name || "Всі"}</td>
+                    <td>{filter?.paramId?.typeId?.name || "Всі"}</td>
                     <td>
                       <div className={s.table__btn}>
                         <button

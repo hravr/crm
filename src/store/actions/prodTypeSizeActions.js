@@ -15,12 +15,15 @@ import {
 
 export const getProdSizeAction = () => {
   return async (dispatch) => {
-    const token = getToken();
+    try { const token = getToken();
     const response = await fetchProdSize(token);
     if (response.status === 200) {
       dispatch({ type: SET_PROD_SIZE, prodSize: response.data });
     }
-    return response.status === 200;
+    return response.status === 200;  } catch (e) {
+      return false
+    }
+   
   };
 };
 export const filterProdSizeAction = ({ search }) => {
@@ -43,22 +46,28 @@ export const filterProdSizeAction = ({ search }) => {
 
 export const createProdSizeAction = (prodSize) => {
   return async (dispatch) => {
-    const token = getToken();
+    try {  const token = getToken();
     const response = await createProdSize(prodSize, token);
     if (response.status === 200) {
       dispatch({ type: ADD_PROD_SIZE, token, prodSize: response.data });
       return true;
+    } } catch (e) {
+      return false
     }
+   
   };
 };
 
 export const deleteProdSizeAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
+    try {const token = getToken();
     const responce = await deleteProdSize(id, token);
     if (responce.status === 200) {
       dispatch({ type: DELETE_PROD_SIZE, id, prodSize: responce.data });
     }
-    return responce.status === 200;
+    return responce.status === 200;  } catch (e) {
+      return false
+    }
+    
   };
 };

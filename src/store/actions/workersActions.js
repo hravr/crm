@@ -17,20 +17,28 @@ import {
 
 export const getWorkersAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchWorkers(token, id);
-    if (response.status === 200) {
-      dispatch({ type: SET_WORKERS, workers: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchWorkers(token, id);
+      if (response.status === 200) {
+        dispatch({ type: SET_WORKERS, workers: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
 export const getSingleWorkerAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchWorker(id, token);
-    dispatch({ type: SET_SINGLE_WORKER, singleWorker: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchWorker(id, token);
+      dispatch({ type: SET_SINGLE_WORKER, singleWorker: response.data });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
@@ -54,31 +62,41 @@ export const searchWorkersAction = ({ search }) => {
 
 export const createWorkerAction = (workers) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createWorker(workers, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_WORKER, token, workers: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createWorker(workers, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_WORKER, token, workers: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editWorkerAction = (workers, id) => {
   return async (dispatch) => {
-    const token = getToken();
+    try {const token = getToken();
     const response = await patchWorker(workers, token, id);
     dispatch({ type: ADD_WORKER, token, workers: response.data });
-    return response.status === 200;
+    return response.status === 200;  } catch (e) {
+      return false
+    }
+    
   };
 };
 
 export const deleteWorkerAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
+    try {const token = getToken();
     const response = await deleteWorker(id, token);
     if (response.status === 200) {
       dispatch({ type: DELETE_WORKER, id, workers: response.data });
     }
-    return response.status === 200;
+    return response.status === 200;  } catch (e) {
+      return false
+    }
+    
   };
 };

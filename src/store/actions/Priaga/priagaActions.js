@@ -6,7 +6,7 @@ import {
   SET_PRIAGA,
   SET_SINGLE_PRIAGA,
   DELETE_PRIAGA_ROZHID,
-  ADD_PRIAGA_ROZHID
+  ADD_PRIAGA_ROZHID,
 } from "../actionTypes";
 import {
   createPriaga,
@@ -21,10 +21,14 @@ import {
 
 export const getPriagaAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchPriaga(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PRIAGA, priaja: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchPriaga(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PRIAGA, priaja: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -62,59 +66,87 @@ export const filterPriagaAction = ({
 
 export const getSinglePriagaAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSinglePriaga(id, token);
-    dispatch({ type: SET_SINGLE_PRIAGA, singlePraja: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchSinglePriaga(id, token);
+      dispatch({ type: SET_SINGLE_PRIAGA, singlePraja: response.data });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const createPriagaAction = (zvitu) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createPriaga(zvitu, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_PRIAGA, token, priaja: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createPriaga(zvitu, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_PRIAGA, token, priaja: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 export const createPriagaRozhidAction = (priajaRozhid) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createPriagaRozhid(priajaRozhid, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_PRIAGA_ROZHID, token, priajaRozhid: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createPriagaRozhid(priajaRozhid, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_PRIAGA_ROZHID,
+          token,
+          priajaRozhid: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editPriagaAction = (priaga, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchPriaga(id, token, priaga);
-    dispatch({ type: ADD_PRIAGA, token, priaja: response.data });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchPriaga(id, token, priaga);
+      dispatch({ type: ADD_PRIAGA, token, priaja: response.data });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deletePriagaRozhidAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deletePriagaRozhid(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PRIAGA_ROZHID, id });
+    try {
+      const token = getToken();
+      const responce = await deletePriagaRozhid(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_PRIAGA_ROZHID, id });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };
 export const deletePriagaAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deletePriaga(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PRIAGA, id });
+    try {
+      const token = getToken();
+      const responce = await deletePriaga(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_PRIAGA, id });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

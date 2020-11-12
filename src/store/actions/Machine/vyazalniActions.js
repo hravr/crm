@@ -15,12 +15,19 @@ import {
 
 export const getMachineVyazalniAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchMachineVyazalni(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_MACHINE_VYAZALNI, machineVyazalni: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchMachineVyazalni(token);
+      if (response.status === 200) {
+        dispatch({
+          type: SET_MACHINE_VYAZALNI,
+          machineVyazalni: response.data,
+        });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 

@@ -5,15 +5,22 @@ import {
 } from "../../api/api";
 import {
   SET_FILTERED_MATERIALS_ZALUSHOK,
-  SET_MATERIALS_ZALUSHOK
+  SET_MATERIALS_ZALUSHOK,
 } from "../actionTypes";
 
 export const getMaterialsZalushokAction = (day) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchMaterialsZalushok(token, day);
-    if (response.status === 200) {
-      dispatch({ type: SET_MATERIALS_ZALUSHOK, zvituZalushok: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchMaterialsZalushok(token, day);
+      if (response.status === 200) {
+        dispatch({
+          type: SET_MATERIALS_ZALUSHOK,
+          zvituZalushok: response.data,
+        });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };

@@ -15,10 +15,14 @@ import {
 
 export const getPrajaSurovunaAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchPrajaSurovuna(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PRAJA_SUROVUNA, prajaSurovuna: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchPrajaSurovuna(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PRAJA_SUROVUNA, prajaSurovuna: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -43,35 +47,51 @@ export const filterPrajaSurovunaAction = ({ search }) => {
 
 export const createPrajaSurovunaAction = (prajaSurovuna) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createPrajaSurovuna(prajaSurovuna, token);
-    if (response.status === 200) {
-      dispatch({
-        type: ADD_PRAJA_SUROVUNA,
-        token,
-        prajaSurovuna: response.data,
-      });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createPrajaSurovuna(prajaSurovuna, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_PRAJA_SUROVUNA,
+          token,
+          prajaSurovuna: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editPrajaSurovunaAction = (prajaSurovuna, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchPrajaSurovuna(prajaSurovuna, token, id);
-    dispatch({ type: ADD_PRAJA_SUROVUNA, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchPrajaSurovuna(prajaSurovuna, token, id);
+      dispatch({ type: ADD_PRAJA_SUROVUNA, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deletePrajaSurovunaAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deletePrajaSurovuna(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_SUROVUNA, id, prajaSurovuna: responce.data  });
+    try {
+      const token = getToken();
+      const responce = await deletePrajaSurovuna(id, token);
+      if (responce.status === 200) {
+        dispatch({
+          type: DELETE_PRAJA_SUROVUNA,
+          id,
+          prajaSurovuna: responce.data,
+        });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

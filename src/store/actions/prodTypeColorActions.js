@@ -15,12 +15,16 @@ import {
 
 export const getProdColorAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchProdColor(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PROD_COLOR, prodColor: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchProdColor(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PROD_COLOR, prodColor: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 export const filterProdColorAction = ({ search }) => {
@@ -43,22 +47,30 @@ export const filterProdColorAction = ({ search }) => {
 
 export const createProdColorAction = (prodColor) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createProdColor(prodColor, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_PROD_COLOR, token, prodColor: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createProdColor(prodColor, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_PROD_COLOR, token, prodColor: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const deleteProdColorAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteProdColor(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_COLOR, id, prodColor: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deleteProdColor(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_PROD_COLOR, id, prodColor: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

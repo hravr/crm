@@ -17,20 +17,28 @@ import {
 
 export const getMachineAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchMachine(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_MACHINE, machines: response.data });
-      return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await fetchMachine(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_MACHINE, machines: response.data });
+        return response.status === 200;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const getSingleMachineAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSingleMachine(id, token);
-    dispatch({ type: SET_SINGLE_MACHINE, singleMachine: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchSingleMachine(id, token);
+      dispatch({ type: SET_SINGLE_MACHINE, singleMachine: response.data });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
@@ -54,31 +62,43 @@ export const searchMachineAction = ({ search }) => {
 
 export const createMachineAction = (machine) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createMachine(machine, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_MACHINE, token, machine: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createMachine(machine, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_MACHINE, token, machine: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editMachineAction = (machines, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMachine(id, machines, token);
-    dispatch({ type: ADD_MACHINE, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchMachine(id, machines, token);
+      dispatch({ type: ADD_MACHINE, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteMachineAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await deleteMachine(id, token);
-    if (response.status === 200) {
-      dispatch({ type: DELETE_MACHINE, id, machines: response.data });
+    try {
+      const token = getToken();
+      const response = await deleteMachine(id, token);
+      if (response.status === 200) {
+        dispatch({ type: DELETE_MACHINE, id, machines: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };

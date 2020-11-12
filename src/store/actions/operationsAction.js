@@ -15,12 +15,16 @@ import {
 
 export const getOperationsAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchOperations(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_OPERATIONS, operations: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchOperations(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_OPERATIONS, operations: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
@@ -45,31 +49,43 @@ export const searchOperationsAction = ({ search }) => {
 
 export const createOperationsAction = (operations) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createOperations(operations, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_OPERATIONS, token, operations: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createOperations(operations, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_OPERATIONS, token, operations: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editOperationsAction = (operations, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchOperations(operations, token, id);
-    dispatch({ type: ADD_OPERATIONS, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchOperations(operations, token, id);
+      dispatch({ type: ADD_OPERATIONS, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteOperationsAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteOperations(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_OPERATIONS, id });
+    try {
+      const token = getToken();
+      const responce = await deleteOperations(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_OPERATIONS, id });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

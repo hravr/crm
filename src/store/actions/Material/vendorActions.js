@@ -15,15 +15,19 @@ import {
 
 export const getMaterialVendorAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchMaterialVendor(token);
-    if (response.status === 200) {
-      dispatch({
-        type: SET_MATERIALS_VENDOR,
-        materialVendor: response.data,
-      });
+    try {
+      const token = getToken();
+      const response = await fetchMaterialVendor(token);
+      if (response.status === 200) {
+        dispatch({
+          type: SET_MATERIALS_VENDOR,
+          materialVendor: response.data,
+        });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
@@ -47,39 +51,51 @@ export const filterMaterialVendorAction = ({ search }) => {
 
 export const createMaterialVendorAction = (materialVendor) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createMaterialVendor(materialVendor, token);
-    if (response.status === 200) {
-      dispatch({
-        type: ADD_MATERIALS_VENDOR,
-        token,
-        materialVendor: response.data,
-      });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createMaterialVendor(materialVendor, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_MATERIALS_VENDOR,
+          token,
+          materialVendor: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editMaterialVendorAction = (materialVendor, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMaterialVendor(materialVendor, token, id);
-    dispatch({ type: ADD_MATERIALS_VENDOR, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchMaterialVendor(materialVendor, token, id);
+      dispatch({ type: ADD_MATERIALS_VENDOR, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteMaterialVendorAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteMaterialVendor(id, token);
-    if (responce.status === 200) {
-      dispatch({
-        type: DELETE_MATERIALS_VENDOR,
-        id,
-        materialVendor: responce.data,
-      });
+    try {
+      const token = getToken();
+      const responce = await deleteMaterialVendor(id, token);
+      if (responce.status === 200) {
+        dispatch({
+          type: DELETE_MATERIALS_VENDOR,
+          id,
+          materialVendor: responce.data,
+        });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };
