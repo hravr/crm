@@ -402,7 +402,7 @@ const formikHOC = withFormik({
       // !values.colorId ||
       !values.operationId ||
       !values.startDate ||
-      !values.machineId ||
+      // !values.machineId ||
       !values.endDate ||
       !values.price ||
       !values.name
@@ -429,7 +429,7 @@ const formikHOC = withFormik({
       price: values.price,
       name: values.name,
       operationId: values.operationId,
-      machineId: values.machineId,
+      machineId: !!values.machineId ? values.machineId : null,
     };
     const isSuccess = await createPrices(pricesToSubmit);
     if (isSuccess) {
