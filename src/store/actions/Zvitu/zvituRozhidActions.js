@@ -17,10 +17,14 @@ import {
 
 export const getZvituRozxidAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchZvituRozxid(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_ZVITU_ROZXID, zvituRozxid: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchZvituRozxid(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_ZVITU_ROZXID, zvituRozxid: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -50,42 +54,58 @@ export const filterZvituRozxidAction = ({ from, to, operationId }) => {
 
 export const getSingleZvituRozxidAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSingleZvituRozxid(id, token);
-    dispatch({
-      type: SET_SINGLE_ZVITU_ROZXID,
-      singleZvituRozxid: response.data,
-    });
+    try {
+      const token = getToken();
+      const response = await fetchSingleZvituRozxid(id, token);
+      dispatch({
+        type: SET_SINGLE_ZVITU_ROZXID,
+        singleZvituRozxid: response.data,
+      });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const createZvituRozxidAction = (zvituRozxid) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createZvituRozxid(zvituRozxid, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_ZVITU_ROZXID, token, zvituRozxid: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createZvituRozxid(zvituRozxid, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_ZVITU_ROZXID, token, zvituRozxid: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editZvituRozxidAction = (zvituRozxid, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchZvituRozxid(zvituRozxid, token, id);
-    dispatch({ type: ADD_ZVITU_ROZXID, token, zvituRozxid: response.data });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchZvituRozxid(zvituRozxid, token, id);
+      dispatch({ type: ADD_ZVITU_ROZXID, token, zvituRozxid: response.data });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteZvituRozxidAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteZvituRozxid(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_ZVITU_ROZXID, id, zvituRozxid: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deleteZvituRozxid(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_ZVITU_ROZXID, id, zvituRozxid: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

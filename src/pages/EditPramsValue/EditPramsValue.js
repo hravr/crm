@@ -11,6 +11,7 @@ import {
   getSingleMaterialParamsValueAction,
 } from "../../store/actions/Material/paramsValueActions";
 import { useParams } from "react-router-dom";
+import { getMaterialTypeAction } from "../../store/actions/Material/typeActions";
 
 const EditParamsValue = ({
   values,
@@ -125,6 +126,7 @@ const mapStateToProps = (state) => {
   return {
     singleParamsValue: state.materialParamsValue.single,
     paramId: state.materialParams.materialParams,
+    typeId: state.materialType.materialType,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -134,6 +136,7 @@ const mapDispatchToProps = (dispatch) => {
     editParamsValue: (materialParamsValue, id) =>
       dispatch(editMaterialParamsValueAction(materialParamsValue, id)),
     fetchMaterialParams: () => dispatch(getMaterialParamsAction()),
+    fetchMaterialType: () => dispatch(getMaterialTypeAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(formikHOC);

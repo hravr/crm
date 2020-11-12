@@ -16,8 +16,7 @@ import {
 } from "../actionTypes";
 
 export const getMaterialTypeAction = () => {
-  return async (dispatch) => {
-    const token = getToken();
+  return async (dispatch) => {try {const token = getToken();
     const response = await fetchMaterialType(token);
     if (response.status === 200) {
       dispatch({
@@ -25,17 +24,22 @@ export const getMaterialTypeAction = () => {
         materialType: response.data,
       });
     }
-    return response.status === 200;
+    return response.status === 200;  } catch (e) {
+    return false
+  }
+    
   };
 };
 export const getSingleMaterialTypeAction = (id) => {
-  return async (dispatch) => {
-    const token = getToken();
+  return async (dispatch) => {try { const token = getToken();
     const response = await fetchSingleMaterialType(id, token);
     dispatch({
       type: SET_SINGLE_MATERIALS_TYPE,
       singleType: response.data,
-    });
+    }); } catch (e) {
+    return false
+  }
+    
   };
 };
 export const filterMaterialTypeAction = ({ search }) => {
@@ -57,8 +61,7 @@ export const filterMaterialTypeAction = ({ search }) => {
 };
 
 export const createMaterialTypeAction = (materialType) => {
-  return async (dispatch) => {
-    const token = getToken();
+  return async (dispatch) => {try {const token = getToken();
     const response = await createMaterialType(materialType, token);
     if (response.status === 200) {
       dispatch({
@@ -67,22 +70,26 @@ export const createMaterialTypeAction = (materialType) => {
         materialType: response.data,
       });
       return true;
-    }
+    }  } catch (e) {
+    return false
+  }
+    
   };
 };
 
 export const editMaterialTypeAction = (materialType, id) => {
-  return async (dispatch) => {
-    const token = getToken();
+  return async (dispatch) => {try { const token = getToken();
     const response = await patchMaterialType(id, materialType, token);
     dispatch({ type: ADD_MATERIALS_TYPE, token, materialType: response.data });
-    return response.status === 200;
+    return response.status === 200; } catch (e) {
+    return false
+  }
+    
   };
 };
 
 export const deleteMaterialTypeAction = (id) => {
-  return async (dispatch) => {
-    const token = getToken();
+  return async (dispatch) => {try { const token = getToken();
     const responce = await deleteMaterialType(id, token);
     if (responce.status === 200) {
       dispatch({
@@ -91,6 +98,9 @@ export const deleteMaterialTypeAction = (id) => {
         materialType: responce.data,
       });
     }
-    return responce.status === 200;
+    return responce.status === 200; } catch (e) {
+    return false
+  }
+    
   };
 };

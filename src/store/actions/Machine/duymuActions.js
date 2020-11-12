@@ -15,12 +15,16 @@ import {
 
 export const getMachineDuymuAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchMachineDuymu(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_MACHINE_DYUMU, machineDuymu: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchMachineDuymu(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_MACHINE_DYUMU, machineDuymu: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
@@ -44,22 +48,38 @@ export const filterMachineDuymuAction = ({ search }) => {
 
 export const createMachineDuymuAction = (machineDuymu) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createMachineDuymu(machineDuymu, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_MACHINE_DYUMU, token, machineDuymu: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createMachineDuymu(machineDuymu, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_MACHINE_DYUMU,
+          token,
+          machineDuymu: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const deleteMachineDuymuAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await deleteMachineDuymu(id, token);
-    if (response.status === 200) {
-      dispatch({ type: DELETE_MACHINE_DYUMU, id, machineDuymu: response.data });
+    try {
+      const token = getToken();
+      const response = await deleteMachineDuymu(id, token);
+      if (response.status === 200) {
+        dispatch({
+          type: DELETE_MACHINE_DYUMU,
+          id,
+          machineDuymu: response.data,
+        });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };

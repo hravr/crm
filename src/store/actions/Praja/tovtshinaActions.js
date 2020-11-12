@@ -15,10 +15,14 @@ import {
 
 export const getPrajaTovtshinaAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchPrajaTovtshina(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PRAJA_TOVTSHINA, prajaTovtshina: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchPrajaTovtshina(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PRAJA_TOVTSHINA, prajaTovtshina: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -43,39 +47,51 @@ export const filterPrajaTovtshinaAction = ({ search }) => {
 
 export const createPrajaTovtshinaAction = (prajaTovtshina) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createPrajaTovtshina(prajaTovtshina, token);
-    if (response.status === 200) {
-      dispatch({
-        type: ADD_PRAJA_TOVTSHINA,
-        token,
-        prajaTovtshina: response.data,
-      });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createPrajaTovtshina(prajaTovtshina, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_PRAJA_TOVTSHINA,
+          token,
+          prajaTovtshina: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editPrajaTovtshinaAction = (prajaTovtshina, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchPrajaTovtshina(prajaTovtshina, token, id);
-    dispatch({ type: ADD_PRAJA_TOVTSHINA, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchPrajaTovtshina(prajaTovtshina, token, id);
+      dispatch({ type: ADD_PRAJA_TOVTSHINA, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deletePrajaTovtshinaAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deletePrajaTovtshina(id, token);
-    if (responce.status === 200) {
-      dispatch({
-        type: DELETE_PRAJA_TOVTSHINA,
-        id,
-        prajaTovtshina: responce.data,
-      });
+    try {
+      const token = getToken();
+      const responce = await deletePrajaTovtshina(id, token);
+      if (responce.status === 200) {
+        dispatch({
+          type: DELETE_PRAJA_TOVTSHINA,
+          id,
+          prajaTovtshina: responce.data,
+        });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

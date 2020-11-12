@@ -15,12 +15,16 @@ import {
 
 export const getProdSezonAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchProdSezon(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PROD_SEZON, prodSezon: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchProdSezon(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PROD_SEZON, prodSezon: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 export const filterProdSezonAction = ({ search }) => {
@@ -43,22 +47,30 @@ export const filterProdSezonAction = ({ search }) => {
 
 export const createProdSezonAction = (prodSezon) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createProdSezon(prodSezon, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_PROD_SEZON, token, prodSezon: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createProdSezon(prodSezon, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_PROD_SEZON, token, prodSezon: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const deleteProdSezonAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteProdSezon(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PROD_SEZON, id, prodSezon: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deleteProdSezon(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_PROD_SEZON, id, prodSezon: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

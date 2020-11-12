@@ -15,10 +15,14 @@ import {
 
 export const getPrajaTypeAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchPrajaType(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PRAJA_TYPE, prajaType: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchPrajaType(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PRAJA_TYPE, prajaType: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -43,35 +47,47 @@ export const filterPrajaTypeAction = ({ search }) => {
 
 export const createPrajaTypeAction = (prajaType) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createPrajaType(prajaType, token);
-    if (response.status === 200) {
-      dispatch({
-        type: ADD_PRAJA_TYPE,
-        token,
-        prajaType: response.data,
-      });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createPrajaType(prajaType, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_PRAJA_TYPE,
+          token,
+          prajaType: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editPrajaTypeAction = (prajaType, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchPrajaType(prajaType, token, id);
-    dispatch({ type: ADD_PRAJA_TYPE, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchPrajaType(prajaType, token, id);
+      dispatch({ type: ADD_PRAJA_TYPE, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deletePrajaTypeAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deletePrajaType(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_TYPE, id, prajaType: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deletePrajaType(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_PRAJA_TYPE, id, prajaType: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

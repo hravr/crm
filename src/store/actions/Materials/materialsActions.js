@@ -19,10 +19,14 @@ import {
 
 export const getMaterialsAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchMaterials(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_MATERIALS, materials: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchMaterials(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_MATERIALS, materials: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -47,49 +51,73 @@ export const filterMaterialsAction = ({ from, to, operationId }) => {
 
 export const getSingleMaterialsAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchSingleMaterials(id, token);
-    dispatch({ type: SET_SINGLE_MATERIALS, singleMaterials: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchSingleMaterials(id, token);
+      dispatch({ type: SET_SINGLE_MATERIALS, singleMaterials: response.data });
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const createMaterialsAction = (materials) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createMaterials(materials, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_MATERIALS, token, materials: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createMaterials(materials, token);
+      if (response.status === 200) {
+        dispatch({ type: ADD_MATERIALS, token, materials: response.data });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 export const createMaterialsRozhidAction = (materialsRozhid) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createMaterialsRozhid(materialsRozhid, token);
-    if (response.status === 200) {
-      dispatch({ type: ADD_MATERIALS_ROZHID, token, materialsRozhid: response.data });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createMaterialsRozhid(materialsRozhid, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_MATERIALS_ROZHID,
+          token,
+          materialsRozhid: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editMaterialsAction = (materials, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchMaterials(id, token, materials);
-    dispatch({ type: ADD_MATERIALS, token, materials: response.data });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchMaterials(id, token, materials);
+      dispatch({ type: ADD_MATERIALS, token, materials: response.data });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deleteMaterialsAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteMaterials(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_MATERIALS, id, materials: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deleteMaterials(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_MATERIALS, id, materials: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

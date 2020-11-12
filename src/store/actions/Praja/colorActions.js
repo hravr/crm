@@ -15,10 +15,14 @@ import {
 
 export const getPrajaColorAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchPrajaColor(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PRAJA_COLOR, prajaColor: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchPrajaColor(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PRAJA_COLOR, prajaColor: response.data });
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
@@ -43,35 +47,47 @@ export const filterPrajaColorAction = ({ search }) => {
 
 export const createPrajaColorAction = (prajaColor) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createPrajaColor(prajaColor, token);
-    if (response.status === 200) {
-      dispatch({
-        type: ADD_PRAJA_COLOR,
-        token,
-        prajaColor: response.data,
-      });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createPrajaColor(prajaColor, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_PRAJA_COLOR,
+          token,
+          prajaColor: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const editPrajaColorAction = (prajaColor, id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await patchPrajaColor(prajaColor, token, id);
-    dispatch({ type: ADD_PRAJA_COLOR, token });
-    return response.status === 200;
+    try {
+      const token = getToken();
+      const response = await patchPrajaColor(prajaColor, token, id);
+      dispatch({ type: ADD_PRAJA_COLOR, token });
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 };
 
 export const deletePrajaColorAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deletePrajaColor(id, token);
-    if (responce.status === 200) {
-      dispatch({ type: DELETE_PRAJA_COLOR, id, prajaColor: responce.data });
+    try {
+      const token = getToken();
+      const responce = await deletePrajaColor(id, token);
+      if (responce.status === 200) {
+        dispatch({ type: DELETE_PRAJA_COLOR, id, prajaColor: responce.data });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

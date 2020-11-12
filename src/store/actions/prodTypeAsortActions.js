@@ -15,12 +15,16 @@ import {
 
 export const getProdAsortumentAction = () => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await fetchProdAsortument(token);
-    if (response.status === 200) {
-      dispatch({ type: SET_PROD_ASORTUMENT, prodAsortument: response.data });
+    try {
+      const token = getToken();
+      const response = await fetchProdAsortument(token);
+      if (response.status === 200) {
+        dispatch({ type: SET_PROD_ASORTUMENT, prodAsortument: response.data });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
@@ -44,30 +48,38 @@ export const filterProdAsortumentAction = ({ search }) => {
 
 export const createProdAsortumentAction = (prodAsortument) => {
   return async (dispatch) => {
-    const token = getToken();
-    const response = await createProdAsortument(prodAsortument, token);
-    if (response.status === 200) {
-      dispatch({
-        type: ADD_PROD_ASORTUMENT,
-        token,
-        prodAsortument: response.data,
-      });
-      return true;
+    try {
+      const token = getToken();
+      const response = await createProdAsortument(prodAsortument, token);
+      if (response.status === 200) {
+        dispatch({
+          type: ADD_PROD_ASORTUMENT,
+          token,
+          prodAsortument: response.data,
+        });
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
   };
 };
 
 export const deleteProdAsortumentAction = (id) => {
   return async (dispatch) => {
-    const token = getToken();
-    const responce = await deleteProdAsortument(id, token);
-    if (responce.status === 200) {
-      dispatch({
-        type: DELETE_PROD_ASORTUMENT,
-        id,
-        prodAsortument: responce.data,
-      });
+    try {
+      const token = getToken();
+      const responce = await deleteProdAsortument(id, token);
+      if (responce.status === 200) {
+        dispatch({
+          type: DELETE_PROD_ASORTUMENT,
+          id,
+          prodAsortument: responce.data,
+        });
+      }
+      return responce.status === 200;
+    } catch (e) {
+      return false;
     }
-    return responce.status === 200;
   };
 };

@@ -3,21 +3,25 @@ import { LOGOUT, SET_PROFILE } from "./actionTypes";
 
 export const loginAction = (data) => {
   return async (dispatch) => {
-    const response = await loginRequest(data);
-    const { token } = response.data;
-    if (response.status === 200) {
-      document.cookie = `token=${token} `;
-      dispatch({
-        type: SET_PROFILE,
-        token: response.data.token,
-      });
-    } else {
-      dispatch({
-        type: SET_PROFILE,
-        token: "",
-      });
+    try {
+      const response = await loginRequest(data);
+      const { token } = response.data;
+      if (response.status === 200) {
+        document.cookie = `token=${token} `;
+        dispatch({
+          type: SET_PROFILE,
+          token: response.data.token,
+        });
+      } else {
+        dispatch({
+          type: SET_PROFILE,
+          token: "",
+        });
+      }
+      return response.status === 200;
+    } catch (e) {
+      return false;
     }
-    return response.status === 200;
   };
 };
 
