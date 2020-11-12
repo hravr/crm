@@ -1,49 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./CreatePrices.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import { createRoztsinkaAction } from "../../store/actions/roztsinkaActions";
-import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
-import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
-import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
-import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortActions";
-import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
-import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
-import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
-import { getMachineAction } from "../../store/actions/Machine/machineActions";
-import { getOperationsAction } from "../../store/actions/operationsAction";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {getProdArticleAction} from "../../store/actions/prodTypeArticleActions";
+import {createRoztsinkaAction} from "../../store/actions/roztsinkaActions";
+import {getProdTypeAction} from "../../store/actions/prodTypeTypeActions";
+import {getProdSizeAction} from "../../store/actions/prodTypeSizeActions";
+import {getProdSezonAction} from "../../store/actions/prodTypeSezonActions";
+import {getProdAsortumentAction} from "../../store/actions/prodTypeAsortActions";
+import {getProdClassAction} from "../../store/actions/prodTypeClassActions";
+import {getProdColorAction} from "../../store/actions/prodTypeColorActions";
+import {getProdImageAction} from "../../store/actions/prodTypeImageActions";
+import {getMachineAction} from "../../store/actions/Machine/machineActions";
+import {getOperationsAction} from "../../store/actions/operationsAction";
 
 const CreatePrices = ({
-  values,
-  handleChange,
-  handleSubmit,
-  setValues,
-  fetchProdArticle,
-  articleId,
-  fetchProdType,
-  typeId,
-  fetchProdSize,
-  sizeId,
-  fetchProdSezon,
-  seasonId,
-  fetchProdAsortument,
-  asortument,
-  fetchProdImage,
-  imageId,
-  fetchProdClass,
-  classId,
-  fetchProdColor,
-  colorId,
-  fetchMachine,
-  machineId,
-  getOperations,
-  operations,
-  errors,
-}) => {
+                        values,
+                        handleChange,
+                        handleSubmit,
+                        setValues,
+                        fetchProdArticle,
+                        articleId,
+                        fetchProdType,
+                        typeId,
+                        fetchProdSize,
+                        sizeId,
+                        fetchProdSezon,
+                        seasonId,
+                        fetchProdAsortument,
+                        asortument,
+                        fetchProdImage,
+                        imageId,
+                        fetchProdClass,
+                        classId,
+                        fetchProdColor,
+                        colorId,
+                        fetchMachine,
+                        machineId,
+                        getOperations,
+                        operations,
+                        errors,
+                      }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
@@ -56,63 +56,63 @@ const CreatePrices = ({
   const [machinesOptions, setMachinesOptions] = useState([]);
 
   const options = [
-    { value: 1, label: 1 },
-    { value: 2, label: 2 },
-    { value: 3, label: 3 },
+    {value: 1, label: 1},
+    {value: 2, label: 2},
+    {value: 3, label: 3},
   ];
 
   const gatynokSelect = (options) => {
-    setValues({ ...values, gatynok: options.value });
+    setValues({...values, gatynok: options.value});
   };
 
   const asortumentSelect = (asortument) => {
-    setValues({ ...values, asortument: asortument.value });
+    setValues({...values, asortument: asortument.value});
   };
   const classSelect = (classId) => {
-    setValues({ ...values, classId: classId.value });
+    setValues({...values, classId: classId.value});
   };
   const colorSelect = (colorId) => {
-    setValues({ ...values, colorId: colorId.value });
+    setValues({...values, colorId: colorId.value});
   };
   const imageSelect = (imageId) => {
-    setValues({ ...values, imageId: imageId.value });
+    setValues({...values, imageId: imageId.value});
   };
   const sizeSelect = (sizeId) => {
-    setValues({ ...values, sizeId: sizeId.value });
+    setValues({...values, sizeId: sizeId.value});
   };
 
   const sezonSelect = (seasonId) => {
-    setValues({ ...values, seasonId: seasonId.value });
+    setValues({...values, seasonId: seasonId.value});
   };
   const typeSelect = (typeId) => {
-    setValues({ ...values, typeId: typeId.value });
+    setValues({...values, typeId: typeId.value});
   };
 
   const articleSelect = (articleId) => {
-    setValues({ ...values, articleId: articleId.value });
+    setValues({...values, articleId: articleId.value});
   };
 
   const operationSelect = (operations) => {
-    setValues({ ...values, operationId: operations.value });
+    setValues({...values, operationId: operations.value});
   };
 
   const machinesSelect = (machineId) => {
-    setValues({ ...values, machineId: machineId.value });
+    setValues({...values, machineId: machineId.value});
   };
 
   useEffect(() => {
     setMachinesOptions(
       machineId.length &&
-        machineId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
+      machineId.map((opt) => {
+        return {label: opt.name, value: opt._id};
+      })
     );
   }, [machineId]);
 
   useEffect(() => {
     setOperationsOptions(
       operations.map((opt) => {
-        return { label: opt.name, value: opt._id };
+        return {label: opt.name, value: opt._id};
       })
     );
   }, [operations]);
@@ -120,69 +120,69 @@ const CreatePrices = ({
   useEffect(() => {
     setAsortumenOptions(
       asortument.length &&
-        asortument.map((asort) => {
-          return { label: asort.name, value: asort._id };
-        })
+      asortument.map((asort) => {
+        return {label: asort.name, value: asort._id};
+      })
     );
   }, [asortument]);
 
   useEffect(() => {
     setClassOptions(
       classId.length &&
-        classId.map((cls) => {
-          return { label: cls.name, value: cls._id };
-        })
+      classId.map((cls) => {
+        return {label: cls.name, value: cls._id};
+      })
     );
   }, [classId]);
   useEffect(() => {
     setColorOptions(
       colorId.length &&
-        colorId.map((col) => {
-          return { label: col.name, value: col._id };
-        })
+      colorId.map((col) => {
+        return {label: col.name, value: col._id};
+      })
     );
   }, [colorId]);
   useEffect(() => {
     setImageOptions(
       imageId.length &&
-        imageId.map((img) => {
-          return { label: img.name, value: img._id };
-        })
+      imageId.map((img) => {
+        return {label: img.name, value: img._id};
+      })
     );
   }, [imageId]);
 
   useEffect(() => {
     setSizeOptions(
       sizeId.length &&
-        sizeId.map((size) => {
-          return { label: size.name, value: size._id };
-        })
+      sizeId.map((size) => {
+        return {label: size.name, value: size._id};
+      })
     );
   }, [sizeId]);
 
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
-        articleId.map((art) => {
-          return { label: art.name, value: art._id };
-        })
+      articleId.map((art) => {
+        return {label: art.name, value: art._id};
+      })
     );
   }, [articleId]);
   useEffect(() => {
     setSezonOptions(
       seasonId.length &&
-        seasonId.map((sez) => {
-          return { label: sez.name, value: sez._id };
-        })
+      seasonId.map((sez) => {
+        return {label: sez.name, value: sez._id};
+      })
     );
   }, [seasonId]);
 
   useEffect(() => {
     setTypeOptions(
       typeId.length &&
-        typeId.map((type) => {
-          return { label: type.name, value: type._id };
-        })
+      typeId.map((type) => {
+        return {label: type.name, value: type._id};
+      })
     );
   }, [typeId]);
 
@@ -373,17 +373,17 @@ const CreatePrices = ({
 };
 const formikHOC = withFormik({
   mapPropsToValues: () => ({
-    gatynok: {},
-    asortument: {},
-    articleId: {},
-    typeId: {},
-    sizeId: {},
-    seasonId: {},
-    imageId: {},
-    classId: {},
-    colorId: {},
-    operationId: {},
-    machineId: {},
+    gatynok: '',
+    asortument: '',
+    articleId: '',
+    typeId: '',
+    sizeId: '',
+    seasonId: '',
+    imageId: '',
+    classId: '',
+    colorId: '',
+    operationId: '',
+    machineId: '',
     startDate: "",
     endDate: "",
     price: "",
@@ -392,14 +392,14 @@ const formikHOC = withFormik({
   validate: (values) => {
     const errors = {};
     if (
-      !values.asortument ||
-      !values.articleId ||
-      !values.typeId ||
-      !values.sizeId ||
-      !values.seasonId ||
-      !values.imageId ||
-      !values.classId ||
-      !values.colorId ||
+      // !values.asortument ||
+      // !values.articleId ||
+      // !values.typeId ||
+      // !values.sizeId ||
+      // !values.seasonId ||
+      // !values.imageId ||
+      // !values.classId ||
+      // !values.colorId ||
       !values.operationId ||
       !values.startDate ||
       !values.machineId ||
@@ -409,20 +409,21 @@ const formikHOC = withFormik({
     ) {
       errors.name = "Required";
     }
-
     return errors;
   },
-  handleSubmit: async (values, { props: { createPrices, history } }) => {
+
+  handleSubmit: async (values, {props: {createPrices, history}}) => {
+
     const pricesToSubmit = {
       gatynok: values.gatynok,
-      asortument: values.asortument,
-      typeId: values.typeId,
-      articleId: values.articleId,
-      sizeId: values.sizeId,
-      seasonId: values.seasonId,
-      classId: values.classId,
-      imageId: values.imageId,
-      colorId: values.colorId,
+      asortument: !!values.asortument ? values.asortument : null,
+      articleId: !!values.articleId ? values.articleId : null,
+      typeId: !!values.typeId ? values.typeId : null,
+      sizeId: !!values.sizeId ? values.sizeId : null,
+      seasonId: !!values.seasonId ? values.seasonId : null,
+      classId: !!values.classId ? values.classId : null,
+      imageId: !!values.imageId ? values.imageId : null,
+      colorId: !!values.colorId ? values.colorId : null,
       startDate: values.startDate,
       endDate: values.endDate,
       price: values.price,

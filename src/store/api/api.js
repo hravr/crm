@@ -442,6 +442,14 @@ export const fetchZpSklad4 = (token) => {
   });
 };
 
+export const fetchZpRest = (token) => {
+  return _axios.get("/zp", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchProdArticle = (token) => {
   return _axios.get("/prod_article", {
     headers: {

@@ -29,6 +29,7 @@ const Header = ({ history: h }) => {
               <Link to="/zp-sklad2">Склад 2</Link>
               <Link to="/zp-sklad3">Склад 3</Link>
               <Link to="/zp-sklad4">Склад 4</Link>
+              <Link to="/zp-rest">Решта</Link>
             </div>
           </div>
           <div className={s.dropdown}>

@@ -53,6 +53,7 @@ import CreatePrajaRozhid from "./pages/CreatePrajaRozhid/CreatePrajaRozhid";
 import EditMaterialPruhid from "./pages/EditMaterialPruhid/EditMaterialPruhid";
 import CreatePakParam from "./pages/CreatePakParam/CreatePakParam";
 import createMaterialRozhid from "./pages/CreateMaterialRozhid/CreateMaterialRozhid";
+import ZpRest from "./pages/ZpSklad/ZpRest/ZpRest";
 
 function App(props) {
   // const Route = ({
@@ -96,6 +97,7 @@ function App(props) {
           <Route path="/zp-sklad2" component={ZpSklad2} />
           <Route path="/zp-sklad3" component={ZpSklad3} />
           <Route path="/zp-sklad4" component={ZpSklad4} />
+          <Route path="/zp-rest" component={ZpRest} />
           <Route path="/productcia" component={Productcia} />
           <Route path="/operations" component={Operations} />
           <Route path="/zvitu" component={Zvitu} />

@@ -134,6 +134,16 @@ const CreatePrajaPruhid = ({
               type="number"
             />
           </div>
+          <div className={s.select__container}>
+            <Input
+              label="Дата приходу"
+              value={values.date_prixod}
+              name="date_prixod"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="date"
+            />
+          </div>
         </div>
         <div className={s.left}>
           <div className={s.select__container}>
@@ -217,6 +227,7 @@ const formikHOC = withFormik({
     surovunaId: {},
     tovtshinaId: {},
     colorId: {},
+    date_prixod:''
   }),
   validate: (values) => {
     const errors = {};
@@ -227,11 +238,11 @@ const formikHOC = withFormik({
       !values.surovunaId ||
       !values.tovtshinaId ||
       !values.typeId ||
+      !values.date_prixod ||
       !values.colorId
     ) {
       errors.name = "Required";
     }
-
     return errors;
   },
   handleSubmit: async (values, { props: { createWorker, history } }) => {
@@ -243,6 +254,7 @@ const formikHOC = withFormik({
       tovtshinaId: values.tovtshinaId,
       typeId: values.typeId,
       colorId: values.colorId,
+      date_prixod: values.date_prixod,
     };
     const isSuccess = await createWorker(workerToSubmit);
     if (isSuccess) {
