@@ -45,6 +45,15 @@ const Modal = (
       value: 'склад4',
     }
   ];
+  const correctOptions = () => {
+    if (from === 1) {
+      return variables
+    } else if (from === 2) {
+      return [variables[1], variables[2]]
+    } else if (from === 3) {
+      return [variables[2]]
+    }
+  }
 
   const [selected, setSelected] = useState();
   const [dataToSubmit, setDataToSubmit] = useState({mishok: modalData, skladId: sklad1});
@@ -110,9 +119,10 @@ const Modal = (
         } else {
           alert('Заповніть всі дані !!!')
         }
-      } else {
-        alert('Можливо відправити тільки на склад 3')
-      }
+      } else
+      //   {
+        //   alert('Можливо відправити тільки на склад 3')
+        // }
       if (selected === 4) {
         if (dataToSubmit.mishok && dataToSubmit.packId && dataToSubmit.date_rozsxodu) {
           rozxid2ToSklad4(dataToSubmit).then(res => {
@@ -124,10 +134,9 @@ const Modal = (
           alert('Заповніть всі дані !!!')
         }
       } else {
-        alert('Можливо відправити тільки на склад 4')
+        alert('Можливо відправити тільки на склад 3, 4')
       }
     } else if (from === 3) {
-      console.log('here')
       if (selected === 4) {
         if (dataToSubmit.mishok && dataToSubmit.packId && dataToSubmit.date_rozsxodu) {
           rozxid3ToSklad4(dataToSubmit).then(res => {
@@ -210,7 +219,7 @@ const Modal = (
         </div>
         <Select
           defaultValue={variables[0].label}
-          options={variables}
+          options={correctOptions()}
           onChange={handleSelected}
         />
         {selected === 2
