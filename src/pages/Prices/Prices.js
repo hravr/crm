@@ -75,7 +75,7 @@ const Prices = ({
             <th>Розмір</th>
             <th>Артикул</th>
             <th>Гатунок</th>
-            <th>ID працівника</th>
+            {/* <th>ID працівника</th> */}
             <th></th>
           </tr>
           {!filteredRoztsinka.length
@@ -102,7 +102,7 @@ const Prices = ({
                     <td>{roztsinka.sizeId?.name || "Всі"}</td>
                     <td>{roztsinka.articleId?.name || "Всі"}</td>
                     <td>{roztsinka.gatynok || "Всі"}</td>
-                    <td>{roztsinka.changesId?.firstName || "Всі"}</td>
+                    {/* <td>{roztsinka.changesId?.firstName || "Всі"}</td> */}
                     <div className={s.table__fl}>
                       <button
                         className={s.del}
@@ -140,7 +140,7 @@ const Prices = ({
                     <td>{filter.sizeId?.name || "Всі"}</td>
                     <td>{filter.articleId?.name || "Всі"}</td>
                     <td>{filter.gatynok || "Всі"}</td>
-                    <td>{filter.changesId.fName?.name || "Всі"}</td>
+                    {/* <td>{filter.changesId.fName?.name || "Всі"}</td> */}
                     <div className={s.table__fl}>
                       <button
                         className={s.del}

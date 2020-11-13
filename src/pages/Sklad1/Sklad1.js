@@ -396,7 +396,7 @@ const Sklad1 = ({
                           </td>
                           <td>
                             {sklad.mishok.gatynok1 || "Всі"}
-                            {" /" + sklad.mishok.gatynok2 || "Всі"}
+                            {" /" + sklad.mishok.gatynok2}
                             {" /" + sklad.mishok.gatynok3 || "Всі"}
                           </td>
                           <td>{sklad.changesId.firstName || "Всі"}</td>

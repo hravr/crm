@@ -1,58 +1,61 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./CreatePruhid.module.css";
-import {connect} from "react-redux";
-import {withFormik} from "formik";
+import { connect } from "react-redux";
+import { withFormik } from "formik";
 import classnames from "classnames";
-import {getProdTypeAction} from "../../store/actions/prodTypeTypeActions";
-import {getProdSizeAction} from "../../store/actions/prodTypeSizeActions";
-import {getProdSezonAction} from "../../store/actions/prodTypeSezonActions";
-import {getProdAsortumentAction} from "../../store/actions/prodTypeAsortActions";
-import {getProdClassAction} from "../../store/actions/prodTypeClassActions";
-import {getProdColorAction} from "../../store/actions/prodTypeColorActions";
-import {getProdImageAction} from "../../store/actions/prodTypeImageActions";
-import {getMachineAction} from "../../store/actions/Machine/machineActions";
-import {createSklad1Action, getSklad1Action,} from "../../store/actions/sklad1Actions";
-import {getProdArticleAction} from "../../store/actions/prodTypeArticleActions";
-import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
+import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
+import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
+import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
+import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortActions";
+import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
+import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
+import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
+import { getMachineAction } from "../../store/actions/Machine/machineActions";
+import {
+  createSklad1Action,
+  getSklad1Action,
+} from "../../store/actions/sklad1Actions";
+import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import CreatePruhid2 from "../CreatePruhid2/CreatePruhid2";
 import CreatePruhid3 from "../CreatePruhid3/CreatePruhid3";
 import CreatePruhid4 from "../CreatePruhid4/CreatePruhid4";
-import {getOperationsAction} from "../../store/actions/operationsAction";
-import {getWorkersAction} from "../../store/actions/workersActions";
+import { getOperationsAction } from "../../store/actions/operationsAction";
+import { getWorkersAction } from "../../store/actions/workersActions";
 
 const CreatePruhid = ({
-                        values,
-                        handleChange,
-                        handleSubmit,
-                        setValues,
-                        fetchProdType,
-                        typeId,
-                        fetchProdSize,
-                        sizeId,
-                        fetchProdSezon,
-                        seasonId,
-                        fetchProdAsortument,
-                        asortument,
-                        fetchProdImage,
-                        imageId,
-                        fetchProdClass,
-                        classId,
-                        fetchProdColor,
-                        colorId,
-                        fetchMachine,
-                        machineId,
-                        getSklad1,
-                        articleId,
-                        fetchProdArticle,
-                        getWorkers,
-                        getOperations,
-                        errors,
-                        operations,
-                        workers,
-                      }) => {
+  values,
+  handleChange,
+  handleSubmit,
+  setValues,
+  fetchProdType,
+  typeId,
+  fetchProdSize,
+  sizeId,
+  fetchProdSezon,
+  seasonId,
+  fetchProdAsortument,
+  asortument,
+  fetchProdImage,
+  imageId,
+  fetchProdClass,
+  classId,
+  fetchProdColor,
+  colorId,
+  fetchMachine,
+  machineId,
+  getSklad1,
+  articleId,
+  fetchProdArticle,
+  getWorkers,
+  getOperations,
+  errors,
+  operations,
+  workers,
+}) => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
   const [sezonOptions, setSezonOptions] = useState([]);
@@ -82,12 +85,12 @@ const CreatePruhid = ({
     const temp = {};
     Object.entries(operationsObject).forEach(([key, value]) => {
       value.forEach((operation) => {
-        const isCorrect = !!operation.operationId.find(({name}) => {
+        const isCorrect = !!operation.operationId.find(({ name }) => {
           return name === key;
         });
         if (!isCorrect) return;
-        const {name, fName, sName} = operation;
-        const option = {label: `${fName} ${sName}`, value: operation._id};
+        const { name, fName, sName } = operation;
+        const option = { label: `${fName} ${sName}`, value: operation._id };
         if (!temp[key]) {
           temp[key] = [option];
           return;
@@ -99,118 +102,118 @@ const CreatePruhid = ({
   }, [operationsObject]);
 
   const articleSelect = (articleId) => {
-    setValues({...values, articleId: articleId.value});
+    setValues({ ...values, articleId: articleId.value });
   };
 
   const vyazalSelect = (vyazalId) => {
-    setValues({...values, vyazalId: vyazalId.value});
+    setValues({ ...values, vyazalId: vyazalId.value });
   };
 
   const masterSelect = (masterId) => {
-    setValues({...values, masterId: masterId.value});
+    setValues({ ...values, masterId: masterId.value });
   };
 
   const asortumentSelect = (asortument) => {
-    setValues({...values, asortument: asortument.value});
+    setValues({ ...values, asortument: asortument.value });
   };
   const classSelect = (classId) => {
-    setValues({...values, classId: classId.value});
+    setValues({ ...values, classId: classId.value });
   };
   const colorSelect = (colorId) => {
-    setValues({...values, colorId: colorId.value});
+    setValues({ ...values, colorId: colorId.value });
   };
   const imageSelect = (imageId) => {
-    setValues({...values, imageId: imageId.value});
+    setValues({ ...values, imageId: imageId.value });
   };
   const sizeSelect = (sizeId) => {
-    setValues({...values, sizeId: sizeId.value});
+    setValues({ ...values, sizeId: sizeId.value });
   };
 
   const sezonSelect = (seasonId) => {
-    setValues({...values, seasonId: seasonId.value});
+    setValues({ ...values, seasonId: seasonId.value });
   };
   const typeSelect = (typeId) => {
-    setValues({...values, typeId: typeId.value});
+    setValues({ ...values, typeId: typeId.value });
   };
 
   const machinesSelect = (machineId) => {
-    setValues({...values, machineId: machineId.value});
+    setValues({ ...values, machineId: machineId.value });
   };
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
-      articleId.map((art) => {
-        return {label: art.name, value: art._id};
-      })
+        articleId.map((art) => {
+          return { label: art.name, value: art._id };
+        })
     );
   }, [articleId]);
   useEffect(() => {
     setMachinesOptions(
       machineId.length &&
-      machineId.map((opt) => {
-        return {label: opt.name, value: opt._id};
-      })
+        machineId.map((opt) => {
+          return { label: opt.name, value: opt._id };
+        })
     );
   }, [machineId]);
 
   useEffect(() => {
     setAsortumenOptions(
       asortument.length &&
-      asortument.map((asort) => {
-        return {label: asort.name, value: asort._id};
-      })
+        asortument.map((asort) => {
+          return { label: asort.name, value: asort._id };
+        })
     );
   }, [asortument]);
 
   useEffect(() => {
     setClassOptions(
       classId.length &&
-      classId.map((cls) => {
-        return {label: cls.name, value: cls._id};
-      })
+        classId.map((cls) => {
+          return { label: cls.name, value: cls._id };
+        })
     );
   }, [classId]);
   useEffect(() => {
     setColorOptions(
       colorId.length &&
-      colorId.map((col) => {
-        return {label: col.name, value: col._id};
-      })
+        colorId.map((col) => {
+          return { label: col.name, value: col._id };
+        })
     );
   }, [colorId]);
   useEffect(() => {
     setImageOptions(
       imageId.length &&
-      imageId.map((img) => {
-        return {label: img.name, value: img._id};
-      })
+        imageId.map((img) => {
+          return { label: img.name, value: img._id };
+        })
     );
   }, [imageId]);
 
   useEffect(() => {
     setSizeOptions(
       sizeId.length &&
-      sizeId.map((size) => {
-        return {label: size.name, value: size._id};
-      })
+        sizeId.map((size) => {
+          return { label: size.name, value: size._id };
+        })
     );
   }, [sizeId]);
 
   useEffect(() => {
     setSezonOptions(
       seasonId.length &&
-      seasonId.map((sez) => {
-        return {label: sez.name, value: sez._id};
-      })
+        seasonId.map((sez) => {
+          return { label: sez.name, value: sez._id };
+        })
     );
   }, [seasonId]);
 
   useEffect(() => {
     setTypeOptions(
       typeId.length &&
-      typeId.map((type) => {
-        return {label: type.name, value: type._id};
-      })
+        typeId.map((type) => {
+          return { label: type.name, value: type._id };
+        })
     );
   }, [typeId]);
 
@@ -419,13 +422,13 @@ const CreatePruhid = ({
         </div>
       </TabPanel>
       <TabPanel>
-        <CreatePruhid2/>
+        <CreatePruhid2 />
       </TabPanel>
       <TabPanel>
-        <CreatePruhid3/>
+        <CreatePruhid3 />
       </TabPanel>
       <TabPanel>
-        <CreatePruhid4/>
+        <CreatePruhid4 />
       </TabPanel>
     </Tabs>
   );
@@ -463,15 +466,15 @@ const formikHOC = withFormik({
       !values.machineId ||
       !values.masterId ||
       !values.vyazalId ||
-      !values.gatynok1 ||
-      !values.gatynok2 ||
-      !values.gatynok3
+      !values.gatynok1  
+      // !values.gatynok2 ||
+      // !values.gatynok3
     ) {
       errors.name = "Required";
     }
     return errors;
   },
-  handleSubmit: async (values, {props: {createPruhid1, history}}) => {
+  handleSubmit: async (values, { props: { createPruhid1, history } }) => {
     const pruhudToSubmit = {
       asortumentId: values.asortument,
       typeId: values.typeId,
@@ -490,7 +493,7 @@ const formikHOC = withFormik({
       articleId: values.articleId,
     };
     const isSuccess = await createPruhid1(pruhudToSubmit);
-    console.log(isSuccess)
+    console.log(isSuccess);
     if (isSuccess) {
       alert("Створено") || history.push("/sklad_1");
     } else {

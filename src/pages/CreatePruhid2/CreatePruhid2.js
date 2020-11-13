@@ -394,9 +394,9 @@ const formikHOC = withFormik({
       !values.articleId ||
       !values.sortId ||
       !values.shveyaId ||
-      !values.gatynok1 ||
-      !values.gatynok2 ||
-      !values.gatynok3
+      !values.gatynok1
+      // !values.gatynok2 ||
+      // !values.gatynok3
     ) {
       errors.name = "Required";
     }
