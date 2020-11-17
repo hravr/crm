@@ -409,6 +409,7 @@ const formikHOC = withFormik({
     ) {
       errors.name = "Required";
     }
+    alert('Заповніть всі поля')
     return errors;
   },
 

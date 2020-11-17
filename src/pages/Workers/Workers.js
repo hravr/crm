@@ -69,7 +69,7 @@ const Workers = ({
                   <td>{worker?.status === 'worked' ? "Працює":"Не працює"}</td>
                   <td>
                     {worker?.operationId?.map((q) => {
-                      return q.name;
+                      return q.name+", ";
                     })}
                   </td>
                   <td>

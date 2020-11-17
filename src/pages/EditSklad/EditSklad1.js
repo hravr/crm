@@ -512,10 +512,9 @@ const formikHOC = withFormik({
       gatynok3: !!values.gatynok3 ? values.gatynok3 : (singleSklad1.mishok.gatynok3?._id || null),
       machineId: values.machineId._id,
       masterId: values.masterId._id,
-      vyazalId: values.vyazalId._id,
+      vyazalId: values.vyazalId,
       articleId: !!values.articleId ? values.articleId : (singleSklad1.mishok.articleId?._id || null),
     };
-    console.log(values)
     const isSuccess = await editSklad1(pruhudToSubmit, singleSklad1._id);
     if (isSuccess) {
       alert("Змінено") || history.push("/sklad_1");

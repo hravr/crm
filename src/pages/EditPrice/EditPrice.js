@@ -1,54 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import Input from "../../misc/Input/Input";
 import Button from "../../misc/Button/Button";
 import s from "./EditPrice.module.css";
-import { connect } from "react-redux";
-import { withFormik } from "formik";
-import { getProdArticleAction } from "../../store/actions/prodTypeArticleActions";
-import {
-  editRoztsinkaAction,
-  getSingleRoztsinkaAction,
-} from "../../store/actions/roztsinkaActions";
-import { getProdTypeAction } from "../../store/actions/prodTypeTypeActions";
-import { getProdSizeAction } from "../../store/actions/prodTypeSizeActions";
-import { getProdSezonAction } from "../../store/actions/prodTypeSezonActions";
-import { getProdAsortumentAction } from "../../store/actions/prodTypeAsortActions";
-import { getProdClassAction } from "../../store/actions/prodTypeClassActions";
-import { getProdColorAction } from "../../store/actions/prodTypeColorActions";
-import { getProdImageAction } from "../../store/actions/prodTypeImageActions";
-import { getMachineAction } from "../../store/actions/Machine/machineActions";
-import { getOperationsAction } from "../../store/actions/operationsAction";
-import { useParams } from "react-router-dom";
+import {connect} from "react-redux";
+import {withFormik} from "formik";
+import {getProdArticleAction} from "../../store/actions/prodTypeArticleActions";
+import {editRoztsinkaAction, getSingleRoztsinkaAction,} from "../../store/actions/roztsinkaActions";
+import {getProdTypeAction} from "../../store/actions/prodTypeTypeActions";
+import {getProdSizeAction} from "../../store/actions/prodTypeSizeActions";
+import {getProdSezonAction} from "../../store/actions/prodTypeSezonActions";
+import {getProdAsortumentAction} from "../../store/actions/prodTypeAsortActions";
+import {getProdClassAction} from "../../store/actions/prodTypeClassActions";
+import {getProdColorAction} from "../../store/actions/prodTypeColorActions";
+import {getProdImageAction} from "../../store/actions/prodTypeImageActions";
+import {getMachineAction} from "../../store/actions/Machine/machineActions";
+import {getOperationsAction} from "../../store/actions/operationsAction";
+import {useParams} from "react-router-dom";
 
 const EditPrice = ({
-  values,
-  handleChange,
-  handleSubmit,
-  setValues,
-  fetchProdArticle,
-  articleId,
-  fetchProdType,
-  typeId,
-  fetchProdSize,
-  sizeId,
-  fetchProdSezon,
-  seasonId,
-  fetchProdAsortument,
-  asortument,
-  fetchProdImage,
-  imageId,
-  fetchProdClass,
-  classId,
-  fetchProdColor,
-  colorId,
-  fetchMachine,
-  machineId,
-  getOperations,
-  operations,
-  getSingleRoztsinka,
-  singleRoztsinka,
-}) => {
+                     values,
+                     handleChange,
+                     handleSubmit,
+                     setValues,
+                     fetchProdArticle,
+                     articleId,
+                     fetchProdType,
+                     typeId,
+                     fetchProdSize,
+                     sizeId,
+                     fetchProdSezon,
+                     seasonId,
+                     fetchProdAsortument,
+                     asortument,
+                     fetchProdImage,
+                     imageId,
+                     fetchProdClass,
+                     classId,
+                     fetchProdColor,
+                     colorId,
+                     fetchMachine,
+                     machineId,
+                     getOperations,
+                     operations,
+                     getSingleRoztsinka,
+                     singleRoztsinka,
+                   }) => {
   const [articleOptions, setArticleOptions] = useState([]);
   const [typeOptions, setTypeOptions] = useState([]);
   const [sizeOptions, setSizeOptions] = useState([]);
@@ -59,16 +56,20 @@ const EditPrice = ({
   const [colorOptions, setColorOptions] = useState([]);
   const [operationsOptions, setOperationsOptions] = useState([]);
   const [machinesOptions, setMachinesOptions] = useState([]);
-  const { id } = useParams();
+  const {id} = useParams();
 
   const options = [
-    { value: 1, label: 1 },
-    { value: 2, label: 2 },
-    { value: 3, label: 3 },
+    {value: 1, label: 1},
+    {value: 2, label: 2},
+    {value: 3, label: 3},
   ];
 
   const gatynokSelect = (options) => {
-    setValues({ ...values, gatynok: options.value });
+    if (options) {
+      setValues({...values, gatynok: options.value});
+    }else {
+      setValues({...values, gatynok: null});
+    }
   };
 
   const asortumentSelect = (asortument) => {
@@ -79,16 +80,16 @@ const EditPrice = ({
     });
   };
   const classSelect = (classId) => {
-    setValues({ ...values, classId: classId.value, classN: classId.label });
+    setValues({...values, classId: classId.value, classN: classId.label});
   };
   const colorSelect = (colorId) => {
-    setValues({ ...values, colorId: colorId.value, colorName: colorId.label });
+    setValues({...values, colorId: colorId.value, colorName: colorId.label});
   };
   const imageSelect = (imageId) => {
-    setValues({ ...values, imageId: imageId.value, imageName: imageId.label });
+    setValues({...values, imageId: imageId.value, imageName: imageId.label});
   };
   const sizeSelect = (sizeId) => {
-    setValues({ ...values, sizeId: sizeId.value, sizeName: sizeId.label });
+    setValues({...values, sizeId: sizeId.value, sizeName: sizeId.label});
   };
 
   const sezonSelect = (seasonId) => {
@@ -99,7 +100,7 @@ const EditPrice = ({
     });
   };
   const typeSelect = (typeId) => {
-    setValues({ ...values, typeId: typeId.value, typeName: typeId.label });
+    setValues({...values, typeId: typeId.value, typeName: typeId.label});
   };
 
   const articleSelect = (articleId) => {
@@ -128,15 +129,15 @@ const EditPrice = ({
   useEffect(() => {
     setMachinesOptions(
       machineId.length &&
-        machineId.map((opt) => {
-          return { label: opt.name, value: opt._id };
-        })
+      machineId.map((opt) => {
+        return {label: opt.name, value: opt._id};
+      })
     );
   }, [machineId]);
   useEffect(() => {
     setOperationsOptions(
       operations.map((opt) => {
-        return { label: opt.name, value: opt._id };
+        return {label: opt.name, value: opt._id};
       })
     );
   }, [operations]);
@@ -144,68 +145,68 @@ const EditPrice = ({
   useEffect(() => {
     setAsortumenOptions(
       asortument.length &&
-        asortument.map((asort) => {
-          return { label: asort.name, value: asort._id };
-        })
+      asortument.map((asort) => {
+        return {label: asort.name, value: asort._id};
+      })
     );
   }, [asortument]);
 
   useEffect(() => {
     setClassOptions(
       classId.length &&
-        classId.map((cls) => {
-          return { label: cls.name, value: cls._id };
-        })
+      classId.map((cls) => {
+        return {label: cls.name, value: cls._id};
+      })
     );
   }, [classId]);
   useEffect(() => {
     setColorOptions(
       colorId.length &&
-        colorId.map((col) => {
-          return { label: col.name, value: col._id };
-        })
+      colorId.map((col) => {
+        return {label: col.name, value: col._id};
+      })
     );
   }, [colorId]);
   useEffect(() => {
     setImageOptions(
       imageId.length &&
-        imageId.map((img) => {
-          return { label: img.name, value: img._id };
-        })
+      imageId.map((img) => {
+        return {label: img.name, value: img._id};
+      })
     );
   }, [imageId]);
 
   useEffect(() => {
     setSizeOptions(
       sizeId.length &&
-        sizeId.map((size) => {
-          return { label: size.name, value: size._id };
-        })
+      sizeId.map((size) => {
+        return {label: size.name, value: size._id};
+      })
     );
   }, [sizeId]);
   useEffect(() => {
     setArticleOptions(
       articleId.length &&
-        articleId.map((art) => {
-          return { label: art.name, value: art._id };
-        })
+      articleId.map((art) => {
+        return {label: art.name, value: art._id};
+      })
     );
   }, [articleId]);
   useEffect(() => {
     setSezonOptions(
       seasonId.length &&
-        seasonId.map((sez) => {
-          return { label: sez.name, value: sez._id };
-        })
+      seasonId.map((sez) => {
+        return {label: sez.name, value: sez._id};
+      })
     );
   }, [seasonId]);
 
   useEffect(() => {
     setTypeOptions(
       typeId.length &&
-        typeId.map((type) => {
-          return { label: type.name, value: type._id };
-        })
+      typeId.map((type) => {
+        return {label: type.name, value: type._id};
+      })
     );
   }, [typeId]);
 
@@ -287,14 +288,14 @@ const EditPrice = ({
         <div className={s.left}>
           <Input
             type="date"
-            value={values.startDate}
+            value={values.startDate.split('T')[0]}
             name="startDate"
             label="Початок"
             onChange={handleChange}
           />
           <Input
             type="date"
-            value={values.endDate}
+            value={values.endDate.split('T')[0]}
             name="endDate"
             label="Завершення"
             onChange={handleChange}
@@ -318,7 +319,7 @@ const EditPrice = ({
             </div>
             <Select
               options={articleOptions}
-              value={{ label: values.articleName, value: values.articleId }}
+              value={{label: values.articleName, value: values.articleId}}
               name="articleId"
               onChange={articleSelect}
             />
@@ -329,8 +330,9 @@ const EditPrice = ({
             </div>
             <Select
               options={options}
-              value={{ label: values.gatynok, value: values.gatynok }}
+              value={{label: values.gatynok, value: values.gatynok}}
               name="gatynok"
+              isClearable
               onChange={gatynokSelect}
             />
           </div>
@@ -340,7 +342,7 @@ const EditPrice = ({
             </div>
             <Select
               options={machinesOptions}
-              value={{ label: values.machineName, value: values.machineId }}
+              value={{label: values.machineName, value: values.machineId}}
               name="machineId"
               onChange={machinesSelect}
             />
@@ -353,7 +355,7 @@ const EditPrice = ({
             </div>
             <Select
               options={operationsOptions}
-              value={{ label: values.operationName, value: values.operationId }}
+              value={{label: values.operationName, value: values.operationId}}
               name="operationId"
               onChange={operationSelect}
             />
@@ -364,7 +366,7 @@ const EditPrice = ({
             </div>
             <Select
               options={typeOptions}
-              value={{ label: values.typeName, value: values.typeId }}
+              value={{label: values.typeName, value: values.typeId}}
               name="typeId"
               onChange={typeSelect}
             />
@@ -376,7 +378,7 @@ const EditPrice = ({
             </div>
             <Select
               options={colorOptions}
-              value={{ label: values.colorName, value: values.colorId }}
+              value={{label: values.colorName, value: values.colorId}}
               name="colorId"
               onChange={colorSelect}
             />
@@ -387,7 +389,7 @@ const EditPrice = ({
             </div>
             <Select
               options={classOptions}
-              value={{ label: values.classN, value: values.classId }}
+              value={{label: values.classN, value: values.classId}}
               name="classId"
               onChange={classSelect}
             />
@@ -398,7 +400,7 @@ const EditPrice = ({
             </div>
             <Select
               options={asortumenOptions}
-              value={{ label: values.asortumentName, value: values.asortument }}
+              value={{label: values.asortumentName, value: values.asortument}}
               name="asortument"
               onChange={asortumentSelect}
             />
@@ -409,7 +411,7 @@ const EditPrice = ({
             </div>
             <Select
               options={imageOptions}
-              value={{ label: values.imageName, value: values.imageId }}
+              value={{label: values.imageName, value: values.imageId}}
               name="imageId"
               onChange={imageSelect}
             />
@@ -420,7 +422,7 @@ const EditPrice = ({
             </div>
             <Select
               options={sezonOptions}
-              value={{ label: values.seasonName, value: values.seasonId }}
+              value={{label: values.seasonName, value: values.seasonId}}
               name="seasonId"
               onChange={sezonSelect}
             />
@@ -431,7 +433,7 @@ const EditPrice = ({
             </div>
             <Select
               options={sizeOptions}
-              value={{ label: values.sizeName, value: values.sizeId }}
+              value={{label: values.sizeName, value: values.sizeId}}
               name="sizeId"
               onChange={sizeSelect}
             />
@@ -439,7 +441,7 @@ const EditPrice = ({
         </div>
       </div>
       <div className={s.btn__container}>
-        <Button title="Змінити" onClick={handleSubmit} />
+        <Button title="Змінити" onClick={handleSubmit}/>
       </div>
     </div>
   );
@@ -466,7 +468,7 @@ const formikHOC = withFormik({
 
   handleSubmit: async (
     values,
-    { props: { editRoztsinka, singleRoztsinka, history } }
+    {props: {editRoztsinka, singleRoztsinka, history}}
   ) => {
     const pricesToSubmit = {
       asortument: values.asortument,
@@ -493,6 +495,7 @@ const formikHOC = withFormik({
     }
   },
 })(EditPrice);
+
 const mapStateToProps = (state) => {
   return {
     singleRoztsinka: state.roztsinka.single,

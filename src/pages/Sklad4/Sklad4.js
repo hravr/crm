@@ -206,7 +206,7 @@ const Sklad4 = ({
                             >
                               Редагувати
                             </button>
-                            <button onClick={() => deleteSklad1(sklad._id)}>
+                            <button onClick={() => deleteSklad1(sklad._id).then(()=>{getSklad1()}).catch(()=>alert('Помилка'))}>
                               Видалити
                             </button>
                           </div>
@@ -320,7 +320,9 @@ const Sklad4 = ({
                         <td className={s.btn}>
                           <div className={s.table__btn}>
                             <button className={s.del}>Редагувати</button>
-                            <button>Видалити</button>
+                            <button onClick={() => deleteSklad1(sklad._id).then(()=>{getSklad1()}).catch(()=>alert('Помилка'))}>
+                              Видалити
+                            </button>
                           </div>
                         </td>
                       </tr>

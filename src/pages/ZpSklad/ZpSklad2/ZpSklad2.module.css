@@ -2,6 +2,9 @@
   text-align: left;
   padding-top: 20px;
   border-bottom: black;
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
 }
 .title {
   font-size: 36px;
@@ -54,4 +57,20 @@ tr:nth-child(even) {
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
+}
+.tabs {
+  font-family: "Roboto", sans-serif;
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+.tab_container{
+  display: flex;
+}
+.tabs_active {
+  font-family: "Roboto", sans-serif;
+  padding: 5px 10px;
+  background: #4caf50;
+  color: white;
+  border-radius: 20px;
 }

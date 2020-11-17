@@ -24,14 +24,25 @@ const CreateWorker = ({
     {value: "not-worked", label: "Не працює"},
   ];
 
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: state.isFocused ?
+        '#ddd' : !errors.name ?
+          '#ddd' : 'red',
+    })
+  }
+
   const statusSelect = (options) => {
     setValues({...values, status: options.value});
   };
 
   const operationSelect = (operations) => {
-    operations.map(oper => {
-      setValues({...values, operationId: [...values.operationId, oper.value]});
-    })
+    if (operations) {
+      operations.map(oper => {
+        setValues({...values, operationId: [...values.operationId, oper.value]});
+      })
+    }
   };
 
   useEffect(() => {
@@ -88,6 +99,7 @@ const CreateWorker = ({
             <Select
               options={options}
               value={values.status.label}
+              styles={customStyles}
               name="status"
               onChange={statusSelect}
               onBlur={handleBlur}
@@ -96,12 +108,12 @@ const CreateWorker = ({
               <div className={s.span}>
                 <span>Операція</span>
               </div>
-              {console.log(values.operationId)}
               <Select
                 options={operationsOptions}
                 value={values.operationId.label}
                 name="operationId"
                 isMulti
+                styles={customStyles}
                 onChange={operationSelect}
                 onBlur={handleBlur}
               />

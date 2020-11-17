@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import s from "./ZpSklad2.module.css";
 import {connect} from "react-redux";
 import {getWorkersAction} from "../../../store/actions/workersActions";
 import {getZpSklad2Action} from "../../../store/actions/zpSklad2Actions";
 
 const ZpSklad2 = ({getZpSklad2, getWorkers, zpsklad1, workers}) => {
-    const arrayOfWorkers = zpsklad1 && Object.keys(zpsklad1);
+    const [selectedWorker, setSelectedWorker] = useState(1);
 
     useEffect(() => {
         (async () => {
@@ -13,17 +13,40 @@ const ZpSklad2 = ({getZpSklad2, getWorkers, zpsklad1, workers}) => {
             await getWorkers();
         })();
     }, []);
-    const filteredWorker = workers?.filter(id =>
-        arrayOfWorkers?.filter(worker =>
-            worker._id === id
-        )
-    )
+
+    const filteredWorker = zpsklad1 && workers.filter(worker => {
+        if (zpsklad1[worker._id]) {
+            return worker
+        }
+    })
+    const vyazal = []
+    const master = []
+
+    const workersForTabs = filteredWorker && filteredWorker.map(worker => {
+        return worker.operationId.map(operation => {
+            if (operation.name === 'Швея') {
+                return master.push(worker)
+            }
+            if (operation.name === "Сортувальниця") {
+                return vyazal.push(worker)
+            }
+        })[0]
+    })
+
     return (
         <div className={s.main}>
             <div className={s.title__container}>
                 <span className={s.title}>Зарплата склад 2</span>
-                <hr></hr>
+                <div className={s.tab_container}>
+                    <h4 className={selectedWorker === 1 ? s.tabs_active : s.tabs} onClick={() => {
+                        setSelectedWorker(1)
+                    }}>Швея</h4>
+                    <h4 className={selectedWorker === 2 ? s.tabs_active : s.tabs} onClick={() => {
+                        setSelectedWorker(2)
+                    }}>Сортувальниця</h4>
+                </div>
             </div>
+            <hr></hr>
             <div className={s.table}>
                 <table>
                     <thead>
@@ -35,18 +58,30 @@ const ZpSklad2 = ({getZpSklad2, getWorkers, zpsklad1, workers}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {filteredWorker?.map((info) => {
-                        if (zpsklad1[info._id]) {
+                    {
+                        selectedWorker === 1 && master && master.map(masterWorker => {
                             return (
-                                <tr key={info._id}>
-                                    <td>{info.fName + ' ' + info.sName}</td>
-                                    <td>{zpsklad1[info._id].zp}</td>
-                                    <td>{zpsklad1[info._id].zminu}</td>
-                                    <td>{zpsklad1[info._id].prod_quantity}</td>
-                                </tr>
-                            );
-                        }
-                    })}
+                              <tr key={masterWorker._id}>
+                                  <td>{masterWorker.fName + ' ' + masterWorker.sName}</td>
+                                  <td>{zpsklad1[masterWorker._id].zp}</td>
+                                  <td>{zpsklad1[masterWorker._id].zminu}</td>
+                                  <td>{zpsklad1[masterWorker._id].prod_quantity}</td>
+                              </tr>
+                            )
+                        })
+                    }
+                    {
+                        selectedWorker === 2 && vyazal && vyazal.map(vyazalWorker => {
+                            return (
+                              <tr key={vyazalWorker._id}>
+                                  <td>{vyazalWorker.fName + ' ' + vyazalWorker.sName}</td>
+                                  <td>{zpsklad1[vyazalWorker._id].zp}</td>
+                                  <td>{zpsklad1[vyazalWorker._id].zminu}</td>
+                                  <td>{zpsklad1[vyazalWorker._id].prod_quantity}</td>
+                              </tr>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
             </div>

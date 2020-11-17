@@ -199,22 +199,25 @@ const Sklad3 = ({
                         <td>{sklad?.changesId?.firstName || "Всі"}</td>
                         <td className={s.btn}>
                           {/*<div className={s.table__btn}>*/}
-                            <button
-                              className={s.del}
-                              onClick={() =>
-                                h.push(`/edit-sklad1/${sklad._id}`)
-                              }
-                            >
-                              Редагувати
-                            </button>
-                            <button onClick={() => deleteSklad1(sklad._id)}>
-                              Видалити
-                            </button>
-                            <button onClick={() => {
-                              setIsVisible(!isVisible);
-                              setModalData(sklad.mishok._id);
-                              setSklad(sklad._id);
-                            }} className={s.sent}>Відправити</button>
+                          <button
+                            className={s.del}
+                            onClick={() =>
+                              h.push(`/edit-sklad1/${sklad._id}`)
+                            }
+                          >
+                            Редагувати
+                          </button>
+                          <button onClick={() => deleteSklad1(sklad._id)
+                            .then(() => getSklad1())
+                            .catch(() => alert('Помилка'))}>
+                            Видалити
+                          </button>
+                          <button onClick={() => {
+                            setIsVisible(!isVisible);
+                            setModalData(sklad.mishok._id);
+                            setSklad(sklad._id);
+                          }} className={s.sent}>Відправити
+                          </button>
                           {/*</div>*/}
                         </td>
                       </tr>
@@ -326,7 +329,9 @@ const Sklad3 = ({
                         <td className={s.btn}>
                           <div className={s.table__btn}>
                             <button className={s.del}>Редагувати</button>
-                            <button>Видалити</button>
+                            <button onClick={() => deleteSklad1(sklad._id).then(()=>{getSklad1()}).catch(()=>alert('Помилка'))}>
+                              Видалити
+                            </button>
                           </div>
                         </td>
                       </tr>

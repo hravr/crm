@@ -248,7 +248,7 @@ const Sklad1 = ({
                             >
                               Редагувати
                             </button>
-                            <button onClick={() => deleteSklad1(sklad._id)}>
+                            <button onClick={() => deleteSklad1(sklad._id).then(()=>{getSklad1()}).catch(()=>alert('Помилка'))}>
                               Видалити
                             </button>
                             <button
@@ -403,7 +403,9 @@ const Sklad1 = ({
                           <td className={s.btn}>
                             <div className={s.table__btn}>
                               <button className={s.del}>Редагувати</button>
-                              <button>Видалити</button>
+                              <button onClick={() => deleteSklad1(sklad._id).then(()=>{getSklad1()}).catch(()=>alert('Помилка'))}>
+                                Видалити
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -491,8 +493,8 @@ const Sklad1 = ({
                     <td>{zal.mishok.barcode}</td>
                     <td>{zal?.date_rozsxodu?.split("T")[0] || "Всі"}</td>
                     <td>
-                      <span>{zal.masterId.fName} | </span>
-                      {zal.vyazalId.fName}
+                      <span>{zal.masterId?.fName} | </span>
+                      {zal.vyazalId?.fName}
                     </td>
                     <td>{zal.machineId?.name || "Всі"}</td>
                     <td>{zal.mishok.articleId?.name || "Всі"}</td>
